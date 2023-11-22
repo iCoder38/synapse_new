@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "926232063538",
+    "project_id": "synapse-92f94",
+    "storage_bucket": "synapse-92f94.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926232063538:android:61462e78f3d4082789562b",
+        "android_client_info": {
+          "package_name": "com.bluephantom.synapse.ios.v1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926232063538-ucbd2dp1dapu38fm0tu1vlsoeqgchta5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoxrVWhyDAImBe6KfrMoIDXLhxNOIurc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926232063538-ucbd2dp1dapu38fm0tu1vlsoeqgchta5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "926232063538-6vv2eao1rgqrb29ae0tc327m29qmnouf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.synapseNew.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926232063538:android:81b34a209cad884b89562b",
+        "android_client_info": {
+          "package_name": "com.bluephantom.synapse.v1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926232063538-5prji0ust45rmhi24se4fpsjeg0ekirp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bluephantom.synapse.v1",
+            "certificate_hash": "e3d4ea57e683eb13acaa660a92fcd928598b78cb"
+          }
+        },
+        {
+          "client_id": "926232063538-ucbd2dp1dapu38fm0tu1vlsoeqgchta5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoxrVWhyDAImBe6KfrMoIDXLhxNOIurc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926232063538-ucbd2dp1dapu38fm0tu1vlsoeqgchta5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "926232063538-6vv2eao1rgqrb29ae0tc327m29qmnouf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.synapseNew.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
