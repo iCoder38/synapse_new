@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +13,12 @@ import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/f
 import '../../utils/utils.dart';
 
 class AddEditEducationScreen extends StatefulWidget {
-  const AddEditEducationScreen({super.key});
+  const AddEditEducationScreen({
+    Key? key,
+    required this.strGetFirebaseIdForAddEducation,
+  }) : super(key: key);
+
+  final String strGetFirebaseIdForAddEducation;
 
   @override
   State<AddEditEducationScreen> createState() => _AddEditEducationScreenState();
@@ -300,7 +306,50 @@ class _AddEditEducationScreenState extends State<AddEditEducationScreen> {
     print('================================');
     print('==> ADDING EDUCATION IN FIREBASE <==');
     print('================================');
-    FirebaseFirestore.instance
+    CollectionReference users = FirebaseFirestore.instance.collection(
+      '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.strGetFirebaseIdForAddEducation}/educations',
+    );
+
+    users
+        .add(
+          {
+            // 'educationId': const Uuid().toString(),
+            'schoolName': contSchool.text.toString(),
+            'degree': contDegree.text.toString(),
+            'domainOfStudy': contDomainOfStudy.text.toString(),
+            'description': contDescription.text.toString(),
+            'timeStamp': DateTime.now().millisecondsSinceEpoch,
+            'endDate': contEndDate.text.toString(),
+            'startDate': contStartDate.text.toString(),
+            // 'active': 'yes',
+          },
+        )
+        .then(
+          (value) =>
+              //
+              FirebaseFirestore.instance
+                  .collection(
+                    '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.strGetFirebaseIdForAddEducation}/educations',
+                  )
+                  .doc(value.id)
+                  .set(
+            {
+              'documentId': value.id.toString(),
+            },
+            SetOptions(merge: true),
+          ).then(
+            (value1) {
+              // dismiss popup
+              Navigator.pop(context);
+              Navigator.pop(context);
+              // followThisGroupInFirebase(cid);
+            },
+          ),
+        )
+        .catchError(
+          (error) => print("Failed to add user: $error"),
+        );
+    /*FirebaseFirestore.instance
         .collection('$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}')
         .where(
           'firebaseId',
@@ -352,7 +401,7 @@ class _AddEditEducationScreenState extends State<AddEditEducationScreen> {
           );
         }
       }
-    });
+    });*/
   }
 
   successfullyAddedExperience() {

@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/screens/my_settings/add_edit_education/add_edit_education.dart';
+import 'package:synapse_new/controllers/screens/my_settings/all_education/all_education.dart';
 import 'package:synapse_new/controllers/screens/my_settings/all_experiences/all_experience.dart';
 
 import 'package:synapse_new/controllers/screens/my_settings/all_skills/all_skills.dart';
@@ -204,17 +206,31 @@ class _MySkillAndAllScreenState extends State<MySkillAndAllScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 44,
-                    width: 44,
-                    // color: Colors.black,
-                    decoration: const BoxDecoration(
-                      color: Colors.transparent,
-                      image: DecorationImage(
-                        image: ExactAssetImage(
-                          'assets/images/education.png',
+                  GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AllEducationScreen(
+                            strGetDocumentId: widget.getDocumentIdFromProfile,
+                            strFirebaseId: widget.getFirebaseIdFromUser,
+                          ),
                         ),
-                        fit: BoxFit.fitHeight,
+                      );
+                    },
+                    child: Container(
+                      height: 44,
+                      width: 44,
+                      // color: Colors.black,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          image: ExactAssetImage(
+                            'assets/images/education.png',
+                          ),
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
                   ),

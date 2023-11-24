@@ -816,12 +816,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             isDefaultAction: true,
             onPressed: () {
               Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddEditEducationScreen(),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const AddEditEducationScreen(),
+              //   ),
+              // );
             },
             child: text_regular_comforta(
               'Add Education',
