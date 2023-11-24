@@ -1,10 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/utils.dart';
 
 class MyProfileResultScreen extends StatefulWidget {
-  const MyProfileResultScreen({super.key});
+  const MyProfileResultScreen({
+    Key? key,
+    required this.getTotalMarks,
+    required this.getTotalAttendance,
+  }) : super(key: key);
+
+  final String getTotalMarks;
+  final String getTotalAttendance;
 
   @override
   State<MyProfileResultScreen> createState() => _MyProfileResultScreenState();
@@ -65,7 +73,8 @@ class _MyProfileResultScreenState extends State<MyProfileResultScreen> {
                   ),
                   //
                   text_bold_comforta(
-                    '84.5% Marks',
+                    //
+                    '${widget.getTotalMarks}% marks',
                     Colors.black,
                     14.0,
                   ),
@@ -125,7 +134,8 @@ class _MyProfileResultScreenState extends State<MyProfileResultScreen> {
                   ),
                   //
                   text_bold_comforta(
-                    '90% - Attendance',
+                    //
+                    '${widget.getTotalAttendance}% attendance',
                     Colors.black,
                     14.0,
                   ),

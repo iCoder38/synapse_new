@@ -1,10 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/utils.dart';
 
 class MyProfileDataScreen extends StatefulWidget {
-  const MyProfileDataScreen({super.key});
+  const MyProfileDataScreen({
+    Key? key,
+    required this.getTotalCommunities,
+    required this.getTotalFeeds,
+  }) : super(key: key);
+
+  final String getTotalCommunities;
+  final String getTotalFeeds;
 
   @override
   State<MyProfileDataScreen> createState() => _MyProfileDataScreenState();
@@ -65,7 +73,8 @@ class _MyProfileDataScreenState extends State<MyProfileDataScreen> {
                   ),
                   //
                   text_bold_comforta(
-                    '7 - Communities',
+                    //
+                    '${widget.getTotalCommunities} - communities',
                     Colors.black,
                     14.0,
                   ),
@@ -125,7 +134,8 @@ class _MyProfileDataScreenState extends State<MyProfileDataScreen> {
                   ),
                   //
                   text_bold_comforta(
-                    '120 - Feeds',
+                    //
+                    '${widget.getTotalFeeds} - Feeds',
                     Colors.black,
                     14.0,
                   ),

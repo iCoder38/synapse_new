@@ -37,7 +37,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   var getAndSaveDocumentId = '';
   var strScreenLoader = '0';
   var addSkills = [];
+  var strSaveDocumentId = '0';
   late final Map<String, dynamic> saveLoginUserData;
+  // counts
+  var strTotalCommunityCount = '0';
+  var strTotalFeedsCount = '0';
+  var strTotalMarks = '0';
+  var strTotalAttendance = '0';
   //
   @override
   void initState() {
@@ -58,7 +64,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
         )
         .get()
         .then((value) {
@@ -81,80 +87,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             // print(element.data());
           }
           //
-        }
-      }
-    });
-  }
-
-  funcAddSkills() {
-    CollectionReference users = FirebaseFirestore.instance.collection(
-      '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/skills/data',
-    );
-
-    users
-        .add(
-          {
-            'skillId': [],
-          },
-        )
-        .then((value) =>
-            //
-            print(''))
-        .catchError(
-          (error) => print("Failed to add user: $error"),
-        );
-  }
-
-  getLoginUserData() {
-    //
-    FirebaseFirestore.instance
-        .collection('$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}')
-        .where(
-          'firebaseId',
-          isEqualTo: FirestoreUtils.LOGIN_USER_FIREBASE_ID.toString(),
-        )
-        .get()
-        .then((value) {
-      if (kDebugMode) {
-        print(value.docs);
-      }
-
-      if (value.docs.isEmpty) {
-        if (kDebugMode) {
-          print('======> NO USER FOUND');
-        }
-      } else {
-        if (kDebugMode) {
-          print('===================================================');
-          print('==> Yes, USER FOUND <==');
-        }
-
-        for (var element in value.docs) {
-          if (kDebugMode) {
-            print(element.id);
-            print(element.data());
-            print(element.data().runtimeType);
-          }
-          // printInDebugMode('=================================================');
+          strSaveDocumentId = element.id;
           //
-          // saveLoginUserData = element.data();
-          if (kDebugMode) {
-            print('=================================================');
-            print('=================================================');
-          }
-          // print(saveLoginUserData);
-
-          //
-          // addSkills = saveLoginUserData['skills'];
-          // addSkills.add(element.data());
-          if (kDebugMode) {
-            print(addSkills);
-            print(addSkills.length);
-          }
+          strTotalCommunityCount = element.data()['communityCount'].toString();
+          strTotalFeedsCount = element.data()['feedCount'].toString();
+          strTotalMarks = element.data()['marks'].toString();
+          strTotalAttendance = element.data()['attendance'].toString();
         }
-        //
         setState(() {
-          strScreenLoader = '1';
+          strLoader = '1';
         });
       }
     });
@@ -170,25 +111,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           Colors.white,
           16.0,
         ),
-        /*bottom: TabBar(
-                  isScrollable: true,
-                  tabs: [
-                    text_bold_comforta('About', Colors.white, 14.0),
-                    text_bold_comforta(
-                        'Skills (${getSnapShopValue[0]['skills'].length})',
-                        Colors.white,
-                        14.0),
-                    text_bold_comforta(
-                        'Experience (${getSnapShopValue[0]['workExperience'].length})',
-                        Colors.white,
-                        14.0),
-                    text_bold_comforta(
-                        'Education (${getSnapShopValue[0]['education'].length})',
-                        Colors.white,
-                        14.0),
-                    // text_bold_comforta('Feeds', Colors.white, 14.0),
-                  ],
-                ),*/
         leading: IconButton(
           onPressed: () {
             //
@@ -386,7 +308,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: text_bold_roboto(
-                        'My Profile',
+                        'Career profile',
                         Colors.black,
                         18.0,
                       ),
@@ -410,8 +332,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     ),
                   ),
 
-                  //
-                  const MyProfileDataScreen(),
+                  // Communities and Feeds
+                  MyProfileDataScreen(
+                    getTotalCommunities: strTotalCommunityCount,
+                    getTotalFeeds: strTotalFeedsCount,
+                  ),
                   //
                   const SizedBox(
                     height: 20.0,
@@ -428,271 +353,17 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       ),
                     ),
                   ),
-                  const MyProfileResultScreen(),
+                  MyProfileResultScreen(
+                    getTotalMarks: strTotalMarks.toString(),
+                    getTotalAttendance: strTotalAttendance.toString(),
+                  ),
+                  //
+                  const SizedBox(
+                    height: 40.0,
+                  ),
                 ],
               ),
             ),
-      /*TabBarView(
-                  // controller: _tabController,
-                  children: [
-                    Column(
-                      children: [
-                        //
-                        
-                        //
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 180,
-                            width: 180,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(
-                                12.0,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: const Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        //
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        //
-                        text_bold_comforta(
-                          //
-                          FirestoreUtils.LOGIN_USER_NAME,
-                          Colors.black,
-                          18.0,
-                        ),
-                        //
-                        text_regular_roboto(
-                          //
-                          FirestoreUtils.LOGIN_USER_EMAIL,
-                          Colors.grey,
-                          12.0,
-                        ),
-                        //
-                      ],
-                    ),
-                    // tab 2
-                    SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          //
-                          for (int i = 0;
-                              i < getSnapShopValue[0]['skills'].length;
-                              i++) ...[
-                            ListTile(
-                              title: text_bold_comforta(
-                                //
-                                getSnapShopValue[0]['skills'][i]['skillName']
-                                    .toString(),
-                                Colors.black,
-                                16.0,
-                              ),
-                              subtitle: text_regular_comforta(
-                                //
-                                getSnapShopValue[0]['skills'][i]
-                                        ['skillProficiency']
-                                    .toString(),
-                                Colors.black,
-                                12.0,
-                              ),
-                              trailing: GestureDetector(
-                                onTap: () {
-                                  //
-                                  if (kDebugMode) {
-                                    print('==> delete skill  <==');
-                                  }
-                                  //
-                                  showAlert(
-                                    getSnapShopValue[0],
-                                    i,
-                                  );
-                                },
-                                child: Container(
-                                  height: 30,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                    color: Colors.redAccent,
-                                    borderRadius: BorderRadius.circular(
-                                      12.0,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: text_regular_comforta(
-                                      'delete',
-                                      Colors.white,
-                                      14.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              color: Colors.black,
-                              height: 2.0,
-                            ),
-                          ]
-                        ],
-                      ),
-                    ),
-                    // tab 3
-                    Column(
-                      children: [
-                        //
-                        for (int i = 0;
-                            i < getSnapShopValue[0]['workExperience'].length;
-                            i++) ...[
-                          ListTile(
-                            title: text_bold_comforta(
-                              //
-                              getSnapShopValue[0]['workExperience'][i]
-                                      ['title']
-                                  .toString(),
-                              Colors.black,
-                              16.0,
-                            ),
-                            subtitle: text_regular_comforta(
-                              //
-                              getSnapShopValue[0]['workExperience'][i]
-                                      ['employmentType']
-                                  .toString(),
-                              Colors.black,
-                              12.0,
-                            ),
-                            trailing: GestureDetector(
-                              onTap: () {
-                                //
-                                if (kDebugMode) {
-                                  print('==> delete <==');
-                                }
-                                //
-                                showExperienceAlert(
-                                  getSnapShopValue[0],
-                                  i,
-                                );
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  color: Colors.redAccent,
-                                  borderRadius: BorderRadius.circular(
-                                    12.0,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: text_regular_comforta(
-                                    'delete',
-                                    Colors.white,
-                                    14.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Divider(
-                            color: Colors.black,
-                            height: 2.0,
-                          ),
-                        ]
-                      ],
-                    ),
-                    // tab 4
-                    Column(
-                      children: [
-                        //
-                        for (int i = 0;
-                            i < getSnapShopValue[0]['education'].length;
-                            i++) ...[
-                          ListTile(
-                            title: text_bold_comforta(
-                              //
-                              getSnapShopValue[0]['education'][i]
-                                      ['schoolName']
-                                  .toString(),
-                              Colors.black,
-                              16.0,
-                            ),
-                            subtitle: text_regular_comforta(
-                              //
-                              'Domain : ${getSnapShopValue[0]['education'][i]['domainOfStudy']}',
-                              Colors.black,
-                              12.0,
-                            ),
-                            trailing: GestureDetector(
-                              onTap: () {
-                                //
-                                if (kDebugMode) {
-                                  print('==> delete <==');
-                                }
-                                //
-                                showEducationAlert(
-                                  getSnapShopValue[0],
-                                  i,
-                                );
-                              },
-                              child: Container(
-                                height: 30,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  color: Colors.redAccent,
-                                  borderRadius: BorderRadius.circular(
-                                    12.0,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: text_regular_comforta(
-                                    'delete',
-                                    Colors.white,
-                                    14.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Divider(
-                            color: Colors.black,
-                            height: 2.0,
-                          ),
-                        ]
-                      ],
-                    ),
-                    // tab 5
-                    /*Column(
-                          children: [
-                            //
-                            ListTile(
-                              title: text_bold_comforta(
-                                'Experience 1',
-                                Colors.black,
-                                16.0,
-                              ),
-                              subtitle: text_regular_comforta(
-                                'str',
-                                Colors.black,
-                                14.0,
-                              ),
-                            ),
-                            const Divider(
-                              color: Colors.black,
-                              height: 2.0,
-                            ),
-                          ],
-                        ),*/
-                  ],
-                ),*/
     );
   }
 

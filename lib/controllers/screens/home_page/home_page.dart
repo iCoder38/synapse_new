@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,9 +48,95 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     //
+    setProfileDataForNewOrFirstTimeUserAfterLogin();
     super.initState();
   }
 
+  //
+  setProfileDataForNewOrFirstTimeUserAfterLogin() async {
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+        )
+        .get()
+        .then((value) {
+      if (kDebugMode) {
+        print(value.docs);
+      }
+
+      if (value.docs.isEmpty) {
+        if (kDebugMode) {
+          print('======> NO USER FOUND');
+        }
+        CollectionReference users = FirebaseFirestore.instance.collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+        );
+
+        users
+            .add(
+              {
+                'skillCount': '0',
+                'experienceCount': '0',
+                'educationCount': '0',
+                'communityCount': '0',
+                'feedCount': '0',
+                'marks': '0',
+                'attendance': '0',
+              },
+            )
+            .then(
+              (value) =>
+                  //
+                  addDocumentIdForNewId(
+                value.id,
+              ),
+            )
+            .catchError(
+              (error) => print("Failed to add user: $error"),
+            );
+      } else {
+        if (kDebugMode) {
+          print('======> Yes, USER FOUND');
+        }
+        for (var element in value.docs) {
+          if (kDebugMode) {
+            print(element.id);
+          }
+          //
+        }
+      }
+    });
+  }
+
+  addDocumentIdForNewId(elementId) {
+    //
+    if (kDebugMode) {
+      print('============================');
+      print('add document id in new user');
+      print('============================');
+    }
+
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+        )
+        .doc(elementId)
+        .set(
+      {
+        'documentId': elementId,
+      },
+      SetOptions(merge: true),
+    ).then(
+      (value1) {
+        // dismiss popup
+        // Navigator.pop(context);
+        // Navigator.pop(context);
+        // followThisGroupInFirebase(cid);
+      },
+    );
+  }
+
+  //
   @override
   Widget build(BuildContext context) {
     return (strLoader == '0')
