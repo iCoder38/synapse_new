@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/screens/my_settings/all_experiences/all_experience.dart';
 
 import 'package:synapse_new/controllers/screens/my_settings/all_skills/all_skills.dart';
 
 import '../../../../utils/utils.dart';
+import '../../../add_edit_experience/add_experience.dart';
 
 class MySkillAndAllScreen extends StatefulWidget {
   const MySkillAndAllScreen({
@@ -128,17 +130,31 @@ class _MySkillAndAllScreenState extends State<MySkillAndAllScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 44,
-                    width: 44,
-                    // color: Colors.black,
-                    decoration: const BoxDecoration(
-                      color: Colors.transparent,
-                      image: DecorationImage(
-                        image: ExactAssetImage(
-                          'assets/images/experience.png',
+                  GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AllExperienceScreen(
+                            strGetDocumentId: widget.getDocumentIdFromProfile,
+                            strFirebaseId: widget.getFirebaseIdFromUser,
+                          ),
                         ),
-                        fit: BoxFit.fitHeight,
+                      );
+                    },
+                    child: Container(
+                      height: 44,
+                      width: 44,
+                      // color: Colors.black,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          image: ExactAssetImage(
+                            'assets/images/experience.png',
+                          ),
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
                   ),

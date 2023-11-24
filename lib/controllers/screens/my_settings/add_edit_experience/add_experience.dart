@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -10,7 +11,12 @@ import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/f
 import '../../utils/utils.dart';
 
 class AddEditExperienceScreen extends StatefulWidget {
-  const AddEditExperienceScreen({super.key});
+  const AddEditExperienceScreen({
+    Key? key,
+    required this.strGetFirebaseIdForAddExperience,
+  }) : super(key: key);
+
+  final String strGetFirebaseIdForAddExperience;
 
   @override
   State<AddEditExperienceScreen> createState() =>
@@ -292,10 +298,69 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
   addExperiencenFirebase() {
     //
     showLoadingUI(context, str_alert_please_wait);
-    print('================================');
-    print('==> ADDING SKILL IN FIREBASE <==');
-    print('================================');
-    FirebaseFirestore.instance
+    if (kDebugMode) {
+      print('================================');
+      print('==> ADDING SKILL IN FIREBASE <==');
+      print('================================');
+    }
+
+    //
+    CollectionReference users = FirebaseFirestore.instance.collection(
+      '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.strGetFirebaseIdForAddExperience}/experiences',
+    );
+
+    users
+        .add(
+          {
+            // 'experienceId': const Uuid().toString(),
+            'companyName': contCompanyName.text.toString(),
+            'title': contTitle.text.toString(),
+            'employmentType': contEmploymentType.text.toString(),
+            'description': contDescription.text.toString(),
+            'timeStamp': DateTime.now().millisecondsSinceEpoch,
+            'endDate': contEndDate.text.toString(),
+            'startDate': contStartDate.text.toString(),
+            'active': 'yes',
+          },
+        )
+        .then(
+          (value) =>
+              //
+              FirebaseFirestore.instance
+                  .collection(
+                    '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.strGetFirebaseIdForAddExperience}/experiences',
+                  )
+                  .doc(value.id)
+                  .set(
+            {
+              'documentId': value.id.toString(),
+            },
+            SetOptions(merge: true),
+          ).then(
+            (value1) {
+              // dismiss popup
+              Navigator.pop(context);
+              Navigator.pop(context);
+              // followThisGroupInFirebase(cid);
+            },
+          ),
+        )
+        .catchError(
+          (error) => print("Failed to add user: $error"),
+        );
+    //
+    /*
+    'experienceId': const Uuid().toString(),
+                    'companyName': contCompanyName.text.toString(),
+                    'title': contTitle.text.toString(),
+                    'employmentType': contEmploymentType.text.toString(),
+                    'description': contDescription.text.toString(),
+                    'timeStamp': DateTime.now().millisecondsSinceEpoch,
+                    'endDate': contEndDate.text.toString(),
+                    'startDate': contStartDate.text.toString(),
+                    'active': 'yes',
+                    */
+    /*FirebaseFirestore.instance
         .collection('$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}')
         .where(
           'firebaseId',
@@ -347,7 +412,7 @@ class _AddEditExperienceScreenState extends State<AddEditExperienceScreen> {
           );
         }
       }
-    });
+    });*/
   }
 
   successfullyAddedExperience() {
