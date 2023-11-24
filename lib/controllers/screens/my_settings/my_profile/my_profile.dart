@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/description/my_profile_description.dart';
+import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/result/my_profile_result.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
@@ -557,7 +558,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 ),
                                 //
                                 text_bold_comforta(
-                                  'Communities',
+                                  '7 - Communities',
                                   Colors.black,
                                   14.0,
                                 ),
@@ -617,7 +618,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 ),
                                 //
                                 text_bold_comforta(
-                                  'Feeds',
+                                  '120 - Feeds',
                                   Colors.black,
                                   14.0,
                                 ),
@@ -629,6 +630,23 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       //
                     ],
                   ),
+                  //
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  //
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: text_bold_roboto(
+                        'Performance',
+                        Colors.black,
+                        18.0,
+                      ),
+                    ),
+                  ),
+                  const MyProfileResultScreen(),
                 ],
               ),
               /*TabBarView(
