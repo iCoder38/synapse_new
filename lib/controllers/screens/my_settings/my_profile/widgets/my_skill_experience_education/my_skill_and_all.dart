@@ -1,10 +1,20 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:synapse_new/controllers/screens/my_settings/all_skills/all_skills.dart';
 
 import '../../../../utils/utils.dart';
 
 class MySkillAndAllScreen extends StatefulWidget {
-  const MySkillAndAllScreen({super.key});
+  const MySkillAndAllScreen({
+    Key? key,
+    required this.getFirebaseIdFromUser,
+    required this.getDocumentIdFromProfile,
+  }) : super(key: key);
+
+  final String getFirebaseIdFromUser;
+  final String getDocumentIdFromProfile;
 
   @override
   State<MySkillAndAllScreen> createState() => _MySkillAndAllScreenState();
@@ -44,17 +54,31 @@ class _MySkillAndAllScreenState extends State<MySkillAndAllScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 44,
-                    width: 44,
-                    // color: Colors.black,
-                    decoration: const BoxDecoration(
-                      color: Colors.transparent,
-                      image: DecorationImage(
-                        image: ExactAssetImage(
-                          'assets/images/skills.png',
+                  GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AllSkillsScreen(
+                            strFirebaseId: widget.getFirebaseIdFromUser,
+                            strGetDocumentId: widget.getDocumentIdFromProfile,
+                          ),
                         ),
-                        fit: BoxFit.fitHeight,
+                      );
+                    },
+                    child: Container(
+                      height: 44,
+                      width: 44,
+                      // color: Colors.black,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          image: ExactAssetImage(
+                            'assets/images/skills.png',
+                          ),
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
                   ),

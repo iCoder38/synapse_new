@@ -64,7 +64,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
         )
         .get()
         .then((value) {
@@ -314,7 +314,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       ),
                     ),
                   ),
-                  const MySkillAndAllScreen(),
+                  MySkillAndAllScreen(
+                    getFirebaseIdFromUser: widget.strFirebaseId,
+                    getDocumentIdFromProfile: strSaveDocumentId,
+                  ),
                   //
                   const SizedBox(
                     height: 20.0,
@@ -774,7 +777,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AddEditSkillScreen(),
+                  builder: (context) => AddEditSkillScreen(
+                    getFirebaseIdAddSkill: widget.strFirebaseId,
+                  ),
                 ),
               );
             },

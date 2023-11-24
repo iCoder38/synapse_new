@@ -1,7 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +13,12 @@ import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/f
 import '../../utils/utils.dart';
 
 class AddEditSkillScreen extends StatefulWidget {
-  const AddEditSkillScreen({super.key});
+  const AddEditSkillScreen({
+    Key? key,
+    required this.getFirebaseIdAddSkill,
+  }) : super(key: key);
+
+  final String getFirebaseIdAddSkill;
 
   @override
   State<AddEditSkillScreen> createState() => _AddEditSkillScreenState();
@@ -172,56 +177,43 @@ class _AddEditSkillScreenState extends State<AddEditSkillScreen> {
     print('================================');
     print('==> ADDING SKILL IN FIREBASE <==');
     print('================================');
-    FirebaseFirestore.instance
-        .collection('$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}')
-        .where(
-          'firebaseId',
-          isEqualTo: FirestoreUtils.LOGIN_USER_FIREBASE_ID.toString(),
-        )
-        .get()
-        .then((value) {
-      if (kDebugMode) {
-        print(value.docs);
-      }
+    CollectionReference users = FirebaseFirestore.instance.collection(
+      '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.getFirebaseIdAddSkill}/skills',
+    );
 
-      if (value.docs.isEmpty) {
-        print('======> NO USER FOUND');
-      } else {
-        print('======> Yes, USER FOUND');
-        for (var element in value.docs) {
-          if (kDebugMode) {
-            print(element.id);
-          }
-          // add skills
-          FirebaseFirestore.instance
-              .collection(
-                '$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}',
-              )
-              .doc(element.id)
-              .update(
-            {
-              'skills': FieldValue.arrayUnion(
-                [
-                  {
-                    'skillId': const Uuid().toString(),
-                    'skillName': contSkill.text.toString(),
-                    'skillProficiency': contProficiency.text.toString(),
-                    'skillDescription': contDescription.text.toString(),
-                    'time_stamp': DateTime.now().millisecondsSinceEpoch,
-                    'active': 'yes',
-                  }
-                ],
-              ),
-            },
-          ).then(
-            (value) => {
+    users
+        .add(
+          {
+            'skillName': contSkill.text.toString(),
+            'skillDescription': contDescription.text.toString(),
+            'skillProficiency': contProficiency.text.toString(),
+          },
+        )
+        .then(
+          (value) =>
               //
-              successfullyAddedSkills(),
+              FirebaseFirestore.instance
+                  .collection(
+                    '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.getFirebaseIdAddSkill}/skills',
+                  )
+                  .doc(value.id)
+                  .set(
+            {
+              'documentId': value.id.toString(),
             },
-          );
-        }
-      }
-    });
+            SetOptions(merge: true),
+          ).then(
+            (value1) {
+              // dismiss popup
+              Navigator.pop(context);
+              Navigator.pop(context);
+              // followThisGroupInFirebase(cid);
+            },
+          ),
+        )
+        .catchError(
+          (error) => print("Failed to add user: $error"),
+        );
   }
 
   successfullyAddedSkills() {

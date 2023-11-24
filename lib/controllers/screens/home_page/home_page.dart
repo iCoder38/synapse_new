@@ -56,7 +56,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   setProfileDataForNewOrFirstTimeUserAfterLogin() async {
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
         )
         .get()
         .then((value) {
@@ -69,7 +69,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           print('======> NO USER FOUND');
         }
         CollectionReference users = FirebaseFirestore.instance.collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
         );
 
         users
@@ -118,7 +118,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
         )
         .doc(elementId)
         .set(
