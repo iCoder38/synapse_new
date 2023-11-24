@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/description/my_profile_description.dart';
+import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/my_profile_data/my_profile_data.dart';
+import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/my_skill_experience_education/my_skill_and_all.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/result/my_profile_result.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
@@ -152,502 +154,221 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   Icons.add,
                 ),
               ),
-              body: Column(
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: 180,
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.purpleAccent,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 50.0),
-                          // height: 200,
+              body: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        Container(
+                          height: 180,
                           width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                              24.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(
-                                    0, 3), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(
-                                height: 70.0,
-                              ),
-                              text_bold_comforta(
-                                FirestoreUtils.LOGIN_USER_NAME,
-                                Colors.black,
+                          color: Colors.purpleAccent,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 50.0),
+                            // height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(
                                 24.0,
                               ),
-                              Center(
-                                child: text_bold_comforta(
-                                  'Student',
-                                  Colors.grey,
-                                  12.0,
-                                ),
-                              ),
-                              //
-                              const Divider(
-                                height: 1,
-                                color: Colors.transparent,
-                              ),
-                              //
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              //
-                              Row(
-                                // mainAxisAlignment:
-                                //     MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      height: 60.0,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          24.0,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          //
-                                        },
-                                        icon: const Icon(
-                                          Icons.chat,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  //
-                                  Container(
-                                    height: 40.0,
-                                    width: 1.0,
-                                    color: Colors.grey,
-                                  ),
-                                  //
-                                  Expanded(
-                                    child: Container(
-                                      height: 60.0,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          24.0,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          //
-                                        },
-                                        icon: const Icon(
-                                          Icons.call,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  //
-                                  Container(
-                                    height: 40.0,
-                                    width: 1.0,
-                                    color: Colors.grey,
-                                  ),
-                                  //
-                                  Expanded(
-                                    child: Container(
-                                      height: 60.0,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          24.0,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          //
-                                        },
-                                        icon: const Icon(
-                                          Icons.mail,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  //
-                                ],
-                              ),
-                              //
-                            ],
-                          ),
-                        ),
-                      ),
-                      //
-                      const MyProfileDescriptionScreen(),
-                      //
-                      Center(
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                            top: 10.0,
-                          ),
-                          height: 120,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(
-                              60.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      //
-                    ],
-                  ),
-                  //
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 120,
-
-                          // width: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                              12.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(
-                                  0,
-                                  3,
-                                ), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 44,
-                                  width: 44,
-                                  // color: Colors.black,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.transparent,
-                                    image: DecorationImage(
-                                      image: ExactAssetImage(
-                                        'assets/images/skills.png',
-                                      ),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                //
-                                text_bold_comforta(
-                                  'Skills',
-                                  Colors.black,
-                                  14.0,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: const Offset(
+                                      0, 3), // changes position of shadow
                                 ),
                               ],
                             ),
-                            //
-                          ),
-                        ),
-                      ),
-                      //
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      //
-                      Expanded(
-                        child: Container(
-                          height: 120,
-
-                          // width: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                              12.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(
-                                  0,
-                                  3,
-                                ), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  height: 44,
-                                  width: 44,
-                                  // color: Colors.black,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.transparent,
-                                    image: DecorationImage(
-                                      image: ExactAssetImage(
-                                        'assets/images/experience.png',
-                                      ),
-                                      fit: BoxFit.fitHeight,
-                                    ),
+                                const SizedBox(
+                                  height: 70.0,
+                                ),
+                                text_bold_comforta(
+                                  FirestoreUtils.LOGIN_USER_NAME,
+                                  Colors.black,
+                                  24.0,
+                                ),
+                                Center(
+                                  child: text_bold_comforta(
+                                    'Student',
+                                    Colors.grey,
+                                    12.0,
                                   ),
                                 ),
                                 //
-                                const SizedBox(
-                                  height: 6,
+                                const Divider(
+                                  height: 1,
+                                  color: Colors.transparent,
                                 ),
                                 //
-                                text_bold_comforta(
-                                  'Experiences',
-                                  Colors.black,
-                                  14.0,
+                                const SizedBox(
+                                  height: 20.0,
                                 ),
+                                //
+                                Row(
+                                  // mainAxisAlignment:
+                                  //     MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 60.0,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                            24.0,
+                                          ),
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            //
+                                          },
+                                          icon: const Icon(
+                                            Icons.chat,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    //
+                                    Container(
+                                      height: 40.0,
+                                      width: 1.0,
+                                      color: Colors.grey,
+                                    ),
+                                    //
+                                    Expanded(
+                                      child: Container(
+                                        height: 60.0,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                            24.0,
+                                          ),
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            //
+                                          },
+                                          icon: const Icon(
+                                            Icons.call,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    //
+                                    Container(
+                                      height: 40.0,
+                                      width: 1.0,
+                                      color: Colors.grey,
+                                    ),
+                                    //
+                                    Expanded(
+                                      child: Container(
+                                        height: 60.0,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                            24.0,
+                                          ),
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            //
+                                          },
+                                          icon: const Icon(
+                                            Icons.mail,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    //
+                                  ],
+                                ),
+                                //
                               ],
                             ),
                           ),
                         ),
-                      ),
-                      //
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      //
-                      Expanded(
-                        child: Container(
-                          height: 120,
-
-                          // width: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                              12.0,
+                        //
+                        const MyProfileDescriptionScreen(),
+                        //
+                        Center(
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              top: 10.0,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(
-                                  0,
-                                  3,
-                                ), // changes position of shadow
+                            height: 120,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(
+                                60.0,
                               ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 44,
-                                  width: 44,
-                                  // color: Colors.black,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.transparent,
-                                    image: DecorationImage(
-                                      image: ExactAssetImage(
-                                        'assets/images/education.png',
-                                      ),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                ),
-                                //
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                //
-                                text_bold_comforta(
-                                  'Education',
-                                  Colors.black,
-                                  14.0,
-                                ),
-                              ],
                             ),
                           ),
                         ),
-                      ),
-                      //
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                    ],
-                  ),
-                  //
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  //
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                            left: 10.0,
-                            right: 10.0,
-                          ),
-                          height: 80,
-
-                          // width: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                              12.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(
-                                  0,
-                                  3,
-                                ), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 26,
-                                  width: 26,
-                                  // color: Colors.black,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.transparent,
-                                    image: DecorationImage(
-                                      image: ExactAssetImage(
-                                        'assets/images/communities_icon.png',
-                                      ),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                ),
-                                //
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                //
-                                text_bold_comforta(
-                                  '7 - Communities',
-                                  Colors.black,
-                                  14.0,
-                                ),
-                              ],
-                            ),
-                          ),
+                        //
+                      ],
+                    ),
+                    //
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: text_bold_roboto(
+                          'My Profile',
+                          Colors.black,
+                          18.0,
                         ),
-                      ),
-                      //
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                            // left: 10.0,
-                            right: 10.0,
-                          ),
-                          height: 80,
-
-                          // width: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                              12.0,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: const Offset(
-                                  0,
-                                  3,
-                                ), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 26,
-                                  width: 26,
-                                  // color: Colors.black,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.transparent,
-                                    image: DecorationImage(
-                                      image: ExactAssetImage(
-                                        'assets/images/feeds_icon.png',
-                                      ),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                ),
-                                //
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                //
-                                text_bold_comforta(
-                                  '120 - Feeds',
-                                  Colors.black,
-                                  14.0,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      //
-                    ],
-                  ),
-                  //
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  //
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: text_bold_roboto(
-                        'Performance',
-                        Colors.black,
-                        18.0,
                       ),
                     ),
-                  ),
-                  const MyProfileResultScreen(),
-                ],
+                    const MySkillAndAllScreen(),
+                    //
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    //
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: text_bold_roboto(
+                          'Data',
+                          Colors.black,
+                          18.0,
+                        ),
+                      ),
+                    ),
+
+                    //
+                    const MyProfileDataScreen(),
+                    //
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    //
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: text_bold_roboto(
+                          'Performance',
+                          Colors.black,
+                          18.0,
+                        ),
+                      ),
+                    ),
+                    const MyProfileResultScreen(),
+                  ],
+                ),
               ),
               /*TabBarView(
                   // controller: _tabController,
