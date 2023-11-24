@@ -103,9 +103,9 @@ class _AllSkillsScreenState extends State<AllSkillsScreen> {
                 }
                 return ListView.builder(
                   itemCount: getSnapShopValue.length,
-                  prototypeItem: const ListTile(
+                  /*prototypeItem: const ListTile(
                     title: Text('title'),
-                  ),
+                  ),*/
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: text_bold_comforta(
@@ -117,6 +117,17 @@ class _AllSkillsScreenState extends State<AllSkillsScreen> {
                         getSnapShopValue[index]['skillProficiency'].toString(),
                         Colors.black,
                         12.0,
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          //
+                          deletePopup(
+                              getSnapShopValue[index]['documentId'].toString());
+                        },
+                        icon: const Icon(
+                          Icons.cancel,
+                          color: Colors.redAccent,
+                        ),
                       ),
                     );
                   },
@@ -140,5 +151,101 @@ class _AllSkillsScreenState extends State<AllSkillsScreen> {
             })
         /**/
         );
+  }
+
+  //
+  deletePopup(skillDocumentId) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 8),
+                Flexible(
+                  child: SingleChildScrollView(
+                    child: text_bold_roboto(
+                      //
+                      'Delete this skill',
+                      //
+                      Colors.black,
+                      22.0,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          //
+                          Navigator.pop(context);
+                          deleteSkill(skillDocumentId);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 120,
+                          color: Colors.white30,
+                          child: Center(
+                            child: text_bold_comforta(
+                              'Delete ?',
+                              Colors.pinkAccent,
+                              14.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      //
+                      GestureDetector(
+                        onTap: () {
+                          //
+                          Navigator.pop(context);
+                          // Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 80,
+                          color: Colors.white30,
+                          child: Center(
+                            child: text_bold_comforta(
+                              'Dismiss',
+                              Colors.redAccent,
+                              14.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      //
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  //
+  deleteSkill(documentIdToDelete) {
+    final collection = FirebaseFirestore.instance.collection(
+      '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.strFirebaseId}/skills',
+    );
+    collection
+        .doc(documentIdToDelete) // <-- Doc ID to be deleted.
+        .delete() // <-- Delete
+        .then((_) => print('Deleted'))
+        .catchError((error) => print('Delete failed: $error'));
   }
 }
