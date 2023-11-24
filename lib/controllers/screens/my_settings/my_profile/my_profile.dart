@@ -1,9 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
+
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/description/my_profile_description.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/my_profile_data/my_profile_data.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/my_skill_experience_education/my_skill_and_all.dart';
@@ -16,7 +18,14 @@ import '../add_edit_experience/add_experience.dart';
 import '../add_edit_skill/add_edit_skill.dart';
 
 class MyProfileScreen extends StatefulWidget {
-  const MyProfileScreen({super.key});
+  const MyProfileScreen({
+    Key? key,
+    // required this.strMyProfile,
+    required this.strFirebaseId,
+  }) : super(key: key);
+
+  // final String strMyProfile;
+  final String strFirebaseId;
 
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
@@ -24,6 +33,7 @@ class MyProfileScreen extends StatefulWidget {
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
   //
+  var strLoader = '0';
   var getAndSaveDocumentId = '';
   var strScreenLoader = '0';
   var addSkills = [];
@@ -31,8 +41,68 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   //
   @override
   void initState() {
-    // getLoginUserData();
+    if (kDebugMode) {
+      print('======= USER FIREBASE ID =============');
+      print(widget.strFirebaseId);
+      print('=======================================');
+    }
+    getUserProfileData();
     super.initState();
+  }
+
+  getUserProfileData() async {
+    // printInDebugMode(getDocumentId);
+    if (kDebugMode) {}
+
+    //
+
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}',
+        )
+        .get()
+        .then((value) {
+      if (kDebugMode) {
+        print(value.docs);
+      }
+
+      if (value.docs.isEmpty) {
+        if (kDebugMode) {
+          print('======> NO USER FOUND');
+        }
+      } else {
+        if (kDebugMode) {
+          print('======> Yes, USER FOUND');
+        }
+        for (var element in value.docs) {
+          if (kDebugMode) {
+            print(element.id);
+            // print(element.data()['followers']);
+            // print(element.data());
+          }
+          //
+        }
+      }
+    });
+  }
+
+  funcAddSkills() {
+    CollectionReference users = FirebaseFirestore.instance.collection(
+      '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/skills/data',
+    );
+
+    users
+        .add(
+          {
+            'skillId': [],
+          },
+        )
+        .then((value) =>
+            //
+            print(''))
+        .catchError(
+          (error) => print("Failed to add user: $error"),
+        );
   }
 
   getLoginUserData() {
@@ -50,10 +120,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       }
 
       if (value.docs.isEmpty) {
-        print('======> NO USER FOUND');
+        if (kDebugMode) {
+          print('======> NO USER FOUND');
+        }
       } else {
-        print('===================================================');
-        print('==> Yes, USER FOUND <==');
+        if (kDebugMode) {
+          print('===================================================');
+          print('==> Yes, USER FOUND <==');
+        }
 
         for (var element in value.docs) {
           if (kDebugMode) {
@@ -63,12 +137,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           }
           // printInDebugMode('=================================================');
           //
-          saveLoginUserData = element.data();
-          print('=================================================');
+          // saveLoginUserData = element.data();
+          if (kDebugMode) {
+            print('=================================================');
+            print('=================================================');
+          }
           // print(saveLoginUserData);
-          print('=================================================');
+
           //
-          addSkills = saveLoginUserData['skills'];
+          // addSkills = saveLoginUserData['skills'];
           // addSkills.add(element.data());
           if (kDebugMode) {
             print(addSkills);
@@ -85,38 +162,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}')
-            // .orderBy('timeStamp', descending: true)
-            .where(
-              'firebaseId',
-              isEqualTo: FirestoreUtils.LOGIN_USER_FIREBASE_ID.toString(),
-            )
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
-            //
-            var getSnapShopValue = snapshot.data!.docs.toList();
-            getAndSaveDocumentId = getSnapShopValue[0]['documentId'].toString();
-            if (kDebugMode) {
-              print('================================');
-              print(getAndSaveDocumentId);
-
-              // printInDebugMode('======= LOGIN USER DATA =======');
-              // print(getSnapShopValue[0]['skills'][0]['skillName']);
-              // print(getSnapShopValue[0]['skills'].length);
-              print('================================');
-            }
-            return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.purpleAccent,
-                title: text_bold_comforta(
-                  'Profile',
-                  Colors.white,
-                  16.0,
-                ),
-                /*bottom: TabBar(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.purpleAccent,
+        title: text_bold_comforta(
+          'Profile',
+          Colors.white,
+          16.0,
+        ),
+        /*bottom: TabBar(
                   isScrollable: true,
                   tabs: [
                     text_bold_comforta('About', Colors.white, 14.0),
@@ -135,242 +189,250 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     // text_bold_comforta('Feeds', Colors.white, 14.0),
                   ],
                 ),*/
-                leading: IconButton(
-                  onPressed: () {
-                    //
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
-                ),
+        leading: IconButton(
+          onPressed: () {
+            //
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+        ),
+      ),
+      /*floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //
+          showActionSheet(context);
+        },
+        child: const Icon(
+          Icons.add,
+        ),
+      ),*/
+      body: (strLoader == '0')
+          ? Center(
+              child: text_bold_comforta(
+                'please wait...',
+                Colors.black,
+                16.0,
               ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  //
-                  showActionSheet(context);
-                },
-                child: const Icon(
-                  Icons.add,
-                ),
-              ),
-              body: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Stack(
-                      children: [
-                        Container(
-                          height: 180,
+            )
+          : SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        height: 180,
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.purpleAccent,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 50.0),
+                          // height: 200,
                           width: MediaQuery.of(context).size.width,
-                          color: Colors.purpleAccent,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 50.0),
-                            // height: 200,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                              24.0,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                height: 70.0,
+                              ),
+                              text_bold_comforta(
+                                FirestoreUtils.LOGIN_USER_NAME,
+                                Colors.black,
                                 24.0,
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: const Offset(
-                                      0, 3), // changes position of shadow
+                              Center(
+                                child: text_bold_comforta(
+                                  'Students',
+                                  Colors.grey,
+                                  12.0,
                                 ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const SizedBox(
-                                  height: 70.0,
-                                ),
-                                text_bold_comforta(
-                                  FirestoreUtils.LOGIN_USER_NAME,
-                                  Colors.black,
-                                  24.0,
-                                ),
-                                Center(
-                                  child: text_bold_comforta(
-                                    'Student',
-                                    Colors.grey,
-                                    12.0,
-                                  ),
-                                ),
-                                //
-                                const Divider(
-                                  height: 1,
-                                  color: Colors.transparent,
-                                ),
-                                //
-                                const SizedBox(
-                                  height: 20.0,
-                                ),
-                                //
-                                Row(
-                                  // mainAxisAlignment:
-                                  //     MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        height: 60.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(
-                                            24.0,
-                                          ),
-                                        ),
-                                        child: IconButton(
-                                          onPressed: () {
-                                            //
-                                          },
-                                          icon: const Icon(
-                                            Icons.chat,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    //
-                                    Container(
-                                      height: 40.0,
-                                      width: 1.0,
-                                      color: Colors.grey,
-                                    ),
-                                    //
-                                    Expanded(
-                                      child: Container(
-                                        height: 60.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(
-                                            24.0,
-                                          ),
-                                        ),
-                                        child: IconButton(
-                                          onPressed: () {
-                                            //
-                                          },
-                                          icon: const Icon(
-                                            Icons.call,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    //
-                                    Container(
-                                      height: 40.0,
-                                      width: 1.0,
-                                      color: Colors.grey,
-                                    ),
-                                    //
-                                    Expanded(
-                                      child: Container(
-                                        height: 60.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(
-                                            24.0,
-                                          ),
-                                        ),
-                                        child: IconButton(
-                                          onPressed: () {
-                                            //
-                                          },
-                                          icon: const Icon(
-                                            Icons.mail,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    //
-                                  ],
-                                ),
-                                //
-                              ],
-                            ),
-                          ),
-                        ),
-                        //
-                        const MyProfileDescriptionScreen(),
-                        //
-                        Center(
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                              top: 10.0,
-                            ),
-                            height: 120,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(
-                                60.0,
                               ),
+                              //
+                              const Divider(
+                                height: 1,
+                                color: Colors.transparent,
+                              ),
+                              //
+                              const SizedBox(
+                                height: 20.0,
+                              ),
+                              //
+                              Row(
+                                // mainAxisAlignment:
+                                //     MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 60.0,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(
+                                          24.0,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          //
+                                        },
+                                        icon: const Icon(
+                                          Icons.chat,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  //
+                                  Container(
+                                    height: 40.0,
+                                    width: 1.0,
+                                    color: Colors.grey,
+                                  ),
+                                  //
+                                  Expanded(
+                                    child: Container(
+                                      height: 60.0,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(
+                                          24.0,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          //
+                                        },
+                                        icon: const Icon(
+                                          Icons.call,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  //
+                                  Container(
+                                    height: 40.0,
+                                    width: 1.0,
+                                    color: Colors.grey,
+                                  ),
+                                  //
+                                  Expanded(
+                                    child: Container(
+                                      height: 60.0,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(
+                                          24.0,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          //
+                                        },
+                                        icon: const Icon(
+                                          Icons.mail,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  //
+                                ],
+                              ),
+                              //
+                            ],
+                          ),
+                        ),
+                      ),
+                      //
+                      const MyProfileDescriptionScreen(),
+                      //
+                      Center(
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                            top: 10.0,
+                          ),
+                          height: 120,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(
+                              60.0,
                             ),
                           ),
                         ),
-                        //
-                      ],
-                    ),
-                    //
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: text_bold_roboto(
-                          'My Profile',
-                          Colors.black,
-                          18.0,
-                        ),
+                      ),
+                      //
+                    ],
+                  ),
+                  //
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: text_bold_roboto(
+                        'My Profile',
+                        Colors.black,
+                        18.0,
                       ),
                     ),
-                    const MySkillAndAllScreen(),
-                    //
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    //
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: text_bold_roboto(
-                          'Data',
-                          Colors.black,
-                          18.0,
-                        ),
+                  ),
+                  const MySkillAndAllScreen(),
+                  //
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  //
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: text_bold_roboto(
+                        'Data',
+                        Colors.black,
+                        18.0,
                       ),
                     ),
+                  ),
 
-                    //
-                    const MyProfileDataScreen(),
-                    //
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    //
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: text_bold_roboto(
-                          'Performance',
-                          Colors.black,
-                          18.0,
-                        ),
+                  //
+                  const MyProfileDataScreen(),
+                  //
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  //
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: text_bold_roboto(
+                        'Performance',
+                        Colors.black,
+                        18.0,
                       ),
                     ),
-                    const MyProfileResultScreen(),
-                  ],
-                ),
+                  ),
+                  const MyProfileResultScreen(),
+                ],
               ),
-              /*TabBarView(
+            ),
+      /*TabBarView(
                   // controller: _tabController,
                   children: [
                     Column(
@@ -631,24 +693,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         ),*/
                   ],
                 ),*/
-            );
-          } else if (snapshot.hasError) {
-            // return Center(
-            //   child: Text(
-            //     'Error: ${snapshot.error}',
-            //   ),
-
-            // );
-            if (kDebugMode) {
-              print(snapshot.error);
-            }
-          }
-          return const Center(
-            child: CircularProgressIndicator(
-              color: Colors.pink,
-            ),
-          );
-        });
+    );
   }
 
   deleteSkillFromList(

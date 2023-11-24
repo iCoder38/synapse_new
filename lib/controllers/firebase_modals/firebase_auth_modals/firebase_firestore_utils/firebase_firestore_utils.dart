@@ -14,6 +14,8 @@ class FirestoreUtils {
   static const String EVENTS = "events";
   // events media
   static const String EVENTS_MEDIA = "events_media";
+  // user all data
+  static const String USER_FULL_DATA = "user_data";
   //
   static const String COMMUNITIES = "communities";
   //

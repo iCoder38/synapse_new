@@ -76,7 +76,9 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MyProfileScreen(),
+                    builder: (context) => MyProfileScreen(
+                      strFirebaseId: FirestoreUtils.LOGIN_USER_FIREBASE_ID,
+                    ),
                   ),
                 );
               },
