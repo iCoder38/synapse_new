@@ -107,6 +107,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             }
             return Scaffold(
               appBar: AppBar(
+                backgroundColor: Colors.purpleAccent,
                 title: text_bold_comforta(
                   'Profile',
                   Colors.white,
@@ -500,6 +501,134 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     ],
                   ),
                   //
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  //
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                            left: 10.0,
+                            right: 10.0,
+                          ),
+                          height: 80,
+
+                          // width: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                              12.0,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                  0,
+                                  3,
+                                ), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 26,
+                                  width: 26,
+                                  // color: Colors.black,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.transparent,
+                                    image: DecorationImage(
+                                      image: ExactAssetImage(
+                                        'assets/images/communities_icon.png',
+                                      ),
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ),
+                                ),
+                                //
+                                const SizedBox(
+                                  height: 6,
+                                ),
+                                //
+                                text_bold_comforta(
+                                  'Communities',
+                                  Colors.black,
+                                  14.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      //
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                            // left: 10.0,
+                            right: 10.0,
+                          ),
+                          height: 80,
+
+                          // width: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                              12.0,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                  0,
+                                  3,
+                                ), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 26,
+                                  width: 26,
+                                  // color: Colors.black,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.transparent,
+                                    image: DecorationImage(
+                                      image: ExactAssetImage(
+                                        'assets/images/feeds_icon.png',
+                                      ),
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ),
+                                ),
+                                //
+                                const SizedBox(
+                                  height: 6,
+                                ),
+                                //
+                                text_bold_comforta(
+                                  'Feeds',
+                                  Colors.black,
+                                  14.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      //
+                    ],
+                  ),
                 ],
               ),
               /*TabBarView(
