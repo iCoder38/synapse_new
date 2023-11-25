@@ -339,6 +339,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   MyProfileDataScreen(
                     getTotalCommunities: strTotalCommunityCount,
                     getTotalFeeds: strTotalFeedsCount,
+                    getFirebaseId: widget.strFirebaseId,
                   ),
                   //
                   const SizedBox(

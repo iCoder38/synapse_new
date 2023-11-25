@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,13 +7,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
+
 import 'package:synapse_new/controllers/screens/communities/community_details/community_details.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
 
 class MyCommunitiesScreen extends StatefulWidget {
-  const MyCommunitiesScreen({super.key});
+  const MyCommunitiesScreen({
+    Key? key,
+    required this.communityAdminFirebaseId,
+  }) : super(key: key);
+
+  final String communityAdminFirebaseId;
 
   @override
   State<MyCommunitiesScreen> createState() => _MyCommunitiesScreenState();
@@ -40,7 +47,8 @@ class _MyCommunitiesScreenState extends State<MyCommunitiesScreen> {
               'communityAdminId',
               arrayContainsAny: [
                 //
-                FirebaseAuth.instance.currentUser!.uid.toString()
+                widget.communityAdminFirebaseId.toString(),
+                // FirebaseAuth.instance.currentUser!.uid.toString()
               ],
             )
             .limit(10)

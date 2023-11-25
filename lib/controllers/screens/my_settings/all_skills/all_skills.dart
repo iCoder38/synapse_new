@@ -9,6 +9,7 @@ import 'package:synapse_new/controllers/screens/my_settings/add_edit_skill/add_e
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
+import '../delete_career_profile_data/delete_data.dart';
 
 class AllSkillsScreen extends StatefulWidget {
   const AllSkillsScreen({
@@ -190,7 +191,9 @@ class _AllSkillsScreenState extends State<AllSkillsScreen> {
                         onTap: () {
                           //
                           Navigator.pop(context);
-                          deleteSkill(skillDocumentId);
+                          // deleteSkill(skillDocumentId);
+                          deleteCareerProfileFromFirebase(
+                              widget.strFirebaseId, skillDocumentId, 'skills');
                         },
                         child: Container(
                           height: 40,
@@ -238,14 +241,15 @@ class _AllSkillsScreenState extends State<AllSkillsScreen> {
   }
 
   //
-  deleteSkill(documentIdToDelete) {
-    final collection = FirebaseFirestore.instance.collection(
-      '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.strFirebaseId}/skills',
-    );
-    collection
-        .doc(documentIdToDelete) // <-- Doc ID to be deleted.
-        .delete() // <-- Delete
-        .then((_) => print('Deleted'))
-        .catchError((error) => print('Delete failed: $error'));
-  }
+  // deleteSkill(documentIdToDelete) {
+
+  //   /*final collection = FirebaseFirestore.instance.collection(
+  //     '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.strFirebaseId}/skills',
+  //   );
+  //   collection
+  //       .doc(documentIdToDelete) // <-- Doc ID to be deleted.
+  //       .delete() // <-- Delete
+  //       .then((_) => print('Deleted'))
+  //       .catchError((error) => print('Delete failed: $error'));*/
+  // }
 }

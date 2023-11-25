@@ -151,7 +151,10 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MyCommunitiesScreen(),
+                    builder: (context) => MyCommunitiesScreen(
+                      communityAdminFirebaseId:
+                          FirebaseAuth.instance.currentUser!.uid.toString(),
+                    ),
                   ),
                 );
               },

@@ -10,6 +10,7 @@ import 'package:synapse_new/controllers/screens/my_settings/add_edit_experience/
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
+import '../delete_career_profile_data/delete_data.dart';
 
 class AllExperienceScreen extends StatefulWidget {
   const AllExperienceScreen({
@@ -201,7 +202,10 @@ class _AllExperienceScreenState extends State<AllExperienceScreen> {
                         onTap: () {
                           //
                           Navigator.pop(context);
-                          deleteSkill(skillDocumentId);
+                          // deleteSkill(skillDocumentId);
+                          //
+                          deleteCareerProfileFromFirebase(widget.strFirebaseId,
+                              skillDocumentId, 'experiences');
                         },
                         child: Container(
                           height: 40,

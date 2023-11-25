@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 
 import 'dart:math' as math;
 
@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:synapse_new/controllers/screens/my_settings/add_edit_education/add_edit_education.dart';
+import 'package:synapse_new/controllers/screens/my_settings/delete_career_profile_data/delete_data.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
@@ -201,7 +202,11 @@ class _AllEducationScreenState extends State<AllEducationScreen> {
                         onTap: () {
                           //
                           Navigator.pop(context);
-                          deleteSkill(skillDocumentId);
+                          // deleteSkill(skillDocumentId);
+                          //
+                          deleteCareerProfileFromFirebase(widget.strFirebaseId,
+                              skillDocumentId, 'educations');
+                          //
                         },
                         child: Container(
                           height: 40,
@@ -254,7 +259,7 @@ class _AllEducationScreenState extends State<AllEducationScreen> {
       '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA}/${widget.strFirebaseId}/educations',
     );
     collection
-        .doc(documentIdToDelete) // <-- Doc ID to be deleted.
+        .doc(documentIdToDelete)
         .delete() // <-- Delete
         .then((_) => print('Deleted'))
         .catchError((error) => print('Delete failed: $error'));

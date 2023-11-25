@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../common/alert/alert.dart';
+import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
 
 class AddEditCommunityScreen extends StatefulWidget {
@@ -33,12 +34,16 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
   late final TextEditingController contCommunityName;
   late final TextEditingController contCommunityAbout;
   //
+  var documentIdForCommunitiesCount = '0';
+  var totalCoummunities = '0';
+  //
   @override
   void initState() {
     //
     contCommunityName = TextEditingController();
     contCommunityAbout = TextEditingController();
     //
+    getDataFromCounts();
     super.initState();
   }
 
@@ -328,11 +333,69 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
       SetOptions(merge: true),
     ).then(
       (value1) {
-        // dismiss popup
-        Navigator.pop(context);
-        Navigator.pop(context);
         // followThisGroupInFirebase(cid);
+        updateCommunitiesCount();
       },
     );
+  }
+
+  //
+  getDataFromCounts() {
+    //
+
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
+        )
+        .get()
+        .then((value) {
+      if (kDebugMode) {
+        print(value.docs);
+      }
+
+      if (value.docs.isEmpty) {
+        if (kDebugMode) {
+          print('======> NO USER FOUND <========');
+        }
+      } else {
+        if (kDebugMode) {
+          print('======> Yes, USER FOUND <========');
+        }
+        for (var element in value.docs) {
+          if (kDebugMode) {
+            print(element.id);
+            //
+            documentIdForCommunitiesCount = element.id;
+            totalCoummunities = element.data()['communityCount'].toString();
+            //
+            var addOne = 0;
+            // addOne += 1;
+            addOne = int.parse(totalCoummunities) + 1;
+            totalCoummunities = addOne.toString();
+            // print(element.data()['followers']);
+            // print(element.data());
+          }
+          //
+        }
+      }
+    });
+  }
+
+  //
+  updateCommunitiesCount() {
+    //
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
+        )
+        .doc(documentIdForCommunitiesCount.toString())
+        .update(
+      {
+        'communityCount': totalCoummunities.toString(),
+      },
+    ).then((value) => {
+              //
+              Navigator.pop(context), Navigator.pop(context),
+            });
   }
 }
