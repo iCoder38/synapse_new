@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../my_settings/my_profile/my_profile.dart';
 import '../../../utils/utils.dart';
 
 class FeedsHeaderUIScreen extends StatefulWidget {
@@ -36,13 +37,35 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
         leading: SizedBox(
           height: 50,
           width: 50,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(
-              25.0,
-            ),
-            child: Image.network(
-              dummy_image_url,
-              fit: BoxFit.cover,
+          child: GestureDetector(
+            onTap: () {
+              //
+              if (kDebugMode) {
+                print('clicked on home page user profile image');
+                print(widget.getDataForFeedsHeader['postEntityId'].toString());
+              }
+              //
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyProfileScreen(
+                    strFirebaseId:
+                        widget.getDataForFeedsHeader['postEntityId'].toString(),
+                    strUsername: widget.getDataForFeedsHeader['postEntityName']
+                        .toString(),
+                  ),
+                ),
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                25.0,
+              ),
+              child: Image.network(
+                dummy_image_url,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

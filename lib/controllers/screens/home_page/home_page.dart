@@ -48,12 +48,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     //
+
     setProfileDataForNewOrFirstTimeUserAfterLogin();
     super.initState();
   }
 
   //
   setProfileDataForNewOrFirstTimeUserAfterLogin() async {
+    print('vedica');
+    print(FirestoreUtils.LOGIN_USER_FIREBASE_ID);
     FirebaseFirestore.instance
         .collection(
           '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
@@ -66,7 +69,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
       if (value.docs.isEmpty) {
         if (kDebugMode) {
-          print('======> NO USER FOUND');
+          print('======> NO USER FOUND in HOME SCREEN <========');
         }
         CollectionReference users = FirebaseFirestore.instance.collection(
           '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
@@ -96,7 +99,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
             );
       } else {
         if (kDebugMode) {
-          print('======> Yes, USER FOUND');
+          print('======> Yes, USER FOUND in HOME SCREEN <========');
         }
         for (var element in value.docs) {
           if (kDebugMode) {

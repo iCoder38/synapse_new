@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:readmore/readmore.dart';
+// / import 'package:google_fonts/google_fonts.dart';
+// import 'package:readmore/readmore.dart';
 
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/description/my_profile_description.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/my_profile_data/my_profile_data.dart';
@@ -13,19 +13,20 @@ import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/r
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
-import '../add_edit_education/add_edit_education.dart';
-import '../add_edit_experience/add_experience.dart';
-import '../add_edit_skill/add_edit_skill.dart';
+// import '../add_edit_education/add_edit_education.dart';
+// import '../add_edit_experience/add_experience.dart';
+// import '../add_edit_skill/add_edit_skill.dart';
 
 class MyProfileScreen extends StatefulWidget {
   const MyProfileScreen({
     Key? key,
-    // required this.strMyProfile,
     required this.strFirebaseId,
+    required this.strUsername,
   }) : super(key: key);
 
   // final String strMyProfile;
   final String strFirebaseId;
+  final String strUsername;
 
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
@@ -64,7 +65,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${widget.strFirebaseId}/data',
         )
         .get()
         .then((value) {
@@ -177,7 +178,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 height: 70.0,
                               ),
                               text_bold_comforta(
-                                FirestoreUtils.LOGIN_USER_NAME,
+                                //
+                                widget.strUsername.toString(),
                                 Colors.black,
                                 24.0,
                               ),

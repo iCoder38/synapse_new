@@ -293,7 +293,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   //
   saveLoginUserDataInFirebase() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        // builder: (context) => const HomeFeedScreen(),
+        builder: (context) => const BottomBarScreen(),
+      ),
+    );
+    /*SharedPreferences preferences = await SharedPreferences.getInstance();
     //
     //
     FirebaseFirestore.instance
@@ -401,7 +408,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }
       }
-    });
+    });*/
   }
   //
 }

@@ -120,6 +120,7 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
                   MaterialPageRoute(
                     builder: (context) => MyProfileScreen(
                       strFirebaseId: FirestoreUtils.LOGIN_USER_FIREBASE_ID,
+                      strUsername: FirestoreUtils.LOGIN_USER_NAME,
                     ),
                   ),
                 );

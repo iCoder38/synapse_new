@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:io';
 import 'dart:math';
 
@@ -734,36 +736,14 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
     }
   }*/
 
-  // add community in firebase
-  addPostInFirebase(postType) {
-    //
-  }
-
-  //
-  /*addCommunityIdInCommunity(elementId) {
-    //
-    FirebaseFirestore.instance
-        .collection("${strFirebaseMode}post")
-        .doc('India')
-        .collection('data')
-        .doc(elementId)
-        .set(
-      {
-        'documentId': elementId,
-      },
-      SetOptions(merge: true),
-    ).then(
-      (value1) {
-        // dismiss popup
-        updateFeedsCount();
-      },
-    );
-  }*/
-
-  //
   //
   getDataFromCounts() {
     //
+    if (kDebugMode) {
+      print('===================');
+      print('GET DATA FROM COUNTS');
+      print('===================');
+    }
 
     FirebaseFirestore.instance
         .collection(
@@ -806,6 +786,12 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
   //
   updateFeedsCount() {
     //
+    if (kDebugMode) {
+      print('===================');
+      print('UPDATE FEEDS COUNT');
+      print('===================');
+    }
+
     FirebaseFirestore.instance
         .collection(
           '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',

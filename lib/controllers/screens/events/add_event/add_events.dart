@@ -310,7 +310,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                     border: InputBorder.none),
                 onChanged: (value) {
                   if (debounce?.isActive ?? false) debounce!.cancel();
-                  debounce = Timer(const Duration(milliseconds: 400), () {
+                  debounce = Timer(const Duration(milliseconds: 600), () {
                     if (value.isNotEmpty) {
                       //places api
                       setState(() {
@@ -930,9 +930,12 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   ) {
     //
 
-    print('================================');
-    print('==> ADDING EVENTS IN FIREBASE <==');
-    print('================================');
+    if (kDebugMode) {
+      print('================================');
+      print('==> ADDING EVENTS IN FIREBASE <==');
+      print('================================');
+    }
+
     CollectionReference users = FirebaseFirestore.instance.collection(
       // '${strFirebaseMode}post/India/data',
       '$strFirebaseMode${FirestoreUtils.EVENTS}',
@@ -959,6 +962,8 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
             'eventPrivate': strEventPrivate,
             'eventFree': strEventStatus,
             'eventDescription': contDescription.text.toString(),
+            //
+            'eventAddress': startSearchFieldController.text.toString(),
             // multiple data ( followers )
             'eventJoinedMembersId': [
               //
