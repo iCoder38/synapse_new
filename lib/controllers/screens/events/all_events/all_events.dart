@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
+import '../add_event/add_events.dart';
 import '../event_details/event_details.dart';
 
 class AllEventsScreen extends StatefulWidget {
@@ -30,17 +31,19 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
         // backgroundColor: Colors.white,
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.pinkAccent,
         onPressed: () {
           //
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const AddEventsScreen(),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddEventsScreen(),
+            ),
+          );
         },
         child: const Icon(Icons.edit),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: FutureBuilder(
           future: FirebaseFirestore.instance
               .collection('$strFirebaseMode${FirestoreUtils.EVENTS}')

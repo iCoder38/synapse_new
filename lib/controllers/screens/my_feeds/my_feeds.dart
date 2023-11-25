@@ -58,8 +58,8 @@ class _MyFeedsScreenState extends State<MyFeedsScreen> {
           ),
         ),
       ),
-      body: FutureBuilder(
-        future: FirebaseFirestore.instance
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
             .collection('$strFirebaseMode${FirestoreUtils.POST_FEEDS}')
             //
             .orderBy('timeStamp', descending: false)
@@ -68,7 +68,7 @@ class _MyFeedsScreenState extends State<MyFeedsScreen> {
               arrayContainsAny: [widget.getAdminFirebaseId.toString()],
             )
             .limit(10)
-            .get(),
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             if (kDebugMode) {

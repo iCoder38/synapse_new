@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:synapse_new/controllers/screens/communities/community_details/community_details.dart';
+import 'package:synapse_new/controllers/screens/communities/community_followers/community_followers.dart';
 
 import '../../utils/utils.dart';
 import '../add_edit_community/add_community.dart';
@@ -90,9 +91,9 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               if (kDebugMode) {
-                print('=======================');
-                print('====> YES, DATA 2 <====');
-                print('=======================');
+                // print('=======================');
+                // print('====> YES, DATA 2 <====');
+                // print('=======================');
               }
               //
               // if (strScrollOnlyOneTime == '1') {
@@ -104,9 +105,9 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
 
               var getSnapShopValue = snapshot.data!.docs.reversed.toList();
               if (kDebugMode) {
-                print('object 1');
-                print(getSnapShopValue);
-                print('object 2');
+                // print('object 1');
+                // print(getSnapShopValue);
+                // print('object 2');
               }
 
               return SingleChildScrollView(
@@ -206,6 +207,62 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
                                       'Admin : ${getSnapShopValue[index]['adminName']}',
                                       Colors.black,
                                       14.0,
+                                    ),
+                                    trailing: GestureDetector(
+                                      onTap: () {
+                                        //
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                CommunityFollowersScreen(
+                                              getCommunityId:
+                                                  getSnapShopValue[index]
+                                                          ['communityId']
+                                                      .toString(),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 44,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                            12.0,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 5,
+                                              blurRadius: 7,
+                                              offset: const Offset(0,
+                                                  3), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            text_bold_comforta(
+                                              //
+                                              getSnapShopValue[index]
+                                                      ['followers']
+                                                  .length,
+                                              Colors.black,
+                                              16.0,
+                                            ),
+                                            text_bold_comforta(
+                                              'followers',
+                                              Colors.black,
+                                              12.0,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   //

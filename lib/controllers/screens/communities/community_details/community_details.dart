@@ -27,7 +27,16 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   //
   var userSelectType = 'post';
   var setVisibility = true;
+  var strFloatingActionButtonVisibility = true;
   //
+  @override
+  void initState() {
+    print("======== PEOPLE IDs ==========");
+    print(widget.getCommunityDetails);
+    print("========================");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +150,6 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
               child: CircularProgressIndicator(),
             );
           }),
-      // showAllPostsListFromFirebase(),
     );
   }
 
@@ -221,7 +229,46 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                       color: Colors.transparent,
                       child: getTopThreeTabsUI(context),
                     ),
-                    Expanded(
+                    //
+                    if (widget.getCommunityDetails['followers'].length ==
+                        0) ...[
+                      Expanded(
+                        child: Center(
+                          child: text_bold_comforta(
+                            'No one follow this community',
+                            Colors.black,
+                            14.0,
+                          ),
+                        ),
+                      ),
+                    ] else ...[
+                      //
+                      for (int i = 0;
+                          i < widget.getCommunityDetails['followers'].length;
+                          i++) ...[
+                        //
+                        Expanded(
+                          child: ListTile(
+                            title: text_bold_comforta(
+                              'str',
+                              Colors.black,
+                              16.0,
+                            ),
+                            subtitle: text_bold_comforta(
+                              'str',
+                              Colors.black,
+                              12.0,
+                            ),
+                          ),
+                        ),
+                        //
+                      ]
+                      //
+                    ],
+                    // (widget.getCommunityDetails['followers'].length == 0)
+                    // ? text_regular_comforta('', Colors.black, 14.0,):
+
+                    /*Expanded(
                       // Added
                       child: FutureBuilder(
                         future: FirebaseFirestore.instance
@@ -319,7 +366,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                         },
                       ),
                       //
-                    ),
+                    ),*/
                   ]
                 ],
               ),
@@ -640,7 +687,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                   ),
           ),
         ),
-        Expanded(
+        /*Expanded(
           child: GestureDetector(
             onTap: () {
               //
@@ -689,7 +736,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                     ),
                   ),
           ),
-        ),
+        ),*/
       ],
     );
   }
