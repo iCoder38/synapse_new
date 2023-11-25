@@ -10,7 +10,7 @@ import 'package:synapse_new/controllers/screens/my_settings/add_edit_experience/
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
-import '../delete_career_profile_data/delete_data.dart';
+import '../../../update_data_on_firebase/delete_career_profile_data/delete_data.dart';
 
 class AllExperienceScreen extends StatefulWidget {
   const AllExperienceScreen({

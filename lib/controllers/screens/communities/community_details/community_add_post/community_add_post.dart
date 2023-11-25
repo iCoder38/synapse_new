@@ -22,6 +22,9 @@ class CommunityAddPostScreen extends StatefulWidget {
 
 class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
   //
+  var documentIdForFeedsCount = '0';
+  var totalFeeds = '0';
+  //
   var communityImageUrl = '';
   var userSelectCommunityName = 'Personal';
   var userSelectCommunityDocumentId = '';
@@ -42,7 +45,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
       print(widget.getCommunityFullDetails);
       print('=================================================');
     }
-
+    getDataFromCounts();
     super.initState();
   }
 
@@ -591,14 +594,13 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
     ).then(
       (value1) {
         // dismiss popup
-        Navigator.pop(context);
-        Navigator.pop(context);
+        updateFeedsCount();
       },
     );
     //
   }
 
-  getTotalFollowersInThisCommunity(
+  /*getTotalFollowersInThisCommunity(
     getPostType,
     getTimeStamp,
   ) async {
@@ -730,7 +732,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
             (error) => print("Failed to add user: $error"),
           );
     }
-  }
+  }*/
 
   // add community in firebase
   addPostInFirebase(postType) {
@@ -738,7 +740,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
   }
 
   //
-  addCommunityIdInCommunity(elementId) {
+  /*addCommunityIdInCommunity(elementId) {
     //
     FirebaseFirestore.instance
         .collection("${strFirebaseMode}post")
@@ -753,11 +755,69 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
     ).then(
       (value1) {
         // dismiss popup
-        Navigator.pop(context);
-        Navigator.pop(context);
-        // addMeOnValidPost(elementId);
+        updateFeedsCount();
       },
     );
-  }
+  }*/
+
   //
+  //
+  getDataFromCounts() {
+    //
+
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
+        )
+        .get()
+        .then((value) {
+      if (kDebugMode) {
+        print(value.docs);
+      }
+
+      if (value.docs.isEmpty) {
+        if (kDebugMode) {
+          print('======> NO USER FOUND <========');
+        }
+      } else {
+        if (kDebugMode) {
+          print('======> Yes, USER FOUND <========');
+        }
+        for (var element in value.docs) {
+          if (kDebugMode) {
+            print(element.id);
+            //
+            documentIdForFeedsCount = element.id;
+            totalFeeds = element.data()['feedCount'].toString();
+            //
+            var addOne = 0;
+            // addOne += 1;
+            addOne = int.parse(totalFeeds) + 1;
+            totalFeeds = addOne.toString();
+            // print(element.data()['followers']);
+            // print(element.data());
+          }
+          //
+        }
+      }
+    });
+  }
+
+  //
+  updateFeedsCount() {
+    //
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
+        )
+        .doc(documentIdForFeedsCount.toString())
+        .update(
+      {
+        'feedCount': totalFeeds.toString(),
+      },
+    ).then((value) => {
+              //
+              Navigator.pop(context), Navigator.pop(context),
+            });
+  }
 }

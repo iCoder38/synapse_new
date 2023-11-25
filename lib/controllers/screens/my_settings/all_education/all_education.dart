@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:synapse_new/controllers/screens/my_settings/add_edit_education/add_edit_education.dart';
-import 'package:synapse_new/controllers/screens/my_settings/delete_career_profile_data/delete_data.dart';
+import 'package:synapse_new/controllers/update_data_on_firebase/delete_career_profile_data/delete_data.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
