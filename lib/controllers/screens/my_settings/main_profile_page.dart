@@ -45,6 +45,48 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
+            (FirebaseAuth.instance.currentUser!.emailVerified == true)
+                ? const SizedBox(
+                    height: 10.0,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.orangeAccent,
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.grey.withOpacity(0.5),
+                        //     spreadRadius: 5,
+                        //     blurRadius: 2,
+                        //     offset: const Offset(0, 3), // changes position of shadow
+                        //   ),
+                        // ],
+                        borderRadius: BorderRadius.circular(
+                          12.0,
+                        ),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.warning,
+                              color: Colors.yellow,
+                            ),
+                            text_bold_comforta(
+                              'Your account is not verified. Please verify your account >>',
+                              Colors.white,
+                              10.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+            //
             ListTile(
               leading: Container(
                 height: 50,

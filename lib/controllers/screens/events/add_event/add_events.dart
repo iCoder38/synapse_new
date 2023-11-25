@@ -1,4 +1,5 @@
 // import 'package:flutter/cupertino.dart';
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,11 +9,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:synapse_new/controllers/google_maps/google_maps.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../common/alert/alert.dart';
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
+
+import 'package:google_place/google_place.dart';
 
 class AddEventsScreen extends StatefulWidget {
   const AddEventsScreen({super.key});
@@ -40,6 +44,15 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   var strEventPrivate = 'no';
   var strEventOffline = 'no';
   //
+  var strUserEnteredLocation = '0';
+  var arrSaveAllAddress = [];
+  //
+  // final GoogleMapsPlaces places = GoogleMapsPlaces(apiKey: '');
+  final startSearchFieldController = TextEditingController();
+  late GooglePlace googlePlace;
+  List<AutocompletePrediction> predictions = [];
+  Timer? debounce;
+//
   @override
   void initState() {
     //
@@ -49,8 +62,35 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
     contEndDate = TextEditingController();
     contFee = TextEditingController();
     //
+    String apiKey = kGoogle_API_KEY;
+    googlePlace = GooglePlace(apiKey);
+    //
     super.initState();
   }
+
+  //
+  void autoCompleteSearch(String value) async {
+    var result = await googlePlace.autocomplete.get(value);
+    if (result != null && result.predictions != null && mounted) {
+      //
+
+      if (kDebugMode) {
+        print(result.predictions!);
+        //
+        // arrSaveAllAddress.clear();
+        for (int i = 0; i < result.predictions!.length; i++) {
+          print(result.predictions![i].description);
+          arrSaveAllAddress.add(result.predictions![i].description);
+        }
+        print(result.predictions!.first.description);
+      }
+      setState(() {
+        predictions = result.predictions!;
+        strUserEnteredLocation = '1';
+      });
+    }
+  }
+  //
 
   @override
   void dispose() {
@@ -239,10 +279,100 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                 ),
               ),
               //
-              GestureDetector(
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10.0,
+                  left: 10.0,
+                ),
+                child: Row(
+                  children: [
+                    text_bold_comforta(
+                      'Event address',
+                      Colors.black,
+                      14.0,
+                    ),
+                  ],
+                ),
+              ),
+              TextField(
+                controller: startSearchFieldController,
+                autofocus: false,
+                style: const TextStyle(fontSize: 16),
+                maxLines: 2,
+                decoration: InputDecoration(
+                    hintText: 'start enter event location',
+                    hintStyle: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    border: InputBorder.none),
+                onChanged: (value) {
+                  if (debounce?.isActive ?? false) debounce!.cancel();
+                  debounce = Timer(const Duration(milliseconds: 400), () {
+                    if (value.isNotEmpty) {
+                      //places api
+                      setState(() {
+                        strUserEnteredLocation = '3';
+                      });
+                      arrSaveAllAddress.clear();
+                      autoCompleteSearch(value);
+                    } else {
+                      //clear out the results
+                    }
+                  });
+                },
+              ),
+              if (strUserEnteredLocation == '0') ...[
+                const SizedBox(
+                  height: 0,
+                )
+              ] else if (strUserEnteredLocation == '3') ...[
+                text_bold_comforta(
+                  'please wait...',
+                  Colors.black,
+                  14.0,
+                )
+              ] else ...[
+                Column(
+                  children: [
+                    for (int i = 0; i < arrSaveAllAddress.length; i++) ...[
+                      GestureDetector(
+                        onTap: () {
+                          //
+                          if (kDebugMode) {
+                            // print(arrSaveAllAddress[i]);
+                          }
+                          setState(() {
+                            strUserEnteredLocation = '0';
+                            startSearchFieldController.text =
+                                arrSaveAllAddress[i].toString();
+                          });
+                        },
+                        child: ListTile(
+                          title: text_bold_comforta(
+                            arrSaveAllAddress[i],
+                            Colors.black,
+                            14.0,
+                          ),
+                        ),
+                      )
+                    ]
+                  ],
+                ),
+              ],
+
+              //
+              /*GestureDetector(
                 onTap: () {
                   //
-                  // openMapAndSelectLocation();
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const GoogleMapsScreen(),
+                  //   ),
+                  // );
                   //
                 },
                 child: ListTile(
@@ -260,7 +390,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                     Icons.chevron_right,
                   ),
                 ),
-              ),
+              ),*/
               //
               const Padding(
                 padding: EdgeInsets.all(8.0),

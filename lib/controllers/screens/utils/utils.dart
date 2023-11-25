@@ -10,6 +10,8 @@ import 'package:intl/intl.dart';
 var strFirebaseMode = 'mode/test/';
 // test : user
 var user = 'test_members/';
+//
+var kGoogle_API_KEY = 'AIzaSyAULQHYzpkutmeYPo9nU3BIGTlFlw9ZuH8';
 // bucket
 const String FIREBASE_STORAGE_BUCKET_NAME = 'Test_Dev-Synapse-Bucket';
 //
