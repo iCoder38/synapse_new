@@ -26,10 +26,10 @@ class _CommunityPostUIState extends State<CommunityPostUI> {
   @override
   void initState() {
     if (kDebugMode) {
-      print('========== CHECK ===============');
-      print(widget.getCommunityData);
-      print(widget.getCommunityPostData.length);
-      print('=================================');
+      // print('========== CHECK ===============');
+      // print(widget.getCommunityData);
+      // print(widget.getCommunityPostData.length);
+      // print('=================================');
     }
 
     super.initState();

@@ -31,9 +31,12 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   //
   @override
   void initState() {
-    print("======== PEOPLE IDs ==========");
-    print(widget.getCommunityDetails);
-    print("========================");
+    if (kDebugMode) {
+      // print("======== PEOPLE IDs ==========");
+      // print(widget.getCommunityDetails);
+      // print("========================");
+    }
+
     super.initState();
   }
 

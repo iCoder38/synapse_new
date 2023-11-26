@@ -211,15 +211,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
                               if (kDebugMode) {
-                                print('======================');
-                                print('===> TOTAL POST  <===');
+                                // print('======================');
+                                // print('===> TOTAL POST  <===');
                               }
 
                               var getSnapShopValue =
                                   snapshot.data!.docs.reversed.toList();
                               if (kDebugMode) {
-                                print(getSnapShopValue.length);
-                                print('==================================');
+                                // print(getSnapShopValue.length);
+                                // print('==================================');
                               }
                               //
                               for (int index1 = 0;

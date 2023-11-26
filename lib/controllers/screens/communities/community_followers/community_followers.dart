@@ -26,9 +26,10 @@ class _CommunityFollowersScreenState extends State<CommunityFollowersScreen> {
   @override
   void initState() {
     if (kDebugMode) {
-      print('========================');
+      print('====== FOLLOWERS IDs =====');
       print(widget.getAllFollowersId);
-      print('========================');
+      print(widget.getAllFollowersId.length);
+      print('===========================');
     }
 
     super.initState();
@@ -37,15 +38,30 @@ class _CommunityFollowersScreenState extends State<CommunityFollowersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: text_bold_comforta(
-          'Followers',
-          Colors.white,
-          20.0,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: text_bold_comforta(
+            'Followers',
+            Colors.white,
+            20.0,
+          ),
         ),
-      ),
-      body: FutureBuilder(
+        body: Column(
+          children: [
+            for (int i = 0; i < widget.getAllFollowersId.length; i++) ...[
+              //
+              ListTile(
+                title: text_bold_comforta(
+                  'str',
+                  Colors.black,
+                  14.0,
+                ),
+              ),
+              //
+            ]
+          ],
+        )
+        /*FutureBuilder(
           future: FirebaseFirestore.instance
               .collection('${strFirebaseMode}communities/India/data')
               .where(
@@ -102,7 +118,7 @@ class _CommunityFollowersScreenState extends State<CommunityFollowersScreen> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          }),
-    );
+          }),*/
+        );
   }
 }

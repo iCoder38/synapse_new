@@ -80,12 +80,6 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
                 "${strFirebaseMode}communities/India/data",
               )
               .orderBy('timeStamp', descending: false)
-              // .where(
-              //   'room_id',
-              //   whereIn: [
-              //     '',
-              //   ],
-              // )
               .limit(40)
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -95,13 +89,6 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
                 // print('====> YES, DATA 2 <====');
                 // print('=======================');
               }
-              //
-              // if (strScrollOnlyOneTime == '1') {
-              //   _needsScroll = true;
-              //   WidgetsBinding.instance
-              //       .addPostFrameCallback((_) => _scrollToEnd());
-              // }
-              //
 
               var getSnapShopValue = snapshot.data!.docs.reversed.toList();
               if (kDebugMode) {
@@ -216,11 +203,13 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 CommunityFollowersScreen(
-                                              getCommunityId:
-                                                  getSnapShopValue[index]
-                                                          ['communityId']
-                                                      .toString(),
-                                            ),
+                                                    getCommunityId:
+                                                        getSnapShopValue[index]
+                                                                ['communityId']
+                                                            .toString(),
+                                                    getAllFollowersId:
+                                                        getSnapShopValue[index]
+                                                            ['followers']),
                                           ),
                                         );
                                       },
@@ -232,16 +221,19 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
                                           borderRadius: BorderRadius.circular(
                                             12.0,
                                           ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 5,
-                                              blurRadius: 7,
-                                              offset: const Offset(0,
-                                                  3), // changes position of shadow
-                                            ),
-                                          ],
+                                          border: Border.all(
+                                            width: 0.2,
+                                          ),
+                                          // boxShadow: [
+                                          //   BoxShadow(
+                                          //     color:
+                                          //         Colors.grey.withOpacity(0.5),
+                                          //     spreadRadius: 5,
+                                          //     blurRadius: 7,
+                                          //     offset: const Offset(0,
+                                          //         3), // changes position of shadow
+                                          //   ),
+                                          // ],
                                         ),
                                         child: Column(
                                           mainAxisAlignment:

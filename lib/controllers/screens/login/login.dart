@@ -293,14 +293,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   //
   saveLoginUserDataInFirebase() async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        // builder: (context) => const HomeFeedScreen(),
-        builder: (context) => const BottomBarScreen(),
-      ),
-    );
-    /*SharedPreferences preferences = await SharedPreferences.getInstance();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     //
     //
     FirebaseFirestore.instance
@@ -324,33 +317,28 @@ class _LoginScreenState extends State<LoginScreen> {
 
         //
         CollectionReference users = FirebaseFirestore.instance.collection(
-          // '${strFirebaseMode}post/India/data',
-          '$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}',
+          '$strFirebaseMode${FirestoreUtils.USERS}',
         );
 
         users
             .add(
               {
                 'active': 'no',
-                'deviceToken': '',
                 'email': FirebaseAuth.instance.currentUser!.email,
                 'firebaseId': FirebaseAuth.instance.currentUser!.uid,
                 'profiledisplayImage': '',
                 'name': FirebaseAuth.instance.currentUser!.displayName,
                 'timeStamp': DateTime.now().millisecondsSinceEpoch,
                 'verify': FirebaseAuth.instance.currentUser!.emailVerified,
-                'education': [],
-                'skills': [],
-                'workExperience': [],
-                'bio': '',
-                'headline': '',
+                'profileType': '',
+
                 //
               },
             )
             .then(
               (value) => FirebaseFirestore.instance
                   .collection(
-                    '$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}',
+                    '$strFirebaseMode${FirestoreUtils.USERS}',
                   )
                   // .doc('India')
                   //.collection('data')
@@ -358,15 +346,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   .set(
                 {
                   'documentId': value.id,
-                  'deviceToken': preferences.getString('deviceToken'),
+                  'deviceToken': '',
                 },
                 SetOptions(merge: true),
               ).then(
                 (value1) {
-                  // dismiss popup
-                  // Navigator.pop(context);
-                  // Navigator.pop(context);
-                  // createCommunityWithAWS();
+                  // push
+                  pushToHomePage();
+                  //
                 },
               ),
             )
@@ -375,15 +362,15 @@ class _LoginScreenState extends State<LoginScreen> {
             );
         //
       } else {
-        print('======> Yes, USER FOUND');
         for (var element in value.docs) {
           if (kDebugMode) {
-            // print(element.id);
+            print(element.id);
             // print(element.data());
           }
-          FirebaseFirestore.instance
+          pushToHomePage();
+          /*FirebaseFirestore.instance
               .collection(
-                '$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}',
+                '$strFirebaseMode${FirestoreUtils.USERS}',
               )
               // .doc('India')
               //.collection('data')
@@ -405,10 +392,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               );
             },
-          );
+          );*/
         }
       }
-    });*/
+    });
   }
+
   //
+  pushToHomePage() {
+    //
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        // builder: (context) => const HomeFeedScreen(),
+        builder: (context) => const BottomBarScreen(),
+      ),
+    );
+  }
 }

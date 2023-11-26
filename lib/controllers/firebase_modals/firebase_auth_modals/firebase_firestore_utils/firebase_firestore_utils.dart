@@ -6,6 +6,7 @@ class FirestoreUtils {
   static const String USERS_COLLECTION = "Users";
   static const String EVENTS_COLLECTION = "Events";
   // post =
+  static const String USERS = "users";
   static const String POST_FEEDS = "post";
   static const String POST_COMMENT = "post_comment";
   static const String POST_LIKE = "post_like";
