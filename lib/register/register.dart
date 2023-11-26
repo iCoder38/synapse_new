@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../controllers/bar_bottom/bottom_bar.dart';
 import '../controllers/common/alert/alert.dart';
 import '../controllers/firebase_modals/firebase_auth_modals/firebase_auth_modals.dart';
 import '../controllers/firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
@@ -44,6 +45,8 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
     contFullName = TextEditingController();
     contEmail = TextEditingController();
     contPassword = TextEditingController();
+    //
+    FirebaseAuth.instance.signOut();
     //
     super.initState();
   }
@@ -210,7 +213,11 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
                                   context,
                                   str_alert_please_wait,
                                 );
-                                register_user_with_fib();
+                                FirebaseAuth.instance
+                                    .signOut()
+                                    .then((value) => {
+                                          register_user_with_fib(),
+                                        });
                               }),
                               child: Container(
                                 height: 60,
@@ -501,12 +508,13 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
   }
 
   //
-  setProfileDataForNewOrFirstTimeUserAfterLogin() async {
+  setProfileDataForNewOrFirstTimeUserAfterLogin() {
     print('vedica');
-    print(FirestoreUtils.LOGIN_USER_FIREBASE_ID);
+
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          // '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
         )
         .get()
         .then((value) {
@@ -519,7 +527,7 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
           print('======> NO USER FOUND in HOME SCREEN <========');
         }
         CollectionReference users = FirebaseFirestore.instance.collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
         );
 
         users
@@ -568,7 +576,7 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
         )
         .doc(elementId)
         .set(
@@ -579,10 +587,108 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
     ).then(
       (value1) {
         // dismiss popup
-        // Navigator.pop(context);
-        // Navigator.pop(context);
-        // followThisGroupInFirebase(cid);
+        saveLoginUserDataInFirebase();
       },
+    );
+  }
+  //
+
+  //
+  saveLoginUserDataInFirebase() async {
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    //
+    //
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}',
+        )
+        .where(
+          'firebaseId',
+          isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString(),
+        )
+        .get()
+        .then((value) {
+      if (kDebugMode) {
+        print(value.docs);
+      }
+
+      if (value.docs.isEmpty) {
+        if (kDebugMode) {
+          print('======> NO USER FOUND');
+        }
+
+        //
+        CollectionReference users = FirebaseFirestore.instance.collection(
+          '$strFirebaseMode${FirestoreUtils.USERS}',
+        );
+
+        users
+            .add(
+              {
+                'active': 'no',
+                'email': FirebaseAuth.instance.currentUser!.email,
+                'firebaseId': FirebaseAuth.instance.currentUser!.uid,
+                'profiledisplayImage': '',
+                'name': FirebaseAuth.instance.currentUser!.displayName,
+                'timeStamp': DateTime.now().millisecondsSinceEpoch,
+                'verify': FirebaseAuth.instance.currentUser!.emailVerified,
+                'profileType': '',
+
+                //
+              },
+            )
+            .then(
+              (value) => FirebaseFirestore.instance
+                  .collection(
+                    '$strFirebaseMode${FirestoreUtils.USERS}',
+                  )
+                  // .doc('India')
+                  //.collection('data')
+                  .doc(value.id)
+                  .set(
+                {
+                  'documentId': value.id,
+                  'deviceToken': '',
+                },
+                SetOptions(merge: true),
+              ).then(
+                (value1) {
+                  // push
+                  // pushToHomePage();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  //
+                },
+              ),
+            )
+            .catchError(
+              (error) => print("Failed to add user: $error"),
+            );
+        //
+      } else {
+        for (var element in value.docs) {
+          if (kDebugMode) {
+            print(element.id);
+            // print(element.data());
+          }
+          //
+          Navigator.pop(context);
+          Navigator.pop(context);
+          // pushToHomePage();
+        }
+      }
+    });
+  }
+
+  //
+  pushToHomePage() {
+    //
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        // builder: (context) => const HomeFeedScreen(),
+        builder: (context) => const BottomBarScreen(),
+      ),
     );
   }
 }

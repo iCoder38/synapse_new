@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/my_profile.dart';
 
 import '../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
+import '../login/login.dart';
 import '../utils/utils.dart';
 import 'my_communitities/my_communities.dart';
 
@@ -757,7 +758,15 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
 
   //
   Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await FirebaseAuth.instance.signOut().then((value) => {
+          //
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ),
+          ),
+        });
   }
 //
 }

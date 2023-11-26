@@ -28,6 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
   late Timer _timer;
   int _start = 2;
   //
+  late Timer loginTimer;
+  int loginTimerCount = 4;
+  //
   String? notifTitle, notifBody;
   //
   //
@@ -96,7 +99,14 @@ class _SplashScreenState extends State<SplashScreen> {
             timer.cancel();
           });
 
-          FirebaseAuth.instance.authStateChanges().listen((User? user) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ),
+          );
+
+          /*FirebaseAuth.instance.authStateChanges().listen((User? user) {
             if (user == null) {
               if (kDebugMode) {
                 print('User is currently signed out!');
@@ -111,15 +121,21 @@ class _SplashScreenState extends State<SplashScreen> {
               if (kDebugMode) {
                 print('User is signed in!');
               }
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const LoginScreen(),
+              //   ),
+              // );
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  // builder: (context) => const HomeFeedScreen(),
                   builder: (context) => const BottomBarScreen(),
                 ),
               );
+              //
             }
-          });
+          });*/
         } else {
           setState(
             () {

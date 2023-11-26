@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields, unused_field
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields, unused_field, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,8 +39,24 @@ class _LoginScreenState extends State<LoginScreen> {
     contEmail = TextEditingController();
     contPassword = TextEditingController();
     //
+    rememberMe();
     // funcGetDeviceToken();
     super.initState();
+  }
+
+  rememberMe() async {
+    //
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString('login_user_email') == null) {
+      //
+    } else if (prefs.getString('login_user_password') == null) {
+      //
+    } else {
+      //
+      contEmail.text = prefs.getString('login_user_email').toString();
+      contPassword.text = prefs.getString('login_user_password').toString();
+    }
   }
 
   @override
@@ -126,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 50,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          color: const Color.fromRGBO(254, 226, 202, 1),
+                          color: Colors.orangeAccent,
                           borderRadius: BorderRadius.circular(
                             12.0,
                           ),
@@ -134,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Center(
                           child: text_bold_roboto(
                             'Sign up',
-                            Colors.black,
+                            Colors.white,
                             16.0,
                           ),
                         ),
@@ -258,7 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
       //
       if (kDebugMode) {
         print('=================================================');
-        print('================ LOGIN FiB Response =============');
+        print('================ LOGIN Firebase Response =============');
         print(value);
         print('=================================================');
         print('=================================================');
@@ -287,8 +303,9 @@ class _LoginScreenState extends State<LoginScreen> {
           print('**************************************');
         }
         //
+        pushToHomePage();
         // loginButtonClicked();
-        saveLoginUserDataInFirebase();
+        // saveLoginUserDataInFirebase();
       }
     });
   }
@@ -328,114 +345,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   //
-  saveLoginUserDataInFirebase() async {
+  pushToHomePage() async {
+    //
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    //
-    //
-    FirebaseFirestore.instance
-        .collection(
-          '$strFirebaseMode${FirestoreUtils.USERS_COLLECTION}',
-        )
-        .where(
-          'firebaseId',
-          isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString(),
-        )
-        .get()
-        .then((value) {
-      if (kDebugMode) {
-        print(value.docs);
-      }
-
-      if (value.docs.isEmpty) {
-        if (kDebugMode) {
-          print('======> NO USER FOUND');
-        }
-
-        //
-        CollectionReference users = FirebaseFirestore.instance.collection(
-          '$strFirebaseMode${FirestoreUtils.USERS}',
-        );
-
-        users
-            .add(
-              {
-                'active': 'no',
-                'email': FirebaseAuth.instance.currentUser!.email,
-                'firebaseId': FirebaseAuth.instance.currentUser!.uid,
-                'profiledisplayImage': '',
-                'name': FirebaseAuth.instance.currentUser!.displayName,
-                'timeStamp': DateTime.now().millisecondsSinceEpoch,
-                'verify': FirebaseAuth.instance.currentUser!.emailVerified,
-                'profileType': '',
-
-                //
-              },
-            )
-            .then(
-              (value) => FirebaseFirestore.instance
-                  .collection(
-                    '$strFirebaseMode${FirestoreUtils.USERS}',
-                  )
-                  // .doc('India')
-                  //.collection('data')
-                  .doc(value.id)
-                  .set(
-                {
-                  'documentId': value.id,
-                  'deviceToken': '',
-                },
-                SetOptions(merge: true),
-              ).then(
-                (value1) {
-                  // push
-                  pushToHomePage();
-                  //
-                },
-              ),
-            )
-            .catchError(
-              (error) => print("Failed to add user: $error"),
-            );
-        //
-      } else {
-        for (var element in value.docs) {
-          if (kDebugMode) {
-            print(element.id);
-            // print(element.data());
-          }
-          pushToHomePage();
-          /*FirebaseFirestore.instance
-              .collection(
-                '$strFirebaseMode${FirestoreUtils.USERS}',
-              )
-              // .doc('India')
-              //.collection('data')
-              .doc(element.id)
-              .set(
-            {
-              'documentId': element.id,
-              'deviceToken': preferences.getString('deviceToken'),
-            },
-            SetOptions(merge: true),
-          ).then(
-            (value1) {
-              // dismiss popup
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  // builder: (context) => const HomeFeedScreen(),
-                  builder: (context) => const BottomBarScreen(),
-                ),
-              );
-            },
-          );*/
-        }
-      }
-    });
-  }
-
-  //
-  pushToHomePage() {
+    preferences.setString('login_user_email', contEmail.text.toString());
+    preferences.setString('login_user_password', contPassword.text.toString());
     //
     Navigator.push(
       context,

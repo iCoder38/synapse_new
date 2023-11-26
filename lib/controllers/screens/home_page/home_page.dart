@@ -48,8 +48,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     //
-
-    // setProfileDataForNewOrFirstTimeUserAfterLogin();
     super.initState();
   }
 
