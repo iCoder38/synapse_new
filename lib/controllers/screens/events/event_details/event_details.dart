@@ -40,6 +40,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   var strEventEndDate = '';
   var strEventAdminId = '';
   var strEventId = '';
+  var strEventAddress = '';
   //
   var arrSaveAllImages = [];
   //
@@ -70,6 +71,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     strEventEndDate = widget.getEventData['eventEndDate'].toString();
     strEventAdminId = widget.getEventData['eventUserFirebaseId'].toString();
     strEventId = widget.getEventData['eventId'].toString();
+    strEventAddress = widget.getEventData['eventAddress'].toString();
     //
     setState(() {
       print('refresh');
@@ -160,6 +162,36 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             //
             ListTile(
               leading: const Icon(
+                Icons.location_city,
+                color: Colors.blueAccent,
+              ),
+              trailing: const Icon(
+                Icons.chevron_right,
+                color: Colors.blueAccent,
+              ),
+              title: text_bold_comforta(
+                'Address',
+                Colors.black,
+                16.0,
+              ),
+              subtitle: text_bold_comforta(
+                //
+                strEventAddress,
+                Colors.grey,
+                12.0,
+              ),
+            ),
+            //
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Divider(
+                height: 1,
+                color: Colors.grey,
+              ),
+            ),
+            //
+            ListTile(
+              leading: const Icon(
                 Icons.pin_drop,
                 color: Colors.blueAccent,
               ),
@@ -193,7 +225,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             //
             ListTile(
               leading: const Icon(
-                Icons.calendar_month,
+                Icons.watch,
                 color: Colors.blueAccent,
               ),
               trailing: const Icon(
@@ -202,12 +234,13 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
               ),
               title: text_bold_comforta(
                 //
-                '$strEventStartDate - $strEventStartDate',
+                'Time',
                 Colors.black,
                 14.0,
               ),
               subtitle: text_bold_comforta(
-                'Time',
+                //
+                '$strEventStartDate - $strEventEndDate',
                 Colors.grey,
                 12.0,
               ),
@@ -264,7 +297,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         ? IconButton(
                             onPressed: () {
                               //
-                              openUploadOptions(context);
+                              // openUploadOptions(context);
                             },
                             icon: const Icon(
                               Icons.add,

@@ -186,8 +186,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: () {
         //
-        // func_login_via_fib();
-        loginViaFirebase();
+        FirebaseAuth.instance.signOut().then((value) => {
+              loginViaFirebase(),
+            });
       },
       child: Container(
         height: 50,

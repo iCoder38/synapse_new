@@ -100,7 +100,8 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
                 ),
               ),
               title: text_regular_comforta(
-                FirestoreUtils.LOGIN_USER_NAME,
+                //
+                FirebaseAuth.instance.currentUser!.displayName,
                 Colors.black,
                 16.0,
               ),
@@ -120,8 +121,10 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => MyProfileScreen(
-                      strFirebaseId: FirestoreUtils.LOGIN_USER_FIREBASE_ID,
-                      strUsername: FirestoreUtils.LOGIN_USER_NAME,
+                      strFirebaseId: FirebaseAuth.instance.currentUser!.uid,
+                      strUsername: FirebaseAuth
+                          .instance.currentUser!.displayName
+                          .toString(),
                     ),
                   ),
                 );

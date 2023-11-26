@@ -44,13 +44,13 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
         child: const Icon(Icons.edit),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      body: FutureBuilder(
-          future: FirebaseFirestore.instance
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
               .collection('$strFirebaseMode${FirestoreUtils.EVENTS}')
               .orderBy('timeStamp', descending: true)
               .where('active', isEqualTo: 'yes')
               .limit(20)
-              .get(),
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {

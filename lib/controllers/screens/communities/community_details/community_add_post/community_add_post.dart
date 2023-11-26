@@ -794,7 +794,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
         )
         .get()
         .then((value) {
@@ -807,7 +807,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
           print('======> LOGIN USER COUNT DATA NOT FOUND <========');
         }
         CollectionReference users = FirebaseFirestore.instance.collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
         );
 
         users
