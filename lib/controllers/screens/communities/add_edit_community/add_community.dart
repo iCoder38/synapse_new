@@ -43,7 +43,7 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
     contCommunityName = TextEditingController();
     contCommunityAbout = TextEditingController();
     //
-    getDataFromCounts();
+    // getDataFromCounts();
     super.initState();
   }
 
@@ -318,6 +318,7 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
     if (kDebugMode) {
       print('=======================');
       print('add community id in id');
+      print(elementId);
       print('=======================');
     }
 
@@ -384,14 +385,133 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
   //
   updateCommunitiesCount() {
     //
+    if (kDebugMode) {
+      print('=======================');
+      print('UPDATE COMMUNITY COUNT');
+      print(FirebaseAuth.instance.currentUser!.uid);
+      print('=======================');
+    }
+    //
+    setProfileDataForNewOrFirstTimeUserAfterLogin();
+  }
+
+  //
+  //
+  setProfileDataForNewOrFirstTimeUserAfterLogin() async {
+    print('vedica');
+    print(FirestoreUtils.LOGIN_USER_FIREBASE_ID);
+    //
+    //
+
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+        )
+        .get()
+        .then((value) {
+      if (kDebugMode) {
+        print(value.docs);
+      }
+
+      if (value.docs.isEmpty) {
+        if (kDebugMode) {
+          print('======> LOGIN USER COUNT DATA NOT FOUND <========');
+        }
+        CollectionReference users = FirebaseFirestore.instance.collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+        );
+
+        users
+            .add(
+              {
+                'skillCount': '0',
+                'experienceCount': '0',
+                'educationCount': '0',
+                'communityCount': '0',
+                'feedCount': '0',
+                'marks': '0',
+                'attendance': '0',
+              },
+            )
+            .then(
+              (value) =>
+                  //
+                  addDocumentIdForNewId(
+                value.id,
+              ),
+            )
+            .catchError(
+              (error) => print("Failed to add user: $error"),
+            );
+      } else {
+        if (kDebugMode) {
+          print('======> LOGIN USER COUNT DATA FOUND <========');
+        }
+        for (var element in value.docs) {
+          if (kDebugMode) {
+            print(element.id);
+          }
+          //
+          updateUserCount(
+              element.id, element.data()['communityCount'].toString());
+          //
+        }
+      }
+    });
+  }
+
+  addDocumentIdForNewId(elementId) {
+    //
+    if (kDebugMode) {
+      print('============================');
+      print('add document id in new user');
+      print('============================');
+    }
+
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
+        )
+        .doc(elementId)
+        .set(
+      {
+        'documentId': elementId,
+      },
+      SetOptions(merge: true),
+    ).then(
+      (value1) {
+        //
+        updateUserCount(elementId, '0');
+      },
+    );
+  }
+
+  //
+  updateUserCount(getDocumentId, communityCount) {
+    if (kDebugMode) {
+      print('============================');
+      print('UPDATE USER COUNTS IN COMMUNITY');
+      print('============================');
+    }
+    int addOne;
+    addOne = int.parse(communityCount) + 1;
+    //
+    if (kDebugMode) {
+      print('============ ADD ONE =========');
+      print(addOne);
+      print(getDocumentId);
+      print('==============================');
+    }
+
+    //
     FirebaseFirestore.instance
         .collection(
           '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
         )
-        .doc(documentIdForCommunitiesCount.toString())
+        .doc(getDocumentId.toString())
         .update(
       {
-        'communityCount': totalCoummunities.toString(),
+        'communityCount': addOne.toString(),
       },
     ).then((value) => {
               //
