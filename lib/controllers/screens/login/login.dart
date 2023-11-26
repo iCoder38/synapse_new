@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:synapse_new/register/register.dart';
 
 import '../../bar_bottom/bottom_bar.dart';
 import '../../common/alert/alert.dart';
@@ -105,6 +106,41 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 10.0),
                     // sign in button
                     getSignInButtonWidget(context),
+                    //
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    //
+                    GestureDetector(
+                      onTap: () {
+                        //
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            // builder: (context) => const HomeFeedScreen(),
+                            builder: (context) => const RegisterScreeen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(254, 226, 202, 1),
+                          borderRadius: BorderRadius.circular(
+                            12.0,
+                          ),
+                        ),
+                        child: Center(
+                          child: text_bold_roboto(
+                            'Sign up',
+                            Colors.black,
+                            16.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    //
                     // ui : forgot password button
                     // getForgotPasswordButtonWidgetUI(context),
                     // ui : create an account

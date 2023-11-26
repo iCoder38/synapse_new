@@ -43,7 +43,7 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
     contCommunityName = TextEditingController();
     contCommunityAbout = TextEditingController();
     //
-    // getDataFromCounts();
+    getDataFromCounts();
     super.initState();
   }
 
@@ -370,11 +370,8 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
             totalCoummunities = element.data()['communityCount'].toString();
             //
             var addOne = 0;
-            // addOne += 1;
             addOne = int.parse(totalCoummunities) + 1;
             totalCoummunities = addOne.toString();
-            // print(element.data()['followers']);
-            // print(element.data());
           }
           //
         }
@@ -392,14 +389,18 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
       print('=======================');
     }
     //
-    setProfileDataForNewOrFirstTimeUserAfterLogin();
+    // setProfileDataForNewOrFirstTimeUserAfterLogin();
+    updateUserCountNew();
   }
 
   //
   //
   setProfileDataForNewOrFirstTimeUserAfterLogin() async {
-    print('vedica');
-    print(FirestoreUtils.LOGIN_USER_FIREBASE_ID);
+    if (kDebugMode) {
+      print('vedica');
+      print(FirestoreUtils.LOGIN_USER_FIREBASE_ID);
+    }
+
     //
     //
 
@@ -518,4 +519,23 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
               Navigator.pop(context), Navigator.pop(context),
             });
   }
+
+  //
+  updateUserCountNew() {
+    //
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
+        )
+        .doc(documentIdForCommunitiesCount.toString())
+        .update(
+      {
+        'communityCount': totalCoummunities.toString(),
+      },
+    ).then((value) => {
+              //
+              Navigator.pop(context), Navigator.pop(context),
+            });
+  }
+  //
 }

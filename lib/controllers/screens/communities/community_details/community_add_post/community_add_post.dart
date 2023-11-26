@@ -47,7 +47,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
       print(widget.getCommunityFullDetails);
       print('=================================================');
     }
-    // getDataFromCounts();
+    getDataFromCounts();
     super.initState();
   }
 
@@ -597,7 +597,8 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
       (value1) {
         // dismiss popup
         // updateFeedsCount();
-        setProfileDataForNewOrFirstTimeUserAfterLogin();
+        // setProfileDataForNewOrFirstTimeUserAfterLogin();
+        updateUserCountNew();
       },
     );
     //
@@ -784,7 +785,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
     });
   }
 
-//
+// updateUserCountNew
   setProfileDataForNewOrFirstTimeUserAfterLogin() async {
     // print('vedica');
     // print(FirestoreUtils.LOGIN_USER_FIREBASE_ID);
@@ -907,6 +908,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
               Navigator.pop(context), Navigator.pop(context),
             });
   }
+
   /*updateFeedsCount() {
     //
     if (kDebugMode) {
@@ -929,4 +931,22 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
               Navigator.pop(context), Navigator.pop(context),
             });
   }*/
+  //
+  updateUserCountNew() {
+    //
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
+        )
+        .doc(documentIdForFeedsCount.toString())
+        .update(
+      {
+        'feedCount': totalFeeds.toString(),
+      },
+    ).then((value) => {
+              //
+              Navigator.pop(context), Navigator.pop(context),
+            });
+  }
+  //
 }
