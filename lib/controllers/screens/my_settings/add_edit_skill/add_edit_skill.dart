@@ -40,14 +40,7 @@ class _AddEditSkillScreenState extends State<AddEditSkillScreen> {
     contProficiency = TextEditingController();
     contDescription = TextEditingController();
     //
-    if (widget.getFirebaseIdAddSkill ==
-        FirebaseAuth.instance.currentUser!.uid) {
-      //
-      strFloatingHidden = false;
-    } else {
-      //
-      strFloatingHidden = true;
-    }
+
     super.initState();
   }
 

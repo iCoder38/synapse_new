@@ -12,6 +12,7 @@ import 'package:synapse_new/controllers/screens/my_settings/my_profile/personal%
 
 import '../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../login/login.dart';
+import '../my_feeds/my_feeds.dart';
 import '../utils/utils.dart';
 import 'my_communitities/my_communities.dart';
 
@@ -306,6 +307,16 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
                     ),
                     onTap: () {
                       //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyFeedsScreen(
+                            getAdminFirebaseId:
+                                FirebaseAuth.instance.currentUser!.uid,
+                            // communityAdminFirebaseId: widget.getFirebaseId,
+                          ),
+                        ),
+                      );
                     },
                   ),
                   //

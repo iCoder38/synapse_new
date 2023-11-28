@@ -176,11 +176,14 @@ class _MyCommunitiesScreenState extends State<MyCommunitiesScreen> {
                                   12.0,
                                 ),
                                 trailing: text_bold_comforta(
-                                  funcConvertTimeStampToDateAndTime(
-                                    getSnapShopValue[index]['timeStamp'],
+                                  readTimestamp(
+                                    int.parse(
+                                      getSnapShopValue[index]['timeStamp']
+                                          .toString(),
+                                    ),
                                   ),
-                                  Colors.grey,
-                                  10.0,
+                                  Colors.black,
+                                  8.0,
                                 ),
                               ),
                             ),
