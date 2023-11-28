@@ -137,83 +137,91 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 Colors.black,
                 22.0,
               ),
-              trailing: strJoinLoader == '0'
-                  ? const SizedBox(
-                      height: 0,
+              trailing: strEventAdminId ==
+                      FirebaseAuth.instance.currentUser!.uid.toString()
+                  ? text_bold_comforta(
+                      'admin',
+                      Colors.black,
+                      12.0,
                     )
-                  : strJoinLoader == '1'
-                      ? GestureDetector(
-                          onTap: () {
-                            //
-                            setState(() {
-                              strJoinLoader = '2';
-                            });
-                            //
-                            addMeInThisEvent();
-                            //
-                          },
-                          child: Container(
-                            // height: 40,
-                            // width: 60,
-
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 69, 114, 150),
-                              border: Border.all(
-                                width: 0.4,
-                              ),
-                              borderRadius: BorderRadius.circular(
-                                12.0,
-                              ),
-                            ),
-                            height: 40,
-                            width: 80,
-
-                            child: Center(
-                              child: text_bold_comforta(
-                                'Join',
-                                Colors.white,
-                                14.0,
-                              ),
-                            ),
-                          ),
+                  : strJoinLoader == '0'
+                      ? const SizedBox(
+                          height: 0,
                         )
-                      : GestureDetector(
-                          onTap: () {
-                            //
-                            setState(() {
-                              strJoinLoader = '1';
-                            });
-                            // CLASS : FIREBASE COMMON
-                            removeMeFromEventInFirebase(
-                                strEventDocumentId.toString());
+                      : strJoinLoader == '1'
+                          ? GestureDetector(
+                              onTap: () {
+                                //
+                                setState(() {
+                                  strJoinLoader = '2';
+                                });
+                                //
+                                addMeInThisEvent();
+                                //
+                              },
+                              child: Container(
+                                // height: 40,
+                                // width: 60,
 
-                            //
-                          },
-                          child: Container(
-                            // height: 40,
-                            // width: 60,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 69, 114, 150),
+                                  border: Border.all(
+                                    width: 0.4,
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                    12.0,
+                                  ),
+                                ),
+                                height: 40,
+                                width: 80,
 
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                width: 0.4,
+                                child: Center(
+                                  child: text_bold_comforta(
+                                    'Join',
+                                    Colors.white,
+                                    14.0,
+                                  ),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(
-                                12.0,
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                //
+                                setState(() {
+                                  strJoinLoader = '1';
+                                });
+                                // CLASS : FIREBASE COMMON
+                                removeMeFromEventInFirebase(
+                                    strEventDocumentId.toString());
+
+                                //
+                              },
+                              child: Container(
+                                // height: 40,
+                                // width: 60,
+
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    width: 0.4,
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                    12.0,
+                                  ),
+                                ),
+                                height: 40,
+                                width: 80,
+
+                                child: Center(
+                                  child: text_bold_comforta(
+                                    'Joined',
+                                    Colors.black,
+                                    14.0,
+                                  ),
+                                ),
                               ),
                             ),
-                            height: 40,
-                            width: 80,
-
-                            child: Center(
-                              child: text_bold_comforta(
-                                'Joined',
-                                Colors.black,
-                                14.0,
-                              ),
-                            ),
-                          ),
-                        ),
               subtitle: Row(
                 children: [
                   text_bold_roboto(
