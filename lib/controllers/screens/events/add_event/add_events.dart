@@ -946,7 +946,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
     users
         .add(
           {
-            'eventId': uuid.toString(),
+            'eventId': const Uuid().v4(),
             'eventAdminId': [
               FirebaseAuth.instance.currentUser!.uid,
             ],

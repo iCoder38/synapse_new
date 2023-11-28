@@ -46,7 +46,9 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('$strFirebaseMode${FirestoreUtils.EVENTS}')
+              .collection(
+                '$strFirebaseMode${FirestoreUtils.EVENTS}',
+              )
               .orderBy('timeStamp', descending: true)
               .where('active', isEqualTo: 'yes')
               .limit(20)

@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:readmore/readmore.dart';
+import 'package:synapse_new/controllers/update_data_on_firebase/events/add_member_in_events/add_member_in_event.dart';
+import 'package:synapse_new/controllers/update_data_on_firebase/events/remove_member_from_firebase/remove_event_member_from_firebase.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../common/alert/alert.dart';
@@ -41,8 +43,11 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   var strEventAdminId = '';
   var strEventId = '';
   var strEventAddress = '';
+  var strEventDocumentId = '';
   //
   var arrSaveAllImages = [];
+  //
+  var strJoinLoader = '0';
   //
   XFile? image;
   final ImagePicker imagePicker = ImagePicker();
@@ -72,10 +77,15 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     strEventAdminId = widget.getEventData['eventUserFirebaseId'].toString();
     strEventId = widget.getEventData['eventId'].toString();
     strEventAddress = widget.getEventData['eventAddress'].toString();
+    strEventDocumentId = widget.getEventData['documentId'].toString();
     //
-    setState(() {
-      print('refresh');
-    });
+    checkYouJoinedThisEventOrNot();
+    //
+    // setState(() {
+    //   if (kDebugMode) {
+    //     print('refresh');
+    //   }
+    // });
   }
 
   @override
@@ -127,9 +137,83 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                 Colors.black,
                 22.0,
               ),
-              trailing: const Icon(
-                Icons.favorite_border,
-              ),
+              trailing: strJoinLoader == '0'
+                  ? const SizedBox(
+                      height: 0,
+                    )
+                  : strJoinLoader == '1'
+                      ? GestureDetector(
+                          onTap: () {
+                            //
+                            setState(() {
+                              strJoinLoader = '2';
+                            });
+                            //
+                            addMeInThisEvent();
+                            //
+                          },
+                          child: Container(
+                            // height: 40,
+                            // width: 60,
+
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 69, 114, 150),
+                              border: Border.all(
+                                width: 0.4,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                12.0,
+                              ),
+                            ),
+                            height: 40,
+                            width: 80,
+
+                            child: Center(
+                              child: text_bold_comforta(
+                                'Join',
+                                Colors.white,
+                                14.0,
+                              ),
+                            ),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            //
+                            setState(() {
+                              strJoinLoader = '1';
+                            });
+                            // CLASS : FIREBASE COMMON
+                            removeMeFromEventInFirebase(
+                                strEventDocumentId.toString());
+
+                            //
+                          },
+                          child: Container(
+                            // height: 40,
+                            // width: 60,
+
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                width: 0.4,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                12.0,
+                              ),
+                            ),
+                            height: 40,
+                            width: 80,
+
+                            child: Center(
+                              child: text_bold_comforta(
+                                'Joined',
+                                Colors.black,
+                                14.0,
+                              ),
+                            ),
+                          ),
+                        ),
               subtitle: Row(
                 children: [
                   text_bold_roboto(
@@ -522,5 +606,83 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       },
     );
   }
+
   //
+  // check you joined this event or not
+  checkYouJoinedThisEventOrNot() {
+    //
+
+    FirebaseFirestore.instance
+        .collection(
+          '$strFirebaseMode${FirestoreUtils.EVENTS}',
+        )
+        .where('documentId', isEqualTo: strEventDocumentId.toString())
+        .where(
+          'eventJoinedMembersId',
+          arrayContainsAny: [
+            FirebaseAuth.instance.currentUser!.uid,
+          ],
+        )
+        .get()
+        .then((value) {
+          if (kDebugMode) {
+            print(value.docs);
+          }
+
+          if (value.docs.isEmpty) {
+            if (kDebugMode) {
+              print("======> NO, YOU DIDN'T JOIN THIS EVENT <========");
+            }
+            setState(() {
+              strJoinLoader = '1';
+            });
+          } else {
+            if (kDebugMode) {
+              print("======> YES, YOU ALREADY JOINED THIS EVENT <========");
+            }
+            for (var element in value.docs) {
+              if (kDebugMode) {
+                print(element.id);
+                //
+              }
+              //
+            }
+            //
+            setState(() {
+              strJoinLoader = '2';
+            });
+          }
+        });
+  }
+
+  // add me in this event
+  addMeInThisEvent() {
+    if (kDebugMode) {
+      print('=======================');
+      print('add me in this event');
+      print('=======================');
+    }
+
+    CollectionReference users = FirebaseFirestore.instance.collection(
+      '${strFirebaseMode}event_follow/$strEventId/data',
+    );
+
+    users
+        .add(
+          {
+            'eventId': strEventId.toString(),
+            'eventName': strEventName.toString(),
+            'timeStamp': DateTime.now().millisecondsSinceEpoch,
+            'followerId': FirebaseAuth.instance.currentUser!.uid.toString(),
+          },
+        )
+        .then(
+          (value) => joinMyIdInThisEvent(strEventDocumentId.toString()),
+        )
+        .catchError(
+          (error) => print("Failed to add user: $error"),
+        );
+  }
+
+  // add this member in this event
 }
