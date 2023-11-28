@@ -29,7 +29,7 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
           Colors.white,
           20.0,
         ),
-        actions: [
+        /*actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
@@ -72,8 +72,23 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
           //     Icons.add,
           //   ),
           // ),
-        ],
+        ],*/
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.pinkAccent,
+        onPressed: () {
+          //
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddEditCommunityScreen(),
+            ),
+          );
+          //
+        },
+        child: const Icon(Icons.edit),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection(

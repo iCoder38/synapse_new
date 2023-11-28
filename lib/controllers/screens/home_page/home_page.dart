@@ -142,16 +142,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   getSnapShopValue[index1]['likes'],
                                 );
                               }
-                              /*printInDebugMode(
-                                    'loop done',
-                                  );
-                                  printInDebugMode(
-                                    checkMyIdForLike.length.toString(),
-                                  );
-                                  printInDebugMode(
-                                    checkMyIdForLike.toString(),
-                                  );*/
-
                               //
                               return SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
