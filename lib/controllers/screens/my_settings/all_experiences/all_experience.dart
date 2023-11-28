@@ -3,6 +3,7 @@
 import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +28,24 @@ class AllExperienceScreen extends StatefulWidget {
 }
 
 class _AllExperienceScreenState extends State<AllExperienceScreen> {
+  //
+  var strFloatingButtonVisibility = false;
+  //
   @override
   void initState() {
     if (kDebugMode) {
       print('======== EXPERIENCE LIST : FIREBASE ID ========');
       print(widget.strFirebaseId);
       print('===========================================');
+    }
+
+    if (widget.strFirebaseId ==
+        FirebaseAuth.instance.currentUser!.uid.toString()) {
+      //
+      strFloatingButtonVisibility = true;
+    } else {
+      //
+      strFloatingButtonVisibility = false;
     }
 
     super.initState();
@@ -60,20 +73,23 @@ class _AllExperienceScreenState extends State<AllExperienceScreen> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            //
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddEditExperienceScreen(
-                  strGetFirebaseIdForAddExperience: widget.strFirebaseId,
+        floatingActionButton: Visibility(
+          visible: strFloatingButtonVisibility,
+          child: FloatingActionButton(
+            onPressed: () {
+              //
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddEditExperienceScreen(
+                    strGetFirebaseIdForAddExperience: widget.strFirebaseId,
+                  ),
                 ),
-              ),
-            );
-          },
-          child: const Icon(
-            Icons.add,
+              );
+            },
+            child: const Icon(
+              Icons.add,
+            ),
           ),
         ),
         body: StreamBuilder(

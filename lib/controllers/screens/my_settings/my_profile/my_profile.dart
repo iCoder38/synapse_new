@@ -288,7 +288,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         ),
                       ),
                       //
-                      const MyProfileDescriptionScreen(),
+                      MyProfileDescriptionScreen(
+                        bio: widget.strBio,
+                      ),
                       //
                       Center(
                         child: Container(

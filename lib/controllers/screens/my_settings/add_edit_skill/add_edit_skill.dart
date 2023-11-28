@@ -32,6 +32,7 @@ class _AddEditSkillScreenState extends State<AddEditSkillScreen> {
   //
   final formKey = GlobalKey<FormState>();
   //
+  var strFloatingHidden = false;
   @override
   void initState() {
     //
@@ -39,6 +40,14 @@ class _AddEditSkillScreenState extends State<AddEditSkillScreen> {
     contProficiency = TextEditingController();
     contDescription = TextEditingController();
     //
+    if (widget.getFirebaseIdAddSkill ==
+        FirebaseAuth.instance.currentUser!.uid) {
+      //
+      strFloatingHidden = false;
+    } else {
+      //
+      strFloatingHidden = true;
+    }
     super.initState();
   }
 

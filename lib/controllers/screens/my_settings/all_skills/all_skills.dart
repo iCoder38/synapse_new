@@ -2,6 +2,7 @@
 import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,9 @@ class AllSkillsScreen extends StatefulWidget {
 }
 
 class _AllSkillsScreenState extends State<AllSkillsScreen> {
+  //
+  var strFloatingButtonVisibility = false;
+  //
   @override
   void initState() {
     if (kDebugMode) {
@@ -33,7 +37,15 @@ class _AllSkillsScreenState extends State<AllSkillsScreen> {
       print(widget.strFirebaseId);
       print('===========================================');
     }
-
+    if (widget.strFirebaseId ==
+        FirebaseAuth.instance.currentUser!.uid.toString()) {
+      //
+      strFloatingButtonVisibility = true;
+    } else {
+      //
+      strFloatingButtonVisibility = false;
+    }
+    // setState(() {});
     super.initState();
   }
 
@@ -59,20 +71,23 @@ class _AllSkillsScreenState extends State<AllSkillsScreen> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            //
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddEditSkillScreen(
-                  getFirebaseIdAddSkill: widget.strFirebaseId,
+        floatingActionButton: Visibility(
+          visible: strFloatingButtonVisibility,
+          child: FloatingActionButton(
+            onPressed: () {
+              //
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddEditSkillScreen(
+                    getFirebaseIdAddSkill: widget.strFirebaseId,
+                  ),
                 ),
-              ),
-            );
-          },
-          child: const Icon(
-            Icons.add,
+              );
+            },
+            child: const Icon(
+              Icons.add,
+            ),
           ),
         ),
         body: StreamBuilder(
