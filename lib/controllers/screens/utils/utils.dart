@@ -23,6 +23,9 @@ const String FIREBASE_STORAGE_BUCKET_NAME = 'Test_Dev-Synapse-Bucket';
 const String FIREBASE_STORAGE_COMMUNITY_URL =
     '$FIREBASE_STORAGE_BUCKET_NAME/public/communities/';
 //
+const String FIREBASE_STORAGE_ALL_PROFILE_PICTURES =
+    '$FIREBASE_STORAGE_BUCKET_NAME/public/profile_picture/';
+//
 const String FIREBASE_STORAGE_EVENT_URL =
     '$FIREBASE_STORAGE_BUCKET_NAME/public/events/';
 const String FIREBASE_STORAGE_EVENT_MEDIA_URL =
