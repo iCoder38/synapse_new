@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/my_profile.dart';
+import 'package:synapse_new/controllers/screens/my_settings/my_profile/personal%20information/personal_information.dart';
 
 import '../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../login/login.dart';
@@ -266,6 +267,12 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
               ),
               onTap: () {
                 //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PersonalInformationScreen(),
+                  ),
+                );
               },
             ),
             //

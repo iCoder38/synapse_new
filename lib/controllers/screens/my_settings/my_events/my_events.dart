@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
+import '../../events/all_events/widgets/event_name_members/event_name_members.dart';
 import '../../events/event_details/event_details.dart';
 import '../../utils/utils.dart';
 
@@ -162,18 +163,10 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                             ),
                                     ),
                                   ),
-                                  //
-                                  ListTile(
-                                    title: text_bold_comforta(
-                                      //,
-                                      getSnapShopValue[i]['eventName']
-                                          .toString(),
-                                      Colors.black,
-                                      16.0,
-                                    ),
-                                    trailing: const Icon(
-                                      Icons.favorite_border,
-                                    ),
+                                  // UI : EVENT NAME AND MEMBERS COUNT
+                                  EventNameMembersScreen(
+                                    getDataWithIndexForNameAndMembers:
+                                        getSnapShopValue[i],
                                   ),
                                   //
                                   Padding(
