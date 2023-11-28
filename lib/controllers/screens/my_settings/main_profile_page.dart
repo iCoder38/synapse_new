@@ -27,6 +27,8 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
   var strlogout = '0';
   var strLoader = '0';
   var strProfileImage = '0';
+  var strUserBio = '0';
+  var strLoginUserDocumentId = '0';
   //
   @override
   void initState() {
@@ -63,6 +65,8 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
           }
           //
           strProfileImage = element.data()['profiledisplayImage'].toString();
+          strUserBio = element.data()['bio'].toString();
+          strLoginUserDocumentId = element.data()['documentId'].toString();
           //
         }
         setState(() {
@@ -198,6 +202,7 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
                             strUsername: FirebaseAuth
                                 .instance.currentUser!.displayName
                                 .toString(),
+                            strBio: strUserBio.toString(),
                           ),
                         ),
                       );
@@ -855,6 +860,8 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
       MaterialPageRoute(
         builder: (context) => PersonalInformationScreen(
           getProfilePicture: strProfileImage,
+          getUserBio: strUserBio,
+          getDocumentId: strLoginUserDocumentId,
         ),
       ),
     );

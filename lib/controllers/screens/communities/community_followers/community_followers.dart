@@ -98,6 +98,7 @@ class _CommunityFollowersScreenState extends State<CommunityFollowersScreen> {
                                 builder: (context) => MyProfileScreen(
                                   strFirebaseId: data['firebaseId'].toString(),
                                   strUsername: data['name'].toString(),
+                                  strBio: data['bio'].toString(),
                                 ),
                               ),
                             );

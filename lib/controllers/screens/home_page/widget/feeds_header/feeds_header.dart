@@ -57,6 +57,7 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
                         widget.getDataForFeedsHeader['postEntityId'].toString(),
                     strUsername: widget.getDataForFeedsHeader['postEntityName']
                         .toString(),
+                    strBio: '',
                   ),
                 ),
               );

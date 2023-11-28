@@ -633,7 +633,8 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
                 'name': FirebaseAuth.instance.currentUser!.displayName,
                 'timeStamp': DateTime.now().millisecondsSinceEpoch,
                 'verify': FirebaseAuth.instance.currentUser!.emailVerified,
-                'profileType': '',
+                'profileType': 'Student',
+                'bio': '',
 
                 //
               },

@@ -22,9 +22,13 @@ class PersonalInformationScreen extends StatefulWidget {
   const PersonalInformationScreen({
     Key? key,
     required this.getProfilePicture,
+    required this.getUserBio,
+    required this.getDocumentId,
   }) : super(key: key);
 
   final String getProfilePicture;
+  final String getUserBio;
+  final String getDocumentId;
 
   @override
   State<PersonalInformationScreen> createState() =>
@@ -38,12 +42,16 @@ class PersonalInformationScreenState extends State<PersonalInformationScreen> {
   XFile? image;
   //
   late final TextEditingController contUserName;
+  late final TextEditingController contUserBio;
   //
   @override
   void initState() {
     //
     contUserName = TextEditingController(
         text: FirebaseAuth.instance.currentUser!.displayName);
+    contUserBio = TextEditingController(
+      text: widget.getUserBio,
+    );
     super.initState();
   }
 
@@ -102,101 +110,134 @@ class PersonalInformationScreenState extends State<PersonalInformationScreen> {
           ),
         ],
       ),
-      body: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 20.0,
-          ),
-          Center(
-              child: GestureDetector(
-            onTap: () {
-              //
-              pickImage();
-            },
-            child: Container(
-              height: 120,
-              width: 120,
-              decoration: BoxDecoration(
-                color: Colors.grey[400],
-                borderRadius: BorderRadius.circular(
-                  60.0,
-                ),
-              ),
-              child: image == null
-                  ? (widget.getProfilePicture != '')
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(24.0),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.getProfilePicture,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => const SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: Center(child: CircularProgressIndicator()),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-                        )
-                      : const Center(
-                          child: Icon(
-                            Icons.camera_alt,
-                            size: 64,
-                          ),
-                        )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                        60.0,
-                      ),
-                      child: Image.file(
-                        File(image!.path),
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                        height: 200,
-                      ),
-                    ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 20.0,
             ),
-          )),
-          //
-          const SizedBox(
-            height: 80.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
+            Center(
+                child: GestureDetector(
+              onTap: () {
                 //
-                Row(
-                  children: [
-                    text_bold_comforta(
-                      'Name',
-                      Colors.black,
-                      14.0,
-                    ),
-                  ],
-                ),
-                TextField(
-                  controller: contUserName,
-                  decoration: const InputDecoration(
-                    // border: InputBorder.none,
-                    // enabledBorder: UnderlineInputBorder(
-                    // borderSide: BorderSide(color: Colors.cyan),
-                    // ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    hintText: 'name...',
-                    // labelText: FirebaseAuth.instance.currentUser!.displayName,
+                pickImage();
+              },
+              child: Container(
+                height: 120,
+                width: 120,
+                decoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(
+                    60.0,
                   ),
                 ),
-                // const Divider(
-                //   color: Colors.black,
-                // ),
-              ],
+                child: image == null
+                    ? (widget.getProfilePicture != '')
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(24.0),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.getProfilePicture,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const SizedBox(
+                                height: 40,
+                                width: 40,
+                                child:
+                                    Center(child: CircularProgressIndicator()),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                          )
+                        : const Center(
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: 64,
+                            ),
+                          )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          60.0,
+                        ),
+                        child: Image.file(
+                          File(image!.path),
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: 200,
+                        ),
+                      ),
+              ),
+            )),
+            //
+            const SizedBox(
+              height: 80.0,
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  //
+                  Row(
+                    children: [
+                      text_bold_comforta(
+                        'Name',
+                        Colors.black,
+                        18.0,
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    controller: contUserName,
+                    decoration: const InputDecoration(
+                      // border: InputBorder.none,
+                      // enabledBorder: UnderlineInputBorder(
+                      // borderSide: BorderSide(color: Colors.cyan),
+                      // ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      hintText: 'name...',
+                      // labelText: FirebaseAuth.instance.currentUser!.displayName,
+                    ),
+                  ),
+                  //
+                  const SizedBox(
+                    height: 40.0,
+                  ),
+                  Row(
+                    children: [
+                      text_bold_comforta(
+                        'Bio',
+                        Colors.black,
+                        18.0,
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    controller: contUserBio,
+                    decoration: const InputDecoration(
+                      // border: InputBorder.none,
+                      // enabledBorder: UnderlineInputBorder(
+                      // borderSide: BorderSide(color: Colors.cyan),
+                      // ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      hintText: 'bio...',
+                      // labelText: FirebaseAuth.instance.currentUser!.displayName,
+                    ),
+                    maxLines: 3,
+                  ),
+
+                  // const Divider(
+                  //   color: Colors.black,
+                  // ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -249,44 +290,15 @@ class PersonalInformationScreenState extends State<PersonalInformationScreen> {
         .collection(
           '$strFirebaseMode${FirestoreUtils.USERS}',
         )
-        .where('firebaseId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((value) {
-      if (kDebugMode) {
-        print(value.docs);
-      }
-
-      if (value.docs.isEmpty) {
-        if (kDebugMode) {
-          print('======> NO USER FOUND <========');
-        }
-      } else {
-        if (kDebugMode) {
-          print('======> Yes, USER FOUND <========');
-        }
-        for (var element in value.docs) {
-          if (kDebugMode) {
-            print(element.id);
-            //
-          }
-          //
-          FirebaseFirestore.instance
-              .collection(
-                '$strFirebaseMode${FirestoreUtils.USERS}',
-              )
-              .doc(element.id.toString())
-              .update(
-            {
-              'profiledisplayImage': urlIs.toString(),
-            },
-          ).then((value) => {
-                    //
-                    Navigator.pop(context),
-                  });
-          //
-        }
-      }
-    });
+        .doc(widget.getDocumentId.toString())
+        .update(
+      {
+        'profiledisplayImage': urlIs.toString(),
+      },
+    ).then((value) => {
+              //
+              Navigator.pop(context),
+            });
   }
 
   // update name
@@ -296,7 +308,20 @@ class PersonalInformationScreenState extends State<PersonalInformationScreen> {
         .updateDisplayName(nameText)
         .then((value) => {
               //
-              Navigator.pop(context),
+              FirebaseFirestore.instance
+                  .collection(
+                    '$strFirebaseMode${FirestoreUtils.USERS}',
+                  )
+                  .doc(widget.getDocumentId.toString())
+                  .update(
+                {
+                  'name': nameText.toString(),
+                  'bio': contUserBio.text.toString(),
+                },
+              ).then((value) => {
+                        //
+                        Navigator.pop(context),
+                      }),
             });
   }
 }

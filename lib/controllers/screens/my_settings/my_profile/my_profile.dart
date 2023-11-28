@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:synapse_new/controllers/screens/events/all_events/all_events.dart';
@@ -24,11 +24,13 @@ class MyProfileScreen extends StatefulWidget {
     Key? key,
     required this.strFirebaseId,
     required this.strUsername,
+    required this.strBio,
   }) : super(key: key);
 
   // final String strMyProfile;
   final String strFirebaseId;
   final String strUsername;
+  final String strBio;
 
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
