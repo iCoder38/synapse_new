@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/screens/events/all_events/all_events.dart';
+import 'package:synapse_new/controllers/screens/my_settings/my_events/my_events.dart';
 // / import 'package:google_fonts/google_fonts.dart';
 // import 'package:readmore/readmore.dart';
 
@@ -310,7 +312,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: text_bold_roboto(
-                        'Career profile',
+                        //
+                        "${widget.strUsername}'s Career Profile",
                         Colors.black,
                         18.0,
                       ),
@@ -330,7 +333,90 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: text_bold_roboto(
-                        'Data',
+                        //
+                        "${widget.strUsername}'s Events",
+                        Colors.black,
+                        18.0,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyEventsScreen(
+                            getUserFirebaseId: widget.strFirebaseId.toString(),
+                            // getEventData: getSnapShopValue[i],
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                        left: 10.0,
+                        right: 10.0,
+                      ),
+                      height: 100,
+                      // width: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(
+                          12.0,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(
+                              0,
+                              3,
+                            ), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 60,
+                              width: 60,
+                              // color: Colors.black,
+                              decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                  image: ExactAssetImage(
+                                    'assets/images/event_icon.png',
+                                  ),
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                            ),
+                            //
+                            // const SizedBox(
+                            //   height: 6,
+                            // ),
+                            //
+                            // text_bold_comforta(
+                            //   //
+                            //   '0 - Events',
+                            //   Colors.black,
+                            //   14.0,
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: text_bold_roboto(
+                        "${widget.strUsername}'s Data",
                         Colors.black,
                         18.0,
                       ),
@@ -353,7 +439,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: text_bold_roboto(
-                        'Performance',
+                        //
+                        "${widget.strUsername}'s Performance",
                         Colors.black,
                         18.0,
                       ),

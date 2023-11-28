@@ -24,6 +24,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   //
   var strLoader = '1';
   //
+  var strNewUserUI = '0';
   //
   final formKey = GlobalKey<FormState>();
   TextEditingController contWriteComment = TextEditingController();

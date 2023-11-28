@@ -540,6 +540,7 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
                 'feedCount': '0',
                 'marks': '0',
                 'attendance': '0',
+                'eventCount': '0',
               },
             )
             .then(

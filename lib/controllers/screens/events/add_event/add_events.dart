@@ -891,8 +891,10 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
       );
     } else {
       // s
-      //howSnackbar(context, Colors.redAccent, 'Please upload event image');
-      print('please upload event image');
+      // Snackbar(context, Colors.redAccent, 'Please upload event image');
+      if (kDebugMode) {
+        print('please upload event image');
+      }
     }
   }
 
