@@ -63,12 +63,51 @@ func_handle_error(error_type) {
   return error_message;
 }
 
-funcConvertTimeStampToDateAndTime(getTimeStamp) {
-  var dt = DateTime.fromMillisecondsSinceEpoch(getTimeStamp);
-  // var d12HourFormat = DateFormat('dd/MM/yyyy, hh:mm').format(dt);
-  var d12HourFormatTime = DateFormat('hh:mm a').format(dt);
-  return d12HourFormatTime;
+funcConvertTimeStampToDateAndTime(DateTime d) {
+  Duration diff = DateTime.now().difference(d);
+  if (diff.inDays > 365)
+    return "${(diff.inDays / 365).floor()} ${(diff.inDays / 365).floor() == 1 ? "year" : "years"} ago";
+  if (diff.inDays > 30)
+    return "${(diff.inDays / 30).floor()} ${(diff.inDays / 30).floor() == 1 ? "month" : "months"} ago";
+  if (diff.inDays > 7)
+    return "${(diff.inDays / 7).floor()} ${(diff.inDays / 7).floor() == 1 ? "week" : "weeks"} ago";
+  if (diff.inDays > 0) return "${DateFormat.E().add_jm().format(d)}";
+  if (diff.inHours > 0) return "Today ${DateFormat('jm').format(d)}";
+  if (diff.inMinutes > 0)
+    return "${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"} ago";
+  return "just now";
 }
+
+//
+String readTimestamp(int timestamp) {
+  var now = DateTime.now();
+  var format = DateFormat('HH:mm a');
+  var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  var diff = now.difference(date);
+  var time = '';
+
+  if (diff.inSeconds <= 0 ||
+      diff.inSeconds > 0 && diff.inMinutes == 0 ||
+      diff.inMinutes > 0 && diff.inHours == 0 ||
+      diff.inHours > 0 && diff.inDays == 0) {
+    time = format.format(date);
+  } else if (diff.inDays > 0 && diff.inDays < 7) {
+    if (diff.inDays == 1) {
+      time = '${diff.inDays} DAY AGO';
+    } else {
+      time = '${diff.inDays} DAYS AGO';
+    }
+  } else {
+    if (diff.inDays == 7) {
+      time = '${(diff.inDays / 7).floor()} WEEK AGO';
+    } else {
+      time = '${(diff.inDays / 7).floor()} WEEKS AGO';
+    }
+  }
+
+  return time;
+}
+//
 /* ====================== TEXT STYLE =================== */ //
 
 // comforta regular
