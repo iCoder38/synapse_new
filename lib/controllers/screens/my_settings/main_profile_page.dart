@@ -297,9 +297,7 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
                       16.0,
                     ),
                     // subtitle: text_regular_comforta(
-                    //   'why activate this plan ?',
-                    //   Colors.grey,
-                    //   12.0,
+                    //
                     // ),
                     trailing: const Icon(
                       Icons.chevron_right,
