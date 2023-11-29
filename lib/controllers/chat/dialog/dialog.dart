@@ -43,79 +43,89 @@ class _DialogScreenState extends State<DialogScreen> {
             if (kDebugMode) {
               print(saveSnapshotValue);
             }
-            return ListView.separated(
-              separatorBuilder: (context, index) => const Divider(
-                color: Colors.grey,
-              ),
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    if (kDebugMode) {
-                      print('=====> dishant rajput <=====');
-                    }
-                    //
-                  },
-                  child: ListTile(
-                    title: (saveSnapshotValue[index]['sender_id'].toString() ==
-                            FirebaseAuth.instance.currentUser!.uid.toString())
-                        ? text_bold_comforta(
-                            //
-                            saveSnapshotValue[index]['second_name'].toString(),
-                            Colors.black,
-                            14.0,
-                          )
-                        : text_bold_comforta(
-                            //
-                            saveSnapshotValue[index]['sender_name'].toString(),
-                            Colors.black,
-                            12.0,
-                          ),
-                    subtitle: (saveSnapshotValue[index]['last_message']
-                                .toString()
-                                .length >
-                            40)
-                        ? text_regular_comforta(
-                            (saveSnapshotValue[index]['last_message']
-                                    .toString())
-                                .replaceRange(
-                                    40,
-                                    (saveSnapshotValue[index]['last_message']
-                                            .toString())
-                                        .length,
-                                    '...'),
-                            Colors.black,
-                            12.0,
-                          )
-                        : text_regular_comforta(
-                            (saveSnapshotValue[index]['last_message']
-                                .toString()),
-                            Colors.black,
-                            12.0,
-                          ),
-                    leading: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(
-                          25.0,
-                        ),
-                      ),
+            return (saveSnapshotValue.isEmpty)
+                ? Center(
+                    child:
+                        text_bold_comforta('no chat found', Colors.black, 14.0))
+                : ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(
+                      color: Colors.grey,
                     ),
-                    trailing: text_bold_comforta(
-                      funcConvertTimeStampToDateAndTimeForChat(
-                        int.parse(
-                          saveSnapshotValue[index]['time_stamp'].toString(),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+                          if (kDebugMode) {
+                            print('=====> dishant rajput <=====');
+                          }
+                          //
+                        },
+                        child: ListTile(
+                          title: (saveSnapshotValue[index]['sender_id']
+                                      .toString() ==
+                                  FirebaseAuth.instance.currentUser!.uid
+                                      .toString())
+                              ? text_bold_comforta(
+                                  //
+                                  saveSnapshotValue[index]['second_name']
+                                      .toString(),
+                                  Colors.black,
+                                  14.0,
+                                )
+                              : text_bold_comforta(
+                                  //
+                                  saveSnapshotValue[index]['sender_name']
+                                      .toString(),
+                                  Colors.black,
+                                  12.0,
+                                ),
+                          subtitle: (saveSnapshotValue[index]['last_message']
+                                      .toString()
+                                      .length >
+                                  40)
+                              ? text_regular_comforta(
+                                  (saveSnapshotValue[index]['last_message']
+                                          .toString())
+                                      .replaceRange(
+                                          40,
+                                          (saveSnapshotValue[index]
+                                                      ['last_message']
+                                                  .toString())
+                                              .length,
+                                          '...'),
+                                  Colors.black,
+                                  12.0,
+                                )
+                              : text_regular_comforta(
+                                  (saveSnapshotValue[index]['last_message']
+                                      .toString()),
+                                  Colors.black,
+                                  12.0,
+                                ),
+                          leading: Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(
+                                25.0,
+                              ),
+                            ),
+                          ),
+                          trailing: text_bold_comforta(
+                            funcConvertTimeStampToDateAndTimeForChat(
+                              int.parse(
+                                saveSnapshotValue[index]['time_stamp']
+                                    .toString(),
+                              ),
+                            ),
+                            Colors.black,
+                            8.0,
+                          ),
                         ),
-                      ),
-                      Colors.black,
-                      8.0,
-                    ),
-                  ),
-                );
-              },
-            );
+                      );
+                    },
+                  );
           } else if (snapshot.hasError) {
             if (kDebugMode) {
               print(snapshot.error);
