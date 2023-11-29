@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../screens/utils/utils.dart';
-import 'firebase/update_last_message/update_last_message.dart';
+import 'firebase/update_last_message/firebase_single_chat_methods.dart';
 
 class OneToOneChatScreen extends StatefulWidget {
   const OneToOneChatScreen({
@@ -635,22 +635,22 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
   //
 
   //
-  funcEditDialog(elementId) {
-    FirebaseFirestore.instance
-        .collection("${strFirebaseMode}groups")
-        .doc("India")
-        .collection("details")
-        .doc(elementId)
-        .set(
-      {
-        'time_stamp': DateTime.now().millisecondsSinceEpoch,
-        'last_message': lastMessage.toString(),
-      },
-      SetOptions(merge: true),
-    ).then(
-      (value1) => print(''),
-    );
-  }
+  // funcEditDialog(elementId) {
+  //   FirebaseFirestore.instance
+  //       .collection("${strFirebaseMode}groups")
+  //       .doc("India")
+  //       .collection("details")
+  //       .doc(elementId)
+  //       .set(
+  //     {
+  //       'time_stamp': DateTime.now().millisecondsSinceEpoch,
+  //       'last_message': lastMessage.toString(),
+  //     },
+  //     SetOptions(merge: true),
+  //   ).then(
+  //     (value1) => print(''),
+  //   );
+  // }
 
   //
   //
@@ -816,13 +816,13 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
     // }
   }
 
-  funcRemoved() {
-    // Navigator.pop(context);
-    /*QuickAlert.show(
+  // funcRemoved() {
+  // Navigator.pop(context);
+  /*QuickAlert.show(
       context: context,
       type: QuickAlertType.error,
       text: 'message'.toString(),
     );*/
-    //
-  }
+  //
+  // }
 }
