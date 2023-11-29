@@ -11,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:synapse_new/controllers/chat/oneToOne/widgets/receiver_ui/receiver_ui.dart';
+import 'package:synapse_new/controllers/chat/oneToOne/widgets/sender_ui.dart/sender_ui.dart';
 
 import '../../screens/utils/utils.dart';
 import 'firebase/update_last_message/firebase_single_chat_methods.dart';
@@ -87,104 +89,12 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            ('1' == '')
-                ? Row(
-                    children: [
-                      SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: GestureDetector(
-                          onTap: () {
-                            // print('click 1');
-                            //
-                            pushToChatDetails(context);
-                            //
-                          },
-                          child: Image.asset(
-                            'assets/images/logo.png',
-                          ),
-                        ),
-                      ),
-                      //
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      //
-                      text_bold_comforta(
-                        //
-                        strGroupName,
-                        //
-                        Colors.white,
-                        16.0,
-                      )
-                      //
-                    ],
-                  )
-                : Row(
-                    children: [
-                      SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                            20.0,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              //
-                              pushToChatDetails(context);
-                              //
-                            },
-                            // child: Image.network(
-                            //   widget.chatDialogData['group_display_image']
-                            //       .toString(),
-                            //   fit: BoxFit.cover,
-                            // ),
-                          ),
-                        ),
-                      ),
-                      //
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      //
-                      text_bold_comforta(
-                        //
-                        strGroupName,
-                        //
-                        Colors.white,
-                        16.0,
-                      )
-                      //
-                    ],
-                  ),
-          ],
+        title: text_bold_comforta(
+          'Chat',
+          Colors.white,
+          16.0,
         ),
         backgroundColor: Colors.amber,
-        actions: [
-          (strImageLoader == '0')
-              ? const SizedBox(
-                  height: 0,
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 20,
-                        width: 80,
-                        color: Colors.amber,
-                        child: const LinearProgressIndicator(),
-                      ),
-                      //
-                      text_bold_comforta('processing...', Colors.black, 12.0)
-                    ],
-                  ),
-                )
-        ],
       ),
       //
       backgroundColor: Colors.white,
@@ -253,18 +163,22 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                                 bottom: 10,
                               ),
                               child: Align(
-                                  alignment: (getSnapShopValue[index]
-                                                  ['sender_id']
-                                              .toString() ==
-                                          FirebaseAuth.instance.currentUser!.uid
-                                      ? Alignment.topRight
-                                      : Alignment.topLeft),
-                                  child: (getSnapShopValue[index]['sender_id']
-                                              .toString() ==
-                                          FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                      ? senderUI(getSnapShopValue, index)
-                                      : receiverUI(getSnapShopValue, index)),
+                                alignment: (getSnapShopValue[index]['sender_id']
+                                            .toString() ==
+                                        FirebaseAuth.instance.currentUser!.uid
+                                    ? Alignment.topRight
+                                    : Alignment.topLeft),
+                                child: (getSnapShopValue[index]['sender_id']
+                                            .toString() ==
+                                        FirebaseAuth.instance.currentUser!.uid)
+                                    ? SenderUIScreen(
+                                        getDataForSenderWithIndex:
+                                            getSnapShopValue[index],
+                                      )
+                                    : ReceiverUIScreen(
+                                        getDataForReceiverWithIndex:
+                                            getSnapShopValue[index]),
+                              ),
                             );
                           },
                         ),
@@ -349,145 +263,6 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
           ),
         ),
       ),
-    );
-  }
-
-//
-//  Column receiverUI() {
-  Column receiverUI(getSnapshot, int index) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: (getSnapshot[index]['message'].toString() == '')
-              ? Container(
-                  margin: const EdgeInsets.all(10.0),
-                  color: Colors.transparent,
-                  width: 240,
-                  height: 240,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      24,
-                    ),
-                    child: Image.network(
-                      getSnapshot[index]['sender_name'].toString(),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )
-              : Container(
-                  margin: const EdgeInsets.only(
-                    right: 40,
-                  ),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(
-                        16,
-                      ),
-                      bottomRight: Radius.circular(
-                        16,
-                      ),
-                      topRight: Radius.circular(
-                        16,
-                      ),
-                    ),
-                    color: Color.fromARGB(255, 228, 232, 235),
-                  ),
-                  padding: const EdgeInsets.all(
-                    16,
-                  ),
-                  child: Text(
-                    //
-                    getSnapshot[index]['message'].toString(),
-                    //
-                    style: const TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-        ),
-        //
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: text_bold_comforta(
-            funcConvertTimeStampToDateAndTimeForChat(
-              getSnapshot[index]['time_stamp'],
-            ),
-            Colors.black,
-            8.0,
-          ),
-        ),
-        //
-      ],
-    );
-  }
-
-// Column senderUI() {
-  Column senderUI(getSnapshot, int index) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.bottomRight,
-          child: (getSnapshot[index]['message'].toString() == '')
-              ? Container(
-                  margin: const EdgeInsets.all(10.0),
-                  color: Colors.transparent,
-                  width: 240,
-                  height: 240,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      24,
-                    ),
-                    child: Image.network(
-                      getSnapshot[index]['sender_name'].toString(),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )
-              : Container(
-                  margin: const EdgeInsets.only(
-                    left: 40,
-                  ),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(
-                        16,
-                      ),
-                      bottomLeft: Radius.circular(
-                        16,
-                      ),
-                      topRight: Radius.circular(
-                        16,
-                      ),
-                    ),
-                    color: Color.fromARGB(255, 228, 232, 235),
-                  ),
-                  padding: const EdgeInsets.all(
-                    16,
-                  ),
-                  child: Text(
-                    //
-                    getSnapshot[index]['message'].toString(),
-                    //
-                    style: const TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-        ),
-        //
-        Align(
-          alignment: Alignment.bottomRight,
-          child: text_bold_comforta(
-            funcConvertTimeStampToDateAndTimeForChat(
-              getSnapshot[index]['time_stamp'],
-            ),
-            Colors.black,
-            8.0,
-          ),
-        ),
-        //
-      ],
     );
   }
 
