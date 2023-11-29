@@ -59,21 +59,28 @@ class _SenderUIScreenState extends State<SenderUIScreen> {
                   padding: const EdgeInsets.all(
                     16,
                   ),
-                  child: Text(
+                  child: text_bold_comforta(
+                    widget.getDataForSenderWithIndex['message'].toString(),
+                    Colors.black,
+                    14.0,
+                  ),
+                ),
+          /*Text(
                     //
                     widget.getDataForSenderWithIndex['message'].toString(),
                     style: const TextStyle(
                       fontSize: 15,
                     ),
-                  ),
-                ),
+                  ),*/
         ),
+
         //
         Align(
           alignment: Alignment.bottomRight,
           child: text_bold_comforta(
             funcConvertTimeStampToDateAndTimeForChat(
-              widget.getDataForSenderWithIndex['time_stamp'],
+              int.parse(
+                  widget.getDataForSenderWithIndex['time_stamp'].toString()),
             ),
             Colors.black,
             8.0,

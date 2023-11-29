@@ -1,6 +1,7 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/chat/dialog/dialog.dart';
 import 'package:synapse_new/controllers/screens/communities/all_communitites/all_communities.dart';
 import 'package:synapse_new/controllers/screens/events/all_events/all_events.dart';
 import 'package:synapse_new/controllers/screens/home_page/home_page.dart';
@@ -31,18 +32,13 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
     super.dispose();
   }
 
-  /// widget list
-  /// widget list
+  //
   final List<Widget> bottomBarPages = [
     const HomePageScreen(),
     const AllCommunitiesScreen(),
     const AllEventsScreen(),
+    const DialogScreen(),
     const MainProfilePageScreen(),
-
-    // const Page2(),
-    // const Page3(),
-    // const Page4(),
-    // const Page5(),
   ];
   //
   @override
@@ -115,6 +111,19 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
             ),
             itemLabel: 'Page 4',
           ),
+          //
+          BottomBarItem(
+            inActiveItem: Icon(
+              Icons.chat,
+              color: Colors.blueGrey,
+            ),
+            activeItem: Icon(
+              Icons.chat,
+              color: Colors.yellow,
+            ),
+            itemLabel: 'Page 5',
+          ),
+          //
           BottomBarItem(
             inActiveItem: Icon(
               Icons.person,
@@ -124,7 +133,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
               Icons.person,
               color: Colors.yellow,
             ),
-            itemLabel: 'Page 5',
+            itemLabel: 'Page 6',
           ),
         ],
         onTap: (index) {

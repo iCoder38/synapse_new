@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 
 import 'dart:io';
-// import 'dart:math' as math;
+import 'dart:math' as math;
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,9 +20,11 @@ import 'firebase/update_last_message/firebase_single_chat_methods.dart';
 class OneToOneChatScreen extends StatefulWidget {
   const OneToOneChatScreen({
     Key? key,
+    required this.getName,
     required this.getFirebaseId,
   }) : super(key: key);
 
+  final String getName;
   final String getFirebaseId;
 
   @override
@@ -97,7 +99,7 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
         backgroundColor: Colors.amber,
       ),
       //
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       //
       body: Stack(
         children: [
@@ -360,7 +362,7 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                 FirebaseAuth.instance.currentUser!.displayName.toString(),
             'sender_id': FirebaseAuth.instance.currentUser!.uid.toString(),
             'sender_email': FirebaseAuth.instance.currentUser!.email.toString(),
-            'time_stamp': timeStamValue,
+            'time_stamp': timeStamValue.toString(),
             'message': strLastMessageEntered.toString(),
             'room_id': roomId.toString(),
             'members': [
@@ -395,7 +397,7 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
     ).then(
       // checkDialog(value2, timeStamp, lastMessage)
       (value1) => checkDialog(roomId, reverseRoomId, value2, timeStamp,
-          lastMessage, widget.getFirebaseId),
+          lastMessage, widget.getFirebaseId, widget.getName),
     );
   }
 

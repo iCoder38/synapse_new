@@ -60,13 +60,10 @@ class _ReceiverUIScreenState extends State<ReceiverUIScreen> {
                   padding: const EdgeInsets.all(
                     16,
                   ),
-                  child: Text(
-                    //
+                  child: text_bold_comforta(
                     widget.getDataForReceiverWithIndex['message'].toString(),
-                    //
-                    style: const TextStyle(
-                      fontSize: 15,
-                    ),
+                    Colors.black,
+                    14.0,
                   ),
                 ),
         ),
@@ -75,7 +72,8 @@ class _ReceiverUIScreenState extends State<ReceiverUIScreen> {
           alignment: Alignment.bottomLeft,
           child: text_bold_comforta(
             funcConvertTimeStampToDateAndTimeForChat(
-              widget.getDataForReceiverWithIndex['time_stamp'],
+              int.parse(
+                  widget.getDataForReceiverWithIndex['time_stamp'].toString()),
             ),
             Colors.black,
             8.0,

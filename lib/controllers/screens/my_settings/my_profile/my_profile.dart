@@ -314,6 +314,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                       getFirebaseId: widget
                                                           .strFirebaseId
                                                           .toString(),
+                                                      getName:
+                                                          widget.strUsername,
                                                       // getEventData: getSnapShopValue[i],
                                                     ),
                                                   ),

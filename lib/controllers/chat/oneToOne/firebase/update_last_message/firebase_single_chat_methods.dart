@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../screens/utils/utils.dart';
 
 checkDialog(getRoomId, getReverseRoomId, elementId, getTimeStamp, lastMessage,
-    firebaseId) {
+    firebaseId, secondUserName) {
   FirebaseFirestore.instance
       .collection("${strFirebaseMode}dialog")
       .where(
@@ -20,7 +20,7 @@ checkDialog(getRoomId, getReverseRoomId, elementId, getTimeStamp, lastMessage,
             {
               // ADD THIS USER TO FIREBASE SERVER
               createDialog(getTimeStamp, getRoomId, getReverseRoomId,
-                  firebaseId, lastMessage),
+                  firebaseId, lastMessage, secondUserName),
               //
             }
           else
@@ -41,7 +41,7 @@ checkDialog(getRoomId, getReverseRoomId, elementId, getTimeStamp, lastMessage,
 // /* *************************** CREATE DIALOG **************************** */
 // /* ********************************************************************** */
 createDialog(getChatTimeStamp, getRoomIdC, getReverseRoomIdC, getFirebaseIdC,
-    lastMessageC) {
+    lastMessageC, secondUserNameC) {
   //
   CollectionReference users = FirebaseFirestore.instance.collection(
     '${strFirebaseMode}dialog',
@@ -55,6 +55,9 @@ createDialog(getChatTimeStamp, getRoomIdC, getReverseRoomIdC, getFirebaseIdC,
         'sender_email': FirebaseAuth.instance.currentUser!.email.toString(),
         'time_stamp': getChatTimeStamp.toString(),
         'last_message': lastMessageC.toString(),
+        //
+        'second_name': secondUserNameC,
+        'second_id': getFirebaseIdC.toString(),
         'members': [
           FirebaseAuth.instance.currentUser!.uid,
           getFirebaseIdC,
