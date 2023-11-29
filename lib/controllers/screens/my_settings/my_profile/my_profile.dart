@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/chat/oneToOne/one_to_one_chat.dart';
 import 'package:synapse_new/controllers/screens/events/all_events/all_events.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_events/my_events.dart';
 // / import 'package:google_fonts/google_fonts.dart';
@@ -204,84 +206,182 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 height: 20.0,
                               ),
                               //
-                              Row(
-                                // mainAxisAlignment:
-                                //     MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      height: 60.0,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          24.0,
+                              (widget.strFirebaseId ==
+                                      FirebaseAuth.instance.currentUser!.uid)
+                                  ? Row(
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 60.0,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                24.0,
+                                              ),
+                                            ),
+                                            child: IconButton(
+                                              onPressed: () {
+                                                //
+                                              },
+                                              icon: const Icon(
+                                                Icons.comment_bank,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          //
-                                        },
-                                        icon: const Icon(
-                                          Icons.chat,
+                                        //
+                                        // Container(
+                                        //   height: 40.0,
+                                        //   width: 1.0,
+                                        //   color: Colors.grey,
+                                        // ),
+                                        //
+                                        // Expanded(
+                                        //   child: Container(
+                                        //     height: 60.0,
+                                        //     decoration: BoxDecoration(
+                                        //       color: Colors.white,
+                                        //       borderRadius:
+                                        //           BorderRadius.circular(
+                                        //         24.0,
+                                        //       ),
+                                        //     ),
+                                        //     child: IconButton(
+                                        //       onPressed: () {
+                                        //         //
+                                        //       },
+                                        //       icon: const Icon(
+                                        //         Icons.edit,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        //
+                                        // Container(
+                                        //   height: 40.0,
+                                        //   width: 1.0,
+                                        //   color: Colors.grey,
+                                        // ),
+                                        //
+                                        // Expanded(
+                                        //   child: Container(
+                                        //     height: 60.0,
+                                        //     decoration: BoxDecoration(
+                                        //       color: Colors.white,
+                                        //       borderRadius:
+                                        //           BorderRadius.circular(
+                                        //         24.0,
+                                        //       ),
+                                        //     ),
+                                        //     child: IconButton(
+                                        //       onPressed: () {
+                                        //         //
+                                        //       },
+                                        //       icon: const Icon(
+                                        //         Icons.mail,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        //
+                                      ],
+                                    )
+                                  : Row(
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 60.0,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                24.0,
+                                              ),
+                                            ),
+                                            child: IconButton(
+                                              onPressed: () {
+                                                //
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        OneToOneChatScreen(
+                                                      getFirebaseId: widget
+                                                          .strFirebaseId
+                                                          .toString(),
+                                                      // getEventData: getSnapShopValue[i],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              icon: const Icon(
+                                                Icons.chat,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        //
+                                        Container(
+                                          height: 40.0,
+                                          width: 1.0,
+                                          color: Colors.grey,
+                                        ),
+                                        //
+                                        Expanded(
+                                          child: Container(
+                                            height: 60.0,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                24.0,
+                                              ),
+                                            ),
+                                            child: IconButton(
+                                              onPressed: () {
+                                                //
+                                              },
+                                              icon: const Icon(
+                                                Icons.call,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        //
+                                        Container(
+                                          height: 40.0,
+                                          width: 1.0,
+                                          color: Colors.grey,
+                                        ),
+                                        //
+                                        Expanded(
+                                          child: Container(
+                                            height: 60.0,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                24.0,
+                                              ),
+                                            ),
+                                            child: IconButton(
+                                              onPressed: () {
+                                                //
+                                              },
+                                              icon: const Icon(
+                                                Icons.mail,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        //
+                                      ],
                                     ),
-                                  ),
-                                  //
-                                  Container(
-                                    height: 40.0,
-                                    width: 1.0,
-                                    color: Colors.grey,
-                                  ),
-                                  //
-                                  Expanded(
-                                    child: Container(
-                                      height: 60.0,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          24.0,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          //
-                                        },
-                                        icon: const Icon(
-                                          Icons.call,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  //
-                                  Container(
-                                    height: 40.0,
-                                    width: 1.0,
-                                    color: Colors.grey,
-                                  ),
-                                  //
-                                  Expanded(
-                                    child: Container(
-                                      height: 60.0,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(
-                                          24.0,
-                                        ),
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          //
-                                        },
-                                        icon: const Icon(
-                                          Icons.mail,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  //
-                                ],
-                              ),
                               //
                             ],
                           ),

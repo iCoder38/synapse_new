@@ -66,6 +66,16 @@ func_handle_error(error_type) {
   return error_message;
 }
 
+/* ================================================================ */
+/* ========== CONVERT TIMESTAMP TO DATE AND TIME =============== */
+
+funcConvertTimeStampToDateAndTimeForChat(getTimeStamp) {
+  var dt = DateTime.fromMillisecondsSinceEpoch(getTimeStamp);
+  // var d12HourFormat = DateFormat('dd/MM/yyyy, hh:mm').format(dt);
+  var d12HourFormatTime = DateFormat('hh:mm a').format(dt);
+  return d12HourFormatTime;
+}
+
 funcConvertTimeStampToDateAndTime(DateTime d) {
   Duration diff = DateTime.now().difference(d);
   if (diff.inDays > 365)
