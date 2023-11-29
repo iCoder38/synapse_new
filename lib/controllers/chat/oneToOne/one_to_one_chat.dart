@@ -357,18 +357,6 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
   Column receiverUI(getSnapshot, int index) {
     return Column(
       children: [
-        //
-        /*Align(
-          alignment: Alignment.bottomLeft,
-          child: textWithRegularStyle(
-            //
-            getSnapshot[index]['sender_name'],
-            //
-            Colors.black,
-            10.0,
-          ),
-        ),
-        //
         Align(
           alignment: Alignment.bottomLeft,
           child: (getSnapshot[index]['message'].toString() == '')
@@ -382,7 +370,7 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                       24,
                     ),
                     child: Image.network(
-                      getSnapshot[index]['attachment_path'].toString(),
+                      getSnapshot[index]['sender_name'].toString(),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -403,29 +391,33 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                         16,
                       ),
                     ),
-                    color: Colors.lightBlueAccent,
+                    color: Color.fromARGB(255, 228, 232, 235),
                   ),
                   padding: const EdgeInsets.all(
                     16,
                   ),
-                  child: textWithRegularStyle(
+                  child: Text(
+                    //
                     getSnapshot[index]['message'].toString(),
-                    Colors.black,
-                    16.0,
+                    //
+                    style: const TextStyle(
+                      fontSize: 15,
+                    ),
                   ),
                 ),
         ),
         //
         Align(
           alignment: Alignment.bottomLeft,
-          child: textWithRegularStyle(
-            funcConvertTimeStampToDateAndTime(
+          child: text_bold_comforta(
+            funcConvertTimeStampToDateAndTimeForChat(
               getSnapshot[index]['time_stamp'],
             ),
             Colors.black,
-            12.0,
+            8.0,
           ),
-        ),*/
+        ),
+        //
       ],
     );
   }
