@@ -67,12 +67,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
               ),
             ),
             // drawer: const DrawerWidget(),
-            body: FutureBuilder(
-              future: FirebaseFirestore.instance
+            body: StreamBuilder(
+              stream: FirebaseFirestore.instance
                   .collection(
                     '$strFirebaseMode${FirestoreUtils.FOLLOW}/${FirebaseAuth.instance.currentUser!.uid}/data',
                   )
-                  .get(),
+                  .snapshots(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   if (kDebugMode) {

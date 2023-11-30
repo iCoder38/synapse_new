@@ -110,51 +110,80 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                               child: Column(
                                 children: [
                                   //
-                                  Padding(
-                                    padding: const EdgeInsets.all(
-                                      4.0,
-                                    ),
-                                    child: Container(
-                                      height: 148,
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[300],
-                                        borderRadius: BorderRadius.circular(
-                                          12.0,
-                                        ),
-                                      ),
-                                      child: (getSnapShopValue[i]['eventImage']
-                                                  .toString() ==
-                                              '')
-                                          ? Image.asset(
-                                              'assets/student4.jpeg',
-                                              fit: BoxFit.fill,
-                                            )
-                                          : ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                12.0,
-                                              ),
-                                              child: CachedNetworkImage(
-                                                imageUrl: getSnapShopValue[i]
-                                                        ['eventImage']
-                                                    .toString(),
-                                                fit: BoxFit.fill,
-                                                placeholder: (context, url) =>
-                                                    const SizedBox(
-                                                  height: 40,
-                                                  width: 40,
-                                                  child: Center(
-                                                      child:
-                                                          CircularProgressIndicator()),
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        const Icon(Icons.error),
-                                              ),
-                                            ),
-                                    ),
+                                  Container(
+                                    height: 120,
+                                    width: 120,
+                                    color: Colors.black,
+                                    child: Image.network(getSnapShopValue[i]
+                                            ['eventImage']
+                                        .toString()),
                                   ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(
+                                  //     4.0,
+                                  //   ),
+                                  //   child: CachedNetworkImage(
+                                  //     imageUrl: (getSnapShopValue[i]
+                                  //             ['eventImage']
+                                  //         .toString()),
+                                  //     imageBuilder: (context, imageProvider) =>
+                                  //         Container(
+                                  //       decoration: BoxDecoration(
+                                  //         image: DecorationImage(
+                                  //             image: imageProvider,
+                                  //             fit: BoxFit.cover,
+                                  //             colorFilter: ColorFilter.mode(
+                                  //                 Colors.red,
+                                  //                 BlendMode.colorBurn)),
+                                  //       ),
+                                  //     ),
+                                  //     placeholder: (context, url) =>
+                                  //         CircularProgressIndicator(),
+                                  //     errorWidget: (context, url, error) =>
+                                  //         Icon(Icons.error),
+                                  //   ),
+                                  // child: text_bold_comforta(
+                                  //   'Image',
+                                  //   Colors.black,
+                                  //   14.0,
+                                  // ),
+                                  // child:
+                                  /*child: Container(
+                                      height: 60,
+                                      width: 60,
+                                      color: Colors.amber,
+                                    ),*/
+                                  // (getSnapShopValue[i]['eventImage']
+                                  //             .toString() ==
+                                  //         '')
+                                  //     ? Image.asset(
+                                  //         'assets/student4.jpeg',
+                                  //         fit: BoxFit.fill,
+                                  //       )
+                                  //     : ClipRRect(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(
+                                  //           12.0,
+                                  //         ),
+                                  //         child: CachedNetworkImage(
+                                  //           imageUrl: getSnapShopValue[i]
+                                  //                   ['eventImage']
+                                  //               .toString(),
+                                  //           fit: BoxFit.fill,
+                                  //           placeholder: (context, url) =>
+                                  //               const SizedBox(
+                                  //             height: 40,
+                                  //             width: 40,
+                                  //             child: Center(
+                                  //                 child:
+                                  //                     CircularProgressIndicator()),
+                                  //           ),
+                                  //           errorWidget: (context, url,
+                                  //                   error) =>
+                                  //               const Icon(Icons.error),
+                                  //         ),
+                                  //       ),
+                                  // ),
                                   // UI : EVENT NAME AND MEMBERS COUNT
                                   EventNameMembersScreen(
                                     getDataWithIndexForNameAndMembers:

@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
+import 'package:synapse_new/controllers/screens/utils/utils.dart';
 
 class FeedsTextAndImageUIScreen extends StatefulWidget {
   const FeedsTextAndImageUIScreen(
@@ -24,38 +25,39 @@ class _FeedsTextAndImageUIScreenState extends State<FeedsTextAndImageUIScreen> {
     return (widget.strType == 'text')
         ? Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: 20.0,
-                right: 10.0,
-              ),
-              // height: 240,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
-              child: ReadMoreText(
-                //
-                widget.getFeedsDataForTextAndImage['textContent'].toString(),
-                //
-                style: GoogleFonts.comfortaa(
-                  color: Colors.black,
-                  fontSize: 16.0,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.transparent,
+                    child: ReadMoreText(
+                      //
+                      widget.getFeedsDataForTextAndImage['textContent']
+                          .toString(),
+                      style: GoogleFonts.comfortaa(
+                        color: Colors.black,
+                        fontSize: 14.0,
+                      ),
+                      trimLines: 4,
+                      colorClickableText: Colors.pink,
+                      trimMode: TrimMode.Line,
+                      trimCollapsedText: '...Show more',
+                      trimExpandedText: '...Show less',
+                      moreStyle: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.pink,
+                      ),
+                      lessStyle: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.pink,
+                      ),
+                    ),
+                  ),
                 ),
-                trimLines: 4,
-                colorClickableText: Colors.pink,
-                trimMode: TrimMode.Line,
-                trimCollapsedText: '...Show more',
-                trimExpandedText: '...Show less',
-                moreStyle: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.pink,
-                ),
-                lessStyle: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.pink,
-                ),
-              ),
+              ],
             ),
           )
         : Padding(
@@ -63,31 +65,77 @@ class _FeedsTextAndImageUIScreenState extends State<FeedsTextAndImageUIScreen> {
               left: 14.0,
               right: 14.0,
             ),
-            child: Container(
-              height: 340,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: Colors.grey[500],
-                borderRadius: BorderRadius.circular(
-                  14.0,
+            child: Column(
+              children: [
+                //
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.transparent,
+                        child: ReadMoreText(
+                          //
+                          widget.getFeedsDataForTextAndImage['textContent']
+                              .toString(),
+                          style: GoogleFonts.comfortaa(
+                            color: Colors.black,
+                            fontSize: 14.0,
+                          ),
+                          trimLines: 4,
+                          colorClickableText: Colors.pink,
+                          trimMode: TrimMode.Line,
+                          trimCollapsedText: '...Show more',
+                          trimExpandedText: '...Show less',
+                          moreStyle: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.pink,
+                          ),
+                          lessStyle: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.pink,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                  14.0,
+                //
+                const SizedBox(
+                  height: 8.0,
                 ),
-                child: CachedNetworkImage(
-                  imageUrl: widget.getFeedsDataForTextAndImage['postImageLink']
-                      .toString(),
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => const SizedBox(
-                    height: 40,
-                    width: 40,
-                    child: Center(child: CircularProgressIndicator()),
+                //
+                Container(
+                  height: 340,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[500],
+                    borderRadius: BorderRadius.circular(
+                      14.0,
+                    ),
                   ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      14.0,
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: widget
+                          .getFeedsDataForTextAndImage['postImageLink']
+                          .toString(),
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => const SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           );
   }

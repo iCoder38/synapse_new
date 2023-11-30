@@ -38,15 +38,18 @@ class _DialogScreenState extends State<DialogScreen> {
             if (kDebugMode) {
               print(snapshot.data!.docs.length);
             }
-
             var saveSnapshotValue = snapshot.data!.docs;
             if (kDebugMode) {
               print(saveSnapshotValue);
             }
             return (saveSnapshotValue.isEmpty)
                 ? Center(
-                    child:
-                        text_bold_comforta('no chat found', Colors.black, 14.0))
+                    child: text_bold_comforta(
+                      'no chat found',
+                      Colors.black,
+                      14.0,
+                    ),
+                  )
                 : ListView.separated(
                     separatorBuilder: (context, index) => const Divider(
                       color: Colors.grey,
