@@ -93,7 +93,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   }
                   //
                   // printInDebugMode('start');
-
+                  saveIdsInArray.clear();
                   for (int index = 0;
                       index < getSnapShopValue.length;
                       index++) {
@@ -103,7 +103,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   }
                   if (kDebugMode) {
                     print('====> iPhone 1.0 <====');
-                    print(saveIdsInArray);
+                    // print(saveIdsInArray);
                   }
                   return (saveIdsInArray.isEmpty)
                       ? Center(

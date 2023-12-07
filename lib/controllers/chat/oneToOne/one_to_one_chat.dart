@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:synapse_new/controllers/chat/oneToOne/widgets/receiver_ui/receiver_ui.dart';
 import 'package:synapse_new/controllers/chat/oneToOne/widgets/sender_ui.dart/sender_ui.dart';
 
+import '../../common/alert/app_color/app_color.dart';
 import '../../screens/utils/utils.dart';
 import 'firebase/update_last_message/firebase_single_chat_methods.dart';
 
@@ -93,10 +94,10 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
       appBar: AppBar(
         title: text_bold_comforta(
           'Chat',
-          Colors.white,
+          Colors.black,
           16.0,
         ),
-        backgroundColor: Colors.amber,
+        backgroundColor: dialog_page_navigation_color(),
       ),
       //
       // backgroundColor: Colors.white,

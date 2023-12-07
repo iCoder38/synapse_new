@@ -59,8 +59,9 @@ class _CommunityFollowersScreenState extends State<CommunityFollowersScreen> {
                     .where('firebaseId', isEqualTo: widget.getAllFollowersId[i])
                     .snapshots(),
                 builder: (_, snapshot) {
-                  if (snapshot.hasError)
+                  if (snapshot.hasError) {
                     return Text('Error = ${snapshot.error}');
+                  }
 
                   if (snapshot.hasData) {
                     final docs = snapshot.data!.docs;
