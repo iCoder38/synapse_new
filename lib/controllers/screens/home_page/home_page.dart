@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:synapse_new/controllers/common/alert/app_color/app_color.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
@@ -65,7 +66,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 Colors.white,
                 20.0,
               ),
+              //
+              backgroundColor: home_page_navigation_color(),
+              //
             ),
+
             // drawer: const DrawerWidget(),
             body: StreamBuilder(
               stream: FirebaseFirestore.instance
@@ -118,7 +123,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 'communityId',
                                 arrayContainsAny: saveIdsInArray,
                               )
-                              .limit(10)
+                              // .limit(10)
                               .snapshots(),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
@@ -207,9 +212,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                       ),
                                     ],
                                     //
-                                    const SizedBox(
-                                      height: 86.0,
-                                    ),
+                                    // const SizedBox(
+                                    //   height: 86.0,
+                                    // ),
                                   ],
                                 ),
                               );
@@ -277,10 +282,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 stream: FirebaseFirestore.instance
                     .collection(
                         '$strFirebaseMode${FirestoreUtils.POST_LIKE}/${getSnapShopValue[index]['postId'].toString()}/${FirebaseAuth.instance.currentUser!.uid}')
-                    // ${getSnapShopValue[index]['documentId'].toString()}
                     .where('postId', arrayContainsAny: [
                   //
-                  // FirebaseAuth.instance.currentUser!.uid,
                   getSnapShopValue[index]['postId'].toString(),
                 ])
                     // .limit(40)
@@ -536,10 +539,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 '$strFirebaseMode${FirestoreUtils.POST_COMMENT}')
                             .orderBy('timeStamp', descending: false)
                             .where('postId', arrayContainsAny: [
-                              //
-                              postIdForComment.toString(),
-                            ])
-                            .limit(40)
+                          //
+                          postIdForComment.toString(),
+                        ])
+                            // .limit(40)
                             .snapshots(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {

@@ -96,7 +96,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                         //
                         Padding(
                           padding: const EdgeInsets.all(
-                            8.0,
+                            16.0,
                           ),
                           child: Align(
                             alignment: Alignment.bottomRight,
@@ -107,7 +107,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                               },
                               label: text_bold_comforta(
                                 'Follow',
-                                Colors.white,
+                                Colors.black,
                                 14.0,
                               ),
                             ),
@@ -122,7 +122,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                         //
                         Padding(
                           padding: const EdgeInsets.all(
-                            8.0,
+                            16.0,
                           ),
                           child: Align(
                             alignment: Alignment.bottomRight,

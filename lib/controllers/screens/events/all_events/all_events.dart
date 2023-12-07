@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:synapse_new/controllers/screens/events/all_events/widgets/event_name_members/event_name_members.dart';
 
+import '../../../common/alert/app_color/app_color.dart';
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../utils/utils.dart';
 import '../add_event/add_events.dart';
@@ -29,7 +30,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
           Colors.white,
           20.0,
         ),
-        // backgroundColor: Colors.white,
+        backgroundColor: event_page_navigation_color(),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pinkAccent,
@@ -114,9 +115,9 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                                     height: 120,
                                     width: 120,
                                     color: Colors.black,
-                                    child: Image.network(getSnapShopValue[i]
+                                    /*child: Image.network(getSnapShopValue[i]
                                             ['eventImage']
-                                        .toString()),
+                                        .toString()),*/
                                   ),
                                   // Padding(
                                   //   padding: const EdgeInsets.all(

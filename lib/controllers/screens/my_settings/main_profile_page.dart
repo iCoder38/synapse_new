@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/my_profile.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/personal%20information/personal_information.dart';
 
+import '../../common/alert/app_color/app_color.dart';
 import '../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../login/login.dart';
 import '../my_feeds/my_feeds.dart';
@@ -95,6 +96,7 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
             Icons.arrow_back,
           ),
         ),*/
+        backgroundColor: profile_page_navigation_color(),
       ),
       // drawer: const DrawerWidget(),
       body: (strLoader == '0')

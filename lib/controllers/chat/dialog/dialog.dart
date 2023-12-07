@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/alert/app_color/app_color.dart';
 import '../../screens/utils/utils.dart';
 
 class DialogScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _DialogScreenState extends State<DialogScreen> {
           Colors.white,
           16.0,
         ),
-        backgroundColor: Colors.amber,
+        backgroundColor: dialog_page_navigation_color(),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance

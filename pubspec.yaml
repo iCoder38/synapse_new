@@ -52,6 +52,7 @@ dependencies:
   geolocator:
   google_place: ^0.4.7
   contacts_service:
+  lazy_load_indexed_stack: ^1.0.1
 
 dev_dependencies:
   flutter_test:
