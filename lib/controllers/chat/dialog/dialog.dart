@@ -30,7 +30,7 @@ class _DialogScreenState extends State<DialogScreen> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('${strFirebaseMode}dialog')
-            .orderBy('time_stamp', descending: false)
+            .orderBy('time_stamp', descending: true)
             .where('members', arrayContainsAny: [
           //
           FirebaseAuth.instance.currentUser!.uid,

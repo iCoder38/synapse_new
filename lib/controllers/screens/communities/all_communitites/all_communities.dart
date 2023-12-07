@@ -98,7 +98,7 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 height: 40,
@@ -111,7 +111,7 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
                 ),
                 // child: ,
               ),
-            ),
+            ),*/
             //
             allCommunityStreamBuilderWithUI(),
           ],

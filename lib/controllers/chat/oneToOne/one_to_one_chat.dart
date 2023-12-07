@@ -363,7 +363,8 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                 FirebaseAuth.instance.currentUser!.displayName.toString(),
             'sender_id': FirebaseAuth.instance.currentUser!.uid.toString(),
             'sender_email': FirebaseAuth.instance.currentUser!.email.toString(),
-            'time_stamp': timeStamValue.toString(),
+            // 'time_stamp': timeStamValue.toString(),
+            'time_stamp': timeStamValue,
             'message': strLastMessageEntered.toString(),
             'room_id': roomId.toString(),
             'members': [

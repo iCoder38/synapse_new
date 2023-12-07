@@ -53,7 +53,8 @@ createDialog(getChatTimeStamp, getRoomIdC, getReverseRoomIdC, getFirebaseIdC,
             FirebaseAuth.instance.currentUser!.displayName.toString(),
         'sender_id': FirebaseAuth.instance.currentUser!.uid.toString(),
         'sender_email': FirebaseAuth.instance.currentUser!.email.toString(),
-        'time_stamp': getChatTimeStamp.toString(),
+        'time_stamp': DateTime.now().millisecondsSinceEpoch,
+        // 'time_stamp': getChatTimeStamp,
         'last_message': lastMessageC.toString(),
         //
         'second_name': secondUserNameC,
@@ -94,7 +95,7 @@ addDocumentIdWhenNewDialogCreated(value2) {
 // /* ************************** EDIT DIALOG ******************************* */
 // /* ********************************************************************** */
 editDialog(id, lastMessage) {
-  //
+  //r
   FirebaseFirestore.instance.collection("${strFirebaseMode}dialog").doc(id).set(
     {
       'time_stamp': DateTime.now().millisecondsSinceEpoch,
