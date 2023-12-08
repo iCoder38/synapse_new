@@ -39,6 +39,9 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
   late final TextEditingController contEmail;
   late final TextEditingController contPassword;
   //
+  var arrSaveSearchPatternForName = [];
+  var arrSaveSearchPatternForEmail = [];
+  //
   @override
   void initState() {
     //
@@ -122,6 +125,8 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
                                   });
                                 },
                                 validator: (val) {
+                                  return null;
+
                                   /*return ref
                                       .read(authControllerProvider)
                                       .nameValidator(val!);*/
@@ -209,6 +214,51 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
                                 if (kDebugMode) {
                                   print('====> CREATE AN USER CLICKED <====');
                                 }
+                                //
+                                // for name
+                                String temp = "";
+                                arrSaveSearchPatternForName.clear();
+                                for (int i = 0;
+                                    i < contFullName.text.length;
+                                    i++) {
+                                  //
+                                  temp = temp + contFullName.text[i];
+
+                                  arrSaveSearchPatternForName.add(temp);
+                                }
+                                print(arrSaveSearchPatternForName);
+                                contFullName.text.replaceAll(' ', '');
+                                arrSaveSearchPatternForName
+                                    .add(contFullName.text.replaceAll(' ', ''));
+                                print('2');
+                                print(arrSaveSearchPatternForName);
+                                //
+                                //
+                                // for email
+                                //
+                                String temp2 = "";
+
+                                for (int i = 0;
+                                    i < contEmail.text.length;
+                                    i++) {
+                                  //
+                                  temp2 = temp2 + contEmail.text[i];
+
+                                  arrSaveSearchPatternForName.add(temp2);
+                                }
+                                // print(arrSaveSearchPatternForName);
+                                contEmail.text.replaceAll(' ', '');
+                                arrSaveSearchPatternForName
+                                    .add(contEmail.text.replaceAll(' ', ''));
+                                print('2');
+                                print(arrSaveSearchPatternForName);
+                                // remove multiple data from array
+                                var ids = [1, 4, 4, 4, 5, 6, 6];
+                                var distinctIds = arrSaveSearchPatternForName
+                                    .toSet()
+                                    .toList();
+                                arrSaveSearchPatternForName = distinctIds;
+                                // done all pattern
                                 showLoadingUI(
                                   context,
                                   str_alert_please_wait,
@@ -635,6 +685,7 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
                 'verify': FirebaseAuth.instance.currentUser!.emailVerified,
                 'profileType': 'Student',
                 'bio': '',
+                'searchPattern': arrSaveSearchPatternForName
 
                 //
               },
@@ -674,12 +725,17 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
             // print(element.data());
           }
           //
-          Navigator.pop(context);
-          Navigator.pop(context);
+          saveNamePatternForSearch();
           // pushToHomePage();
         }
       }
     });
+  }
+
+  saveNamePatternForSearch() {
+    //
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   //
