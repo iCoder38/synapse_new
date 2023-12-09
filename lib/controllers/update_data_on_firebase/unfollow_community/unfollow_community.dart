@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import '../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../screens/utils/utils.dart';
 
+//***************** UNFOLLOW THIS COMMUNITY  ********************************/
+//*****************************************************************************/
 unfollowThisCommunity(communityId) {
   //
 
@@ -61,14 +63,16 @@ unfollowThisCommunity(communityId) {
       });
 }
 
+//************ REMOVE MY ID FROM COMMUNITY FOLLOWERS LIST  ********************/
+//*****************************************************************************/
 removeMyFirebaseIdFromCommunityFollowers(communityId) {
   //
 
   //
   if (kDebugMode) {
-    print('===================');
+    print('==========================================');
     print('remove my id from community followers list');
-    print('===================');
+    print('===========================================');
   }
 
   FirebaseFirestore.instance

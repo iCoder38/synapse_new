@@ -108,15 +108,22 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
                 widget.getDataForFeedsHeader['documentId'].toString(),
                 widget.getDataForFeedsHeader['postEntityName'].toString(),
                 widget.getDataForFeedsHeader['postActive'].toString(),
+                widget.getDataForFeedsHeader['communityDetails']
+                        ['communityAdminId']
+                    .toString(),
               );
             } else {
               //
               openHomePageDotsActionSheet(
-                  context,
-                  'no',
-                  widget.getDataForFeedsHeader['documentId'].toString(),
-                  widget.getDataForFeedsHeader['postEntityName'].toString(),
-                  'yes');
+                context,
+                'no',
+                widget.getDataForFeedsHeader['documentId'].toString(),
+                widget.getDataForFeedsHeader['postEntityName'].toString(),
+                'yes',
+                widget.getDataForFeedsHeader['communityDetails']
+                        ['communityAdminId']
+                    .toString(),
+              );
             }
           },
           icon: const Icon(
@@ -138,8 +145,14 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
   }
 
   //
-  void openHomePageDotsActionSheet(BuildContext context, myProfile,
-      passPostDocumentId, postAdminName, isYourPostActive) async {
+  void openHomePageDotsActionSheet(
+    BuildContext context,
+    myProfile,
+    passPostDocumentId,
+    postAdminName,
+    isYourPostActive,
+    thisPostCommunityAdminId,
+  ) async {
     if (myProfile == 'yes') {
       await showCupertinoModalPopup<void>(
         context: context,
@@ -153,31 +166,6 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
           // message: const Text(''),
           actions: <CupertinoActionSheetAction>[
             //
-            CupertinoActionSheetAction(
-              onPressed: () async {
-                Navigator.pop(context);
-                //
-                if (isYourPostActive == 'yes') {
-                  activateDeactivateAlert(passPostDocumentId, isYourPostActive);
-                } else {
-                  print(isYourPostActive);
-                  activateDeactivateAlert(passPostDocumentId, isYourPostActive);
-                }
-              },
-              child: isYourPostActive == 'no'
-                  ? text_bold_comforta('Activate again', Colors.green, 14.0)
-                  : text_bold_comforta(
-                      'De-activate this post', Colors.red, 14.0),
-            ),
-            //
-            CupertinoActionSheetAction(
-              onPressed: () async {
-                Navigator.pop(context);
-                //
-                deletePostConfirmAlert(passPostDocumentId);
-              },
-              child: text_bold_comforta('Delete', Colors.red, 14.0),
-            ),
             CupertinoActionSheetAction(
               onPressed: () async {
                 Navigator.pop(context);
@@ -200,6 +188,54 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
               },
               child: text_bold_comforta('View my profile', Colors.black, 14.0),
             ),
+            //
+            if (thisPostCommunityAdminId.toString() !=
+                FirebaseAuth.instance.currentUser!.uid.toString()) ...[
+              //
+              CupertinoActionSheetAction(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  //
+                  // from firebase method
+                  unfollowThisCommunity(widget
+                      .getDataForFeedsHeader['communityId'][0]
+                      .toString());
+                  //
+                },
+                child: text_bold_comforta(
+                    'Unfollow this community', Colors.black, 14.0),
+              ),
+            ],
+            //
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                Navigator.pop(context);
+                //
+                if (isYourPostActive == 'yes') {
+                  activateDeactivateAlert(passPostDocumentId, isYourPostActive);
+                } else {
+                  if (kDebugMode) {
+                    print(isYourPostActive);
+                  }
+                  activateDeactivateAlert(passPostDocumentId, isYourPostActive);
+                }
+              },
+              child: isYourPostActive == 'no'
+                  ? text_bold_comforta('Activate again', Colors.green, 14.0)
+                  : text_bold_comforta(
+                      'De-activate this post', Colors.red, 14.0),
+            ),
+            //
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                Navigator.pop(context);
+                //
+                deletePostConfirmAlert(passPostDocumentId);
+              },
+              child: text_bold_comforta('Delete', Colors.red, 14.0),
+            ),
+
+            //
 
             //
           ],
