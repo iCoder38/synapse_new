@@ -8,9 +8,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:synapse_new/controllers/update_data_on_firebase/activate_deactivate_post/activate_deactivate_post.dart';
 import 'package:synapse_new/controllers/update_data_on_firebase/delete_post/delete_post.dart';
 
 import '../../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
+import '../../../../update_data_on_firebase/unfollow_community/unfollow_community.dart';
 import '../../../communities/community_details/community_details.dart';
 import '../../../my_settings/my_profile/my_profile.dart';
 import '../../../utils/utils.dart';
@@ -95,6 +97,7 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
             //
             if (kDebugMode) {
               print(widget.getDataForFeedsHeader['documentId'].toString());
+              print(widget.getDataForFeedsHeader['postActive'].toString());
             }
             if (FirebaseAuth.instance.currentUser!.uid ==
                 widget.getDataForFeedsHeader['postEntityId'].toString()) {
@@ -104,15 +107,16 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
                 'yes',
                 widget.getDataForFeedsHeader['documentId'].toString(),
                 widget.getDataForFeedsHeader['postEntityName'].toString(),
+                widget.getDataForFeedsHeader['postActive'].toString(),
               );
             } else {
               //
               openHomePageDotsActionSheet(
-                context,
-                'no',
-                widget.getDataForFeedsHeader['documentId'].toString(),
-                widget.getDataForFeedsHeader['postEntityName'].toString(),
-              );
+                  context,
+                  'no',
+                  widget.getDataForFeedsHeader['documentId'].toString(),
+                  widget.getDataForFeedsHeader['postEntityName'].toString(),
+                  'yes');
             }
           },
           icon: const Icon(
@@ -135,7 +139,7 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
 
   //
   void openHomePageDotsActionSheet(BuildContext context, myProfile,
-      passPostDocumentId, postAdminName) async {
+      passPostDocumentId, postAdminName, isYourPostActive) async {
     if (myProfile == 'yes') {
       await showCupertinoModalPopup<void>(
         context: context,
@@ -153,10 +157,17 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
               onPressed: () async {
                 Navigator.pop(context);
                 //
-                // deletePostConfirmAlert(passPostDocumentId);
+                if (isYourPostActive == 'yes') {
+                  activateDeactivateAlert(passPostDocumentId, isYourPostActive);
+                } else {
+                  print(isYourPostActive);
+                  activateDeactivateAlert(passPostDocumentId, isYourPostActive);
+                }
               },
-              child:
-                  text_bold_comforta('De-activate this post', Colors.red, 14.0),
+              child: isYourPostActive == 'no'
+                  ? text_bold_comforta('Activate again', Colors.green, 14.0)
+                  : text_bold_comforta(
+                      'De-activate this post', Colors.red, 14.0),
             ),
             //
             CupertinoActionSheetAction(
@@ -231,10 +242,56 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
               },
               child: text_bold_comforta('User profile', Colors.black, 14.0),
             ),
+            //
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                Navigator.pop(context);
+                //
+                // from firebase method
+                unfollowThisCommunity(
+                    widget.getDataForFeedsHeader['communityId'][0].toString());
+                //
+              },
+              child: text_bold_comforta(
+                  'Unfollow this community', Colors.black, 14.0),
+            ),
           ],
         ),
       );
     }
+  }
+
+  activateDeactivateAlert(documentId, checkedStatus) async {
+    //
+    await showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: text_bold_comforta(
+          //
+          (checkedStatus == 'no')
+              ? strActivateYourFeedMessage
+              : strDeactivateYourFeedMessage,
+          Colors.black,
+          18.0,
+        ),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () async {
+              Navigator.pop(context);
+
+              // from firebase method
+              (checkedStatus == 'no')
+                  ? activateDeactivatePost(documentId, 'yes')
+                  : activateDeactivatePost(documentId, 'no');
+            },
+            child: (checkedStatus == 'no')
+                ? text_bold_comforta('Yes, activate', Colors.green, 14.0)
+                : text_bold_comforta(
+                    'Yes, de-activate', Colors.redAccent, 14.0),
+          ),
+        ],
+      ),
+    );
   }
 
   //

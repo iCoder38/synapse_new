@@ -35,6 +35,10 @@ var dummy_image_url =
     'https://images.unsplash.com/photo-1520820446914-04cb9819a6cc?auto=format&fit=crop&q=80&w=2936&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 /* ======================== TEXT ======================== */ //
 var str_alert_please_wait = 'Please wait...';
+var strActivateYourFeedMessage =
+    'This feed will be activated again and visible to everyone.';
+var strDeactivateYourFeedMessage =
+    'This post will be deactivated and hide it from everywhere. If you want to activate it again so activate it from your profile';
 //
 /* ======================== COLOR ================ */ //
 var select_color = Colors.redAccent;
