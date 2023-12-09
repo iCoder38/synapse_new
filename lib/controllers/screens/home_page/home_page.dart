@@ -481,6 +481,23 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   ),
                 ),
               ),
+              //
+              const Spacer(),
+              text_bold_comforta(
+                readTimestamp(
+                  int.parse(
+                    // '1698288800',
+                    getSnapShopValue[index]['timeStamp'].toString(),
+                  ),
+                ),
+                Colors.black,
+                8.0,
+              ),
+              //
+              const SizedBox(
+                width: 40,
+              ),
+              //
             ],
           ),
         ),

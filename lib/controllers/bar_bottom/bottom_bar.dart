@@ -205,168 +205,171 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   //
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: LazyLoadIndexedStack(
-        index: lazyIndex,
-        children: const [
-          HomePageScreen(),
-          AllCommunitiesScreen(),
-          AllEventsScreen(),
-          DialogScreen(),
-          MainProfilePageScreen(),
-        ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: LazyLoadIndexedStack(
+          index: lazyIndex,
+          children: const [
+            HomePageScreen(),
+            AllCommunitiesScreen(),
+            AllEventsScreen(),
+            DialogScreen(),
+            MainProfilePageScreen(),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.amber,
+          onTap: (index) {
+            setState(() => lazyIndex = index);
+          },
+          currentIndex: lazyIndex,
+          items: [
+            BottomNavigationBarItem(
+              backgroundColor: home_page_bottom_tab_color(),
+              icon: const Icon(
+                Icons.email,
+                color: Colors.black,
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: community_page_navigation_color(),
+              icon: const Icon(
+                Icons.people,
+                color: Colors.black,
+              ),
+              label: 'Communities',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: event_page_navigation_color(),
+              icon: const Icon(
+                Icons.event,
+                color: Colors.black,
+              ),
+              label: 'Events',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: dialog_page_navigation_color(),
+              icon: const Icon(
+                Icons.chat,
+                color: Colors.black,
+              ),
+              label: 'Dialog',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: profile_page_navigation_color(),
+              icon: const Icon(
+                Icons.group,
+                color: Colors.black,
+              ),
+              label: 'Profile',
+            ),
+          ],
+        ),
+        // body: PageView(
+        //   controller: _pageController,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   children: List.generate(
+        //     bottomBarPages.length,
+        //     (index) => bottomBarPages[index],
+        //   ),
+        // ),
+        // extendBody: true,
+        // bottomNavigationBar:
+        /*AnimatedNotchBottomBar(
+          /// Provide NotchBottomBarController
+          notchBottomBarController: _controller,
+          color: Colors.white,
+          showLabel: false,
+          notchColor: Colors.black87,
+    
+          /// restart app if you change removeMargins
+          removeMargins: false,
+          bottomBarWidth: 200,
+          durationInMilliSeconds: 300,
+          bottomBarItems: const [
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.home_filled,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.home_filled,
+                color: Colors.blueAccent,
+              ),
+              itemLabel: 'Page 1',
+            ),
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.group,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.group,
+                color: Colors.blueAccent,
+              ),
+              itemLabel: 'Page 2',
+            ),
+    
+            ///svg example
+            // BottomBarItem(
+            //   inActiveItem: Image.asset(
+            //     'assets/search_icon.svg',
+            //     color: Colors.blueGrey,
+            //   ),
+            //   activeItem: Image.asset(
+            //     'assets/search_icon.svg',
+            //     color: Colors.white,
+            //   ),
+            //   itemLabel: 'Page 3',
+            // ),
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.event,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.event,
+                color: Colors.pink,
+              ),
+              itemLabel: 'Page 4',
+            ),
+            //
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.chat,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.chat,
+                color: Colors.yellow,
+              ),
+              itemLabel: 'Page 5',
+            ),
+            //
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.person,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.person,
+                color: Colors.yellow,
+              ),
+              itemLabel: 'Page 6',
+            ),
+          ],
+          onTap: (index) {
+            /// perform action on tab change and to update pages you can update pages without pages
+            // log('current selected index $index');
+            if (kDebugMode) {
+              print('current selected index $index');
+            }
+            _pageController.jumpToPage(index);
+          },
+        ),*/
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.amber,
-        onTap: (index) {
-          setState(() => lazyIndex = index);
-        },
-        currentIndex: lazyIndex,
-        items: [
-          BottomNavigationBarItem(
-            backgroundColor: home_page_bottom_tab_color(),
-            icon: const Icon(
-              Icons.email,
-              color: Colors.black,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: community_page_navigation_color(),
-            icon: const Icon(
-              Icons.people,
-              color: Colors.black,
-            ),
-            label: 'Communities',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: event_page_navigation_color(),
-            icon: const Icon(
-              Icons.event,
-              color: Colors.black,
-            ),
-            label: 'Events',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: dialog_page_navigation_color(),
-            icon: const Icon(
-              Icons.chat,
-              color: Colors.black,
-            ),
-            label: 'Dialog',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: profile_page_navigation_color(),
-            icon: const Icon(
-              Icons.group,
-              color: Colors.black,
-            ),
-            label: 'Profile',
-          ),
-        ],
-      ),
-      // body: PageView(
-      //   controller: _pageController,
-      //   physics: const NeverScrollableScrollPhysics(),
-      //   children: List.generate(
-      //     bottomBarPages.length,
-      //     (index) => bottomBarPages[index],
-      //   ),
-      // ),
-      // extendBody: true,
-      // bottomNavigationBar:
-      /*AnimatedNotchBottomBar(
-        /// Provide NotchBottomBarController
-        notchBottomBarController: _controller,
-        color: Colors.white,
-        showLabel: false,
-        notchColor: Colors.black87,
-
-        /// restart app if you change removeMargins
-        removeMargins: false,
-        bottomBarWidth: 200,
-        durationInMilliSeconds: 300,
-        bottomBarItems: const [
-          BottomBarItem(
-            inActiveItem: Icon(
-              Icons.home_filled,
-              color: Colors.blueGrey,
-            ),
-            activeItem: Icon(
-              Icons.home_filled,
-              color: Colors.blueAccent,
-            ),
-            itemLabel: 'Page 1',
-          ),
-          BottomBarItem(
-            inActiveItem: Icon(
-              Icons.group,
-              color: Colors.blueGrey,
-            ),
-            activeItem: Icon(
-              Icons.group,
-              color: Colors.blueAccent,
-            ),
-            itemLabel: 'Page 2',
-          ),
-
-          ///svg example
-          // BottomBarItem(
-          //   inActiveItem: Image.asset(
-          //     'assets/search_icon.svg',
-          //     color: Colors.blueGrey,
-          //   ),
-          //   activeItem: Image.asset(
-          //     'assets/search_icon.svg',
-          //     color: Colors.white,
-          //   ),
-          //   itemLabel: 'Page 3',
-          // ),
-          BottomBarItem(
-            inActiveItem: Icon(
-              Icons.event,
-              color: Colors.blueGrey,
-            ),
-            activeItem: Icon(
-              Icons.event,
-              color: Colors.pink,
-            ),
-            itemLabel: 'Page 4',
-          ),
-          //
-          BottomBarItem(
-            inActiveItem: Icon(
-              Icons.chat,
-              color: Colors.blueGrey,
-            ),
-            activeItem: Icon(
-              Icons.chat,
-              color: Colors.yellow,
-            ),
-            itemLabel: 'Page 5',
-          ),
-          //
-          BottomBarItem(
-            inActiveItem: Icon(
-              Icons.person,
-              color: Colors.blueGrey,
-            ),
-            activeItem: Icon(
-              Icons.person,
-              color: Colors.yellow,
-            ),
-            itemLabel: 'Page 6',
-          ),
-        ],
-        onTap: (index) {
-          /// perform action on tab change and to update pages you can update pages without pages
-          // log('current selected index $index');
-          if (kDebugMode) {
-            print('current selected index $index');
-          }
-          _pageController.jumpToPage(index);
-        },
-      ),*/
     );
   }
 }

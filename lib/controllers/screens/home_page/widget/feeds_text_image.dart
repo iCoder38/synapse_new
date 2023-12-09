@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
+import 'package:flutter/foundation.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -107,31 +109,39 @@ class _FeedsTextAndImageUIScreenState extends State<FeedsTextAndImageUIScreen> {
                   height: 8.0,
                 ),
                 //
-                Container(
-                  height: 340,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[500],
-                    borderRadius: BorderRadius.circular(
-                      14.0,
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      14.0,
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: widget
-                          .getFeedsDataForTextAndImage['postImageLink']
-                          .toString(),
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => const SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: Center(child: CircularProgressIndicator()),
+                GestureDetector(
+                  onTap: () {
+                    //
+                    funcOpenImage(widget
+                        .getFeedsDataForTextAndImage['postImageLink']
+                        .toString());
+                  },
+                  child: Container(
+                    height: 340,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[500],
+                      borderRadius: BorderRadius.circular(
+                        14.0,
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                        14.0,
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: widget
+                            .getFeedsDataForTextAndImage['postImageLink']
+                            .toString(),
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
                     ),
                   ),
                 ),
@@ -139,4 +149,44 @@ class _FeedsTextAndImageUIScreenState extends State<FeedsTextAndImageUIScreen> {
             ),
           );
   }
+
+  // click to enlarge image
+  funcOpenImage(imageName) {
+    if (kDebugMode) {
+      // print(imageName);
+    }
+    //
+    List<String> saveClickedImage = [];
+    saveClickedImage.add(imageName);
+
+    CustomImageProvider customImageProvider = CustomImageProvider(
+        //
+        imageUrls: saveClickedImage.toList(),
+
+        //
+        initialIndex: 0);
+    showImageViewerPager(context, customImageProvider, doubleTapZoomable: true,
+        onPageChanged: (page) {
+      // print("Page changed to $page");
+    }, onViewerDismissed: (page) {
+      // print("Dismissed while on page $page");
+    });
+  }
+}
+
+class CustomImageProvider extends EasyImageProvider {
+  @override
+  final int initialIndex;
+  final List<String> imageUrls;
+
+  CustomImageProvider({required this.imageUrls, this.initialIndex = 0})
+      : super();
+
+  @override
+  ImageProvider<Object> imageBuilder(BuildContext context, int index) {
+    return NetworkImage(imageUrls[index]);
+  }
+
+  @override
+  int get imageCount => imageUrls.length;
 }

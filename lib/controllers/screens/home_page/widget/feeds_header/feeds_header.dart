@@ -2,10 +2,16 @@
 
 import 'dart:core';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:synapse_new/controllers/update_data_on_firebase/delete_post/delete_post.dart';
 
+import '../../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
+import '../../../communities/community_details/community_details.dart';
 import '../../../my_settings/my_profile/my_profile.dart';
 import '../../../utils/utils.dart';
 
@@ -84,7 +90,36 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
           Colors.grey,
           12.0,
         ),
-        trailing: text_bold_comforta(
+        trailing: IconButton(
+          onPressed: () {
+            //
+            if (kDebugMode) {
+              print(widget.getDataForFeedsHeader['documentId'].toString());
+            }
+            if (FirebaseAuth.instance.currentUser!.uid ==
+                widget.getDataForFeedsHeader['postEntityId'].toString()) {
+              //
+              openHomePageDotsActionSheet(
+                context,
+                'yes',
+                widget.getDataForFeedsHeader['documentId'].toString(),
+                widget.getDataForFeedsHeader['postEntityName'].toString(),
+              );
+            } else {
+              //
+              openHomePageDotsActionSheet(
+                context,
+                'no',
+                widget.getDataForFeedsHeader['documentId'].toString(),
+                widget.getDataForFeedsHeader['postEntityName'].toString(),
+              );
+            }
+          },
+          icon: const Icon(
+            Icons.more_horiz,
+          ),
+        ),
+        /*text_bold_comforta(
           readTimestamp(
             int.parse(
               // '1698288800',
@@ -93,12 +128,159 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
           ),
           Colors.black,
           8.0,
-        ),
+        ),*/
       ),
     );
   }
 
   //
+  void openHomePageDotsActionSheet(BuildContext context, myProfile,
+      passPostDocumentId, postAdminName) async {
+    if (myProfile == 'yes') {
+      await showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => CupertinoActionSheet(
+          title: text_bold_comforta(
+            //
+            FirebaseAuth.instance.currentUser!.displayName.toString(),
+            Colors.black,
+            18.0,
+          ),
+          // message: const Text(''),
+          actions: <CupertinoActionSheetAction>[
+            //
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                Navigator.pop(context);
+                //
+                deletePostConfirmAlert(passPostDocumentId);
+              },
+              child: text_bold_comforta('Delete', Colors.red, 14.0),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                Navigator.pop(context);
+                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyProfileScreen(
+                      strFirebaseId: widget
+                          .getDataForFeedsHeader['postEntityId']
+                          .toString(),
+                      strUsername: widget
+                          .getDataForFeedsHeader['postEntityName']
+                          .toString(),
+                      strBio: '',
+                    ),
+                  ),
+                );
+                //
+              },
+              child: text_bold_comforta('View my profile', Colors.black, 14.0),
+            ),
+
+            //
+          ],
+        ),
+      );
+    } else {
+      // other's profile
+      await showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => CupertinoActionSheet(
+          title: text_bold_comforta(
+            //
+            postAdminName.toString(),
+            Colors.black,
+            18.0,
+          ),
+          // message: const Text(''),
+          actions: <CupertinoActionSheetAction>[
+            //
+            /*CupertinoActionSheetAction(
+              onPressed: () async {
+                Navigator.pop(context);
+                //
+                // from firebase method
+                // firebaseDeleteThisPostFromDB(passPostDocumentId);
+              },
+              child: text_bold_comforta('Delete', Colors.red, 14.0),
+            ),*/
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                Navigator.pop(context);
+                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyProfileScreen(
+                      strFirebaseId: widget
+                          .getDataForFeedsHeader['postEntityId']
+                          .toString(),
+                      strUsername: widget
+                          .getDataForFeedsHeader['postEntityName']
+                          .toString(),
+                      strBio: '',
+                    ),
+                  ),
+                );
+                //
+              },
+              child: text_bold_comforta('User profile', Colors.black, 14.0),
+            ),
+
+            //
+            /*CupertinoActionSheetAction(
+              isDestructiveAction: true,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: text_bold_comforta('Dismiss', Colors.redAccent, 12.0),
+            ),*/
+          ],
+        ),
+      );
+    }
+  }
+
+  //
+  deletePostConfirmAlert(documentId) async {
+    //
+    await showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: text_bold_comforta(
+          //
+          'Are you sure you want to delete this post?',
+          Colors.black,
+          18.0,
+        ),
+        // message: const Text(''),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () async {
+              Navigator.pop(context);
+              // from firebase method
+              firebaseDeleteThisPostFromDB(documentId);
+            },
+            child: text_bold_comforta('Yes, delete', Colors.redAccent, 14.0),
+          ),
+
+          //
+          /*CupertinoActionSheetAction(
+              isDestructiveAction: true,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: text_bold_comforta('Dismiss', Colors.redAccent, 12.0),
+            ),*/
+        ],
+      ),
+    );
+  }
 }
+ 
 //
+ 
  
