@@ -162,7 +162,6 @@ class _FeedsTextAndImageUIScreenState extends State<FeedsTextAndImageUIScreen> {
     CustomImageProvider customImageProvider = CustomImageProvider(
         //
         imageUrls: saveClickedImage.toList(),
-
         //
         initialIndex: 0);
     showImageViewerPager(context, customImageProvider, doubleTapZoomable: true,

@@ -153,6 +153,16 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
               onPressed: () async {
                 Navigator.pop(context);
                 //
+                // deletePostConfirmAlert(passPostDocumentId);
+              },
+              child:
+                  text_bold_comforta('De-activate this post', Colors.red, 14.0),
+            ),
+            //
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                Navigator.pop(context);
+                //
                 deletePostConfirmAlert(passPostDocumentId);
               },
               child: text_bold_comforta('Delete', Colors.red, 14.0),
@@ -198,15 +208,7 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
           // message: const Text(''),
           actions: <CupertinoActionSheetAction>[
             //
-            /*CupertinoActionSheetAction(
-              onPressed: () async {
-                Navigator.pop(context);
-                //
-                // from firebase method
-                // firebaseDeleteThisPostFromDB(passPostDocumentId);
-              },
-              child: text_bold_comforta('Delete', Colors.red, 14.0),
-            ),*/
+
             CupertinoActionSheetAction(
               onPressed: () async {
                 Navigator.pop(context);
@@ -229,15 +231,6 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
               },
               child: text_bold_comforta('User profile', Colors.black, 14.0),
             ),
-
-            //
-            /*CupertinoActionSheetAction(
-              isDestructiveAction: true,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: text_bold_comforta('Dismiss', Colors.redAccent, 12.0),
-            ),*/
           ],
         ),
       );
@@ -256,7 +249,6 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
           Colors.black,
           18.0,
         ),
-        // message: const Text(''),
         actions: <CupertinoActionSheetAction>[
           CupertinoActionSheetAction(
             onPressed: () async {
@@ -266,19 +258,11 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
             },
             child: text_bold_comforta('Yes, delete', Colors.redAccent, 14.0),
           ),
-
-          //
-          /*CupertinoActionSheetAction(
-              isDestructiveAction: true,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: text_bold_comforta('Dismiss', Colors.redAccent, 12.0),
-            ),*/
         ],
       ),
     );
   }
+  // update feeds count after delete post
 }
  
 //

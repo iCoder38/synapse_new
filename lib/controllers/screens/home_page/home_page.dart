@@ -123,6 +123,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 'communityId',
                                 arrayContainsAny: saveIdsInArray,
                               )
+                              .where('postActive', isEqualTo: 'yes')
                               // .limit(10)
                               .snapshots(),
                           builder:
@@ -886,4 +887,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
       },
     );
   }
+
+  //
 }
