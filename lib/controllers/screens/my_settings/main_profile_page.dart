@@ -206,6 +206,7 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
                                 .instance.currentUser!.displayName
                                 .toString(),
                             strBio: strUserBio.toString(),
+                            strProfileImage: strProfileImage,
                           ),
                         ),
                       );

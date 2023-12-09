@@ -2,18 +2,18 @@
 
 import 'dart:core';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'package:synapse_new/controllers/update_data_on_firebase/activate_deactivate_post/activate_deactivate_post.dart';
 import 'package:synapse_new/controllers/update_data_on_firebase/delete_post/delete_post.dart';
 
-import '../../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
+// import '../../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../../../update_data_on_firebase/unfollow_community/unfollow_community.dart';
-import '../../../communities/community_details/community_details.dart';
+// import '../../../communities/community_details/community_details.dart';
 import '../../../my_settings/my_profile/my_profile.dart';
 import '../../../utils/utils.dart';
 

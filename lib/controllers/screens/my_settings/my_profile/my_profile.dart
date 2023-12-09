@@ -1,4 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print
+// ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print, prefer_typing_uninitialized_variables
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,12 +28,14 @@ class MyProfileScreen extends StatefulWidget {
     required this.strFirebaseId,
     required this.strUsername,
     required this.strBio,
+    this.strProfileImage,
   }) : super(key: key);
 
   // final String strMyProfile;
   final String strFirebaseId;
   final String strUsername;
   final String strBio;
+  final strProfileImage;
 
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
@@ -394,21 +397,53 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         bio: widget.strBio,
                       ),
                       //
-                      Center(
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                            top: 10.0,
-                          ),
-                          height: 120,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(
-                              60.0,
+                      widget.strProfileImage == null
+                          ? Center(
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                  top: 10.0,
+                                ),
+                                height: 120,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius: BorderRadius.circular(
+                                    60.0,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Center(
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                  top: 10.0,
+                                ),
+                                height: 120,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  color: Colors.pink,
+                                  borderRadius: BorderRadius.circular(
+                                    60.0,
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.strProfileImage,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        const SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: Center(
+                                          child: CircularProgressIndicator()),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
                       //
                     ],
                   ),
