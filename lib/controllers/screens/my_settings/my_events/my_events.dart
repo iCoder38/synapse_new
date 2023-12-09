@@ -2,8 +2,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/screens/my_settings/edit_my_event/edit_my_event.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../events/all_events/widgets/event_name_members/event_name_members.dart';
@@ -86,14 +88,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                         GestureDetector(
                           onTap: () {
                             //
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EventDetailsScreen(
-                                  getEventData: getSnapShopValue[i],
-                                ),
-                              ),
-                            );
+                            showEditEvent(getSnapShopValue[i]);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -309,6 +304,54 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
               14.0,
             ));
           }),
+    );
+  }
+
+  //
+  showEditEvent(snapshotWithIndex) async {
+    //
+    await showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        /*title: text_bold_comforta(
+          //
+          '',
+          Colors.black,
+          18.0,
+        ),*/
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () async {
+              Navigator.pop(context);
+              //
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditMyEventScreen(
+                    getEventData: snapshotWithIndex,
+                  ),
+                ),
+              );
+            },
+            child: text_bold_comforta('Edit', Colors.black, 14.0),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () async {
+              Navigator.pop(context);
+              //
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EventDetailsScreen(
+                    getEventData: snapshotWithIndex,
+                  ),
+                ),
+              );
+            },
+            child: text_bold_comforta('details', Colors.black, 14.0),
+          ),
+        ],
+      ),
     );
   }
 }

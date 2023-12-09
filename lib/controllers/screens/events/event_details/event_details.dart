@@ -99,7 +99,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           Colors.white,
           20.0,
         ),
-        // backgroundColor: Colors.white,
+        backgroundColor: Colors.pinkAccent,
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

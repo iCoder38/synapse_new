@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_print, prefer_typing_uninitialized_variables
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +18,7 @@ import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/m
 import 'package:synapse_new/controllers/screens/my_settings/my_profile/widgets/result/my_profile_result.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
+import '../../home_page/widget/feeds_text_image.dart';
 import '../../utils/utils.dart';
 // import '../add_edit_education/add_edit_education.dart';
 // import '../add_edit_experience/add_experience.dart';
@@ -414,32 +416,38 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                               ),
                             )
                           : Center(
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                  top: 10.0,
-                                ),
-                                height: 120,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  color: Colors.pink,
-                                  borderRadius: BorderRadius.circular(
-                                    60.0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  //
+                                  funcOpenImage(widget.strProfileImage);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                    top: 10.0,
                                   ),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  child: CachedNetworkImage(
-                                    imageUrl: widget.strProfileImage,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) =>
-                                        const SizedBox(
-                                      height: 40,
-                                      width: 40,
-                                      child: Center(
-                                          child: CircularProgressIndicator()),
+                                  height: 120,
+                                  width: 120,
+                                  decoration: BoxDecoration(
+                                    color: Colors.pink,
+                                    borderRadius: BorderRadius.circular(
+                                      60.0,
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.strProfileImage,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          const SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: Center(
+                                            child: CircularProgressIndicator()),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -602,4 +610,25 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   }
 
   //
+  // click to enlarge image
+  funcOpenImage(imageName) {
+    if (kDebugMode) {
+      // print(imageName);
+    }
+    //
+    List<String> saveClickedImage = [];
+    saveClickedImage.add(imageName);
+
+    CustomImageProvider customImageProvider = CustomImageProvider(
+        //
+        imageUrls: saveClickedImage.toList(),
+        //
+        initialIndex: 0);
+    showImageViewerPager(context, customImageProvider, doubleTapZoomable: true,
+        onPageChanged: (page) {
+      // print("Page changed to $page");
+    }, onViewerDismissed: (page) {
+      // print("Dismissed while on page $page");
+    });
+  }
 }
