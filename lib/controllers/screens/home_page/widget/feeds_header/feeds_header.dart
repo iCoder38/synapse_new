@@ -79,14 +79,14 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
             );
           },
           // 4FqrwaXYDUxZz5JKdtqn
-          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
+          child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              future: FirebaseFirestore.instance
                   .collection('$strFirebaseMode${FirestoreUtils.USERS}')
                   .where('firebaseId',
                       isEqualTo: widget.getDataForFeedsHeader['postEntityId']
                           .toString())
                   // .doc('ew7BGmTufzTSlLBPtCsFZc1ai622')
-                  .snapshots(),
+                  .get(),
               builder: (BuildContext context, snapshot) {
                 if (!snapshot.hasData) {
                   return Text("Loading");

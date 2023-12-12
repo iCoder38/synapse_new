@@ -41,6 +41,10 @@ class _SynapseAIScreenState extends State<SynapseAIScreen> {
 
   check() async {
     //
+    setState(() {
+      strLoader = '1';
+      FocusScope.of(context).requestFocus(FocusNode());
+    });
     if (kDebugMode) {
       print('=====> POST : SYNAPSE - AI <===== ');
     }
@@ -67,7 +71,9 @@ class _SynapseAIScreenState extends State<SynapseAIScreen> {
       print(data);
     }
     strSaveAnswer = data['response'];
-    setState(() {});
+    setState(() {
+      strLoader = '2';
+    });
     /*if (resposne.statusCode == 200) {
       if (data['status'].toString().toLowerCase() == 'success') {
         //
@@ -160,21 +166,28 @@ class _SynapseAIScreenState extends State<SynapseAIScreen> {
                 color: Colors.transparent,
                 child: Column(
                   children: [
-                    Expanded(
-                      // Added
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: text_bold_comforta(
-                            //
-                            strSaveAnswer,
-                            Colors.black,
-                            14.0,
+                    if (strLoader == '0') ...[
+                      text_bold_comforta('', Colors.black, 14.0)
+                    ] else if (strLoader == '1') ...[
+                      text_bold_comforta(
+                          'generating your answer...', Colors.black, 14.0)
+                    ] else ...[
+                      Expanded(
+                        // Added
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: text_bold_comforta(
+                              //
+                              strSaveAnswer,
+                              Colors.black,
+                              14.0,
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ]
                   ],
                 ),
               ),
