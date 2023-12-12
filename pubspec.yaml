@@ -54,6 +54,7 @@ dependencies:
   contacts_service:
   lazy_load_indexed_stack: ^1.0.1
   easy_image_viewer:
+  http:
 
 dev_dependencies:
   flutter_test:

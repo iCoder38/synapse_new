@@ -123,7 +123,7 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
                             child: CircularProgressIndicator(),
                           ),
                           errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                              const Icon(Icons.error),
                         ),
                       );
               }),

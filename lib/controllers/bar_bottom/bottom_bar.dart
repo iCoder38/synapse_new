@@ -156,6 +156,7 @@ import 'package:synapse_new/controllers/chat/dialog/dialog.dart';
 import 'package:synapse_new/controllers/screens/communities/all_communitites/all_communities.dart';
 import 'package:synapse_new/controllers/screens/events/all_events/all_events.dart';
 import 'package:synapse_new/controllers/screens/home_page/home_page.dart';
+import 'package:synapse_new/controllers/screens/synapse_ai/synapse_ai.dart';
 import 'package:synapse_new/controllers/screens/utils/utils.dart';
 
 import '../common/alert/app_color/app_color.dart';
@@ -198,7 +199,8 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   final List<Widget> bottomBarPages = [
     const HomePageScreen(),
     const AllCommunitiesScreen(),
-    const AllEventsScreen(),
+    const SynapseAIScreen(),
+    // const AllEventsScreen(),
     const DialogScreen(),
     const MainProfilePageScreen(),
   ];
@@ -213,7 +215,8 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
           children: const [
             HomePageScreen(),
             AllCommunitiesScreen(),
-            AllEventsScreen(),
+            SynapseAIScreen(),
+            // AllEventsScreen(),
             DialogScreen(),
             MainProfilePageScreen(),
           ],
@@ -243,14 +246,24 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
               ),
               label: 'Comms',
             ),
-            BottomNavigationBarItem(
+            /*BottomNavigationBarItem(
               backgroundColor: event_page_navigation_color(),
               icon: const Icon(
                 Icons.event,
                 color: Colors.black,
               ),
               label: 'Events',
+            ),*/
+            //
+            BottomNavigationBarItem(
+              backgroundColor: event_page_navigation_color(),
+              icon: const Icon(
+                Icons.smart_toy,
+                color: Colors.black,
+              ),
+              label: 'AI',
             ),
+            //
             BottomNavigationBarItem(
               backgroundColor: dialog_page_navigation_color(),
               icon: const Icon(
