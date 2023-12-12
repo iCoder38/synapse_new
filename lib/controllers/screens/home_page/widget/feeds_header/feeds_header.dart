@@ -3,6 +3,7 @@
 import 'dart:core';
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -12,6 +13,7 @@ import 'package:synapse_new/controllers/update_data_on_firebase/activate_deactiv
 import 'package:synapse_new/controllers/update_data_on_firebase/delete_post/delete_post.dart';
 
 // import '../../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
+import '../../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../../../update_data_on_firebase/unfollow_community/unfollow_community.dart';
 // import '../../../communities/community_details/community_details.dart';
 import '../../../my_settings/my_profile/my_profile.dart';
@@ -21,8 +23,10 @@ class FeedsHeaderUIScreen extends StatefulWidget {
   const FeedsHeaderUIScreen({
     super.key,
     this.getDataForFeedsHeader,
+    required this.index,
   });
 
+  final int index;
   final getDataForFeedsHeader;
 
   @override
@@ -30,9 +34,18 @@ class FeedsHeaderUIScreen extends StatefulWidget {
 }
 
 class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
+  //
+  final Stream<DocumentSnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('$strFirebaseMode${FirestoreUtils.USERS}')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .snapshots();
+  //
   @override
   void initState() {
     // print(widget.getDataForFeedsHeader['timeStamp']);
+    // print(widget.getDataForFeedsHeader['profiledisplayImage']);
+    print('object');
+    print(widget.index);
     super.initState();
   }
 
@@ -70,15 +83,66 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
                 ),
               );
             },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(
-                25.0,
-              ),
-              child: Image.network(
-                dummy_image_url,
-                fit: BoxFit.cover,
-              ),
-            ),
+            child: StreamBuilder<DocumentSnapshot>(
+                stream: _usersStream,
+                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading");
+                  } else if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  dynamic data = snapshot.data;
+                  return new Text(data['status']);
+                }),
+            /*child: FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('$strFirebaseMode${FirestoreUtils.USERS}')
+                  .where('firebaseId',
+                      isEqualTo: widget.getDataForFeedsHeader['postEntityId']
+                          .toString())
+                  .get(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  var getSnapShopValue1 = snapshot.data!.docs;
+                  if (kDebugMode) {
+                    print('==============================');
+                    print(widget.index);
+                    // print(getSnapShopValue1.length);
+                    // print(widget.getDataForFeedsHeader);
+                    // print(getSnapShopValue1[widget.index]['profiledisplayImage']
+                    //  .toString());
+                    // print(
+                    // getSnapShopValue[index]['postLikesCount'].toString());
+                    // print('======== POST LIKE ==============');
+                  }
+                  return Text(
+                      'ok'); /*ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      25.0,
+                    ),
+                    child: Image.network(
+                      // dummy_image_url,
+                      //
+                      getSnapShopValue1[widget.index]['profiledisplayImage']
+                          .toString(),
+                      fit: BoxFit.cover,
+                    ),
+                  );*/
+                } else if (snapshot.hasError) {
+                  //
+                  if (kDebugMode) {
+                    print(snapshot.error);
+                  }
+                  //
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),*/
           ),
         ),
         title: text_bold_comforta(
@@ -189,7 +253,7 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
               child: text_bold_comforta('View my profile', Colors.black, 14.0),
             ),
             //
-            if (thisPostCommunityAdminId.toString() !=
+            /*if (thisPostCommunityAdminId.toString() !=
                 FirebaseAuth.instance.currentUser!.uid.toString()) ...[
               //
               CupertinoActionSheetAction(
@@ -205,7 +269,7 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
                 child: text_bold_comforta(
                     'Unfollow this community', Colors.black, 14.0),
               ),
-            ],
+            ],*/
             //
             CupertinoActionSheetAction(
               onPressed: () async {

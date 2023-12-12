@@ -235,6 +235,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                         // feeds header
                         FeedsHeaderUIScreen(
                           getDataForFeedsHeader: getSnapShopValue[index],
+                          index: index,
                         ),
                         //
                         if (getSnapShopValue[index]['postType'].toString() ==

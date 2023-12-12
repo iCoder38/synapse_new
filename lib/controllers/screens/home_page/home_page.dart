@@ -63,7 +63,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
               automaticallyImplyLeading: false,
               title: text_bold_comforta(
                 'Home',
-                Colors.white,
+                Colors.black,
                 20.0,
               ),
               //
@@ -173,6 +173,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                             FeedsHeaderUIScreen(
                                               getDataForFeedsHeader:
                                                   getSnapShopValue[index],
+                                              index: index,
                                             ),
                                             //
                                             if (getSnapShopValue[index]

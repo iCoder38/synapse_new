@@ -111,6 +111,7 @@ class _MyFeedsScreenState extends State<MyFeedsScreen> {
                           // feeds header
                           FeedsHeaderUIScreen(
                             getDataForFeedsHeader: getSnapShopValue[index],
+                            index: index,
                           ),
                           //
                           if (getSnapShopValue[index]['postType'].toString() ==

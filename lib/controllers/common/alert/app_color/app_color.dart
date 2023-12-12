@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 //******************* HOME PAGE *****************************************/
 //***********************************************************************/
 Color home_page_navigation_color() {
-  return const Color.fromRGBO(135, 154, 204, 1);
+  return const Color.fromRGBO(250, 250, 248, 1);
 }
 
 Color home_page_bottom_tab_color() {
-  return const Color.fromRGBO(135, 154, 204, 1);
+  return const Color.fromRGBO(250, 250, 248, 1);
 }
 
 //********************** COMMUNITIES ************************************/

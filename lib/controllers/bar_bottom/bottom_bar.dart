@@ -219,7 +219,8 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.amber,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: home_page_bottom_tab_color(),
           onTap: (index) {
             setState(() => lazyIndex = index);
           },
@@ -227,8 +228,9 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
           items: [
             BottomNavigationBarItem(
               backgroundColor: home_page_bottom_tab_color(),
+              // backgroundColor: Colors.white,
               icon: const Icon(
-                Icons.email,
+                Icons.feed,
                 color: Colors.black,
               ),
               label: 'Home',
@@ -239,7 +241,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                 Icons.people,
                 color: Colors.black,
               ),
-              label: 'Communities',
+              label: 'Comms',
             ),
             BottomNavigationBarItem(
               backgroundColor: event_page_navigation_color(),
