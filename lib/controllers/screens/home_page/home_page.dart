@@ -50,6 +50,25 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     //
+    CollectionReference users = FirebaseFirestore.instance.collection(
+      'dummy/data/${FirebaseAuth.instance.currentUser!.uid}',
+    );
+
+    users
+        .add(
+          {'skillCount': '0'},
+        )
+        .then(
+          (value) =>
+              //
+              print('dummy only'),
+          /*addDocumentIdForNewId(
+                value.id,
+              ),*/
+        )
+        .catchError(
+          (error) => print("Failed to add user: $error"),
+        );
     super.initState();
   }
 

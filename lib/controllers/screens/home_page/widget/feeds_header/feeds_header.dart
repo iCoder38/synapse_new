@@ -3,6 +3,7 @@
 import 'dart:core';
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,7 +38,7 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
   //
   final Stream<DocumentSnapshot> _usersStream = FirebaseFirestore.instance
       .collection('$strFirebaseMode${FirestoreUtils.USERS}')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .doc('4FqrwaXYDUxZz5JKdtqn')
       .snapshots();
   //
   @override
@@ -51,160 +52,142 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 8.0,
-        right: 8.0,
-        top: 8.0,
-      ),
-      child: ListTile(
-        leading: SizedBox(
-          height: 50,
-          width: 50,
-          child: GestureDetector(
-            onTap: () {
-              //
-              if (kDebugMode) {
-                print('clicked on home page user profile image');
-                print(widget.getDataForFeedsHeader['postEntityId'].toString());
-              }
-              //
+    return ListTile(
+      leading: SizedBox(
+        height: 50,
+        width: 50,
+        child: GestureDetector(
+          onTap: () {
+            //
+            if (kDebugMode) {
+              print('clicked on home page user profile image');
+              print(widget.getDataForFeedsHeader['postEntityId'].toString());
+            }
+            //
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MyProfileScreen(
-                    strFirebaseId:
-                        widget.getDataForFeedsHeader['postEntityId'].toString(),
-                    strUsername: widget.getDataForFeedsHeader['postEntityName']
-                        .toString(),
-                    strBio: '',
-                  ),
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyProfileScreen(
+                  strFirebaseId:
+                      widget.getDataForFeedsHeader['postEntityId'].toString(),
+                  strUsername:
+                      widget.getDataForFeedsHeader['postEntityName'].toString(),
+                  strBio: '',
                 ),
-              );
-            },
-            child: StreamBuilder<DocumentSnapshot>(
-                stream: _usersStream,
-                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Text("Loading");
-                  } else if (snapshot.hasError) {
-                    return Text('Something went wrong');
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  }
-                  dynamic data = snapshot.data;
-                  return new Text(data['status']);
-                }),
-            /*child: FutureBuilder(
-              future: FirebaseFirestore.instance
+              ),
+            );
+          },
+          // 4FqrwaXYDUxZz5JKdtqn
+          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: FirebaseFirestore.instance
                   .collection('$strFirebaseMode${FirestoreUtils.USERS}')
                   .where('firebaseId',
                       isEqualTo: widget.getDataForFeedsHeader['postEntityId']
                           .toString())
-                  .get(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var getSnapShopValue1 = snapshot.data!.docs;
-                  if (kDebugMode) {
-                    print('==============================');
-                    print(widget.index);
-                    // print(getSnapShopValue1.length);
-                    // print(widget.getDataForFeedsHeader);
-                    // print(getSnapShopValue1[widget.index]['profiledisplayImage']
-                    //  .toString());
-                    // print(
-                    // getSnapShopValue[index]['postLikesCount'].toString());
-                    // print('======== POST LIKE ==============');
-                  }
-                  return Text(
-                      'ok'); /*ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      25.0,
-                    ),
-                    child: Image.network(
-                      // dummy_image_url,
-                      //
-                      getSnapShopValue1[widget.index]['profiledisplayImage']
-                          .toString(),
-                      fit: BoxFit.cover,
-                    ),
-                  );*/
+                  // .doc('ew7BGmTufzTSlLBPtCsFZc1ai622')
+                  .snapshots(),
+              builder: (BuildContext context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Text("Loading");
                 } else if (snapshot.hasError) {
-                  //
-                  if (kDebugMode) {
-                    print(snapshot.error);
-                  }
-                  //
+                  return Text('Something went wrong');
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return CircularProgressIndicator();
                 }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            ),*/
-          ),
+                // dynamic data = snapshot.data;
+
+                final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
+                    snapshot.data!.docs;
+                //
+                return (docs[0]['profiledisplayImage'] == '')
+                    ? Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              25.0,
+                            ),
+                            border: Border.all()),
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          25.0,
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: docs[0]['profiledisplayImage'].toString(),
+                          placeholder: (context, url) => const SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
+                      );
+              }),
         ),
-        title: text_bold_comforta(
-          widget.getDataForFeedsHeader['postEntityName'].toString(),
-          Colors.black,
-          18.0,
-        ),
-        subtitle: text_bold_comforta(
-          widget.getDataForFeedsHeader['communityDetails']['communityName']
-              .toString(),
-          Colors.grey,
-          12.0,
-        ),
-        trailing: IconButton(
-          onPressed: () {
-            //
-            if (kDebugMode) {
-              print(widget.getDataForFeedsHeader['documentId'].toString());
-              print(widget.getDataForFeedsHeader['postActive'].toString());
-            }
-            if (FirebaseAuth.instance.currentUser!.uid ==
-                widget.getDataForFeedsHeader['postEntityId'].toString()) {
-              //
-              openHomePageDotsActionSheet(
-                context,
-                'yes',
-                widget.getDataForFeedsHeader['documentId'].toString(),
-                widget.getDataForFeedsHeader['postEntityName'].toString(),
-                widget.getDataForFeedsHeader['postActive'].toString(),
-                widget.getDataForFeedsHeader['communityDetails']
-                        ['communityAdminId']
-                    .toString(),
-              );
-            } else {
-              //
-              openHomePageDotsActionSheet(
-                context,
-                'no',
-                widget.getDataForFeedsHeader['documentId'].toString(),
-                widget.getDataForFeedsHeader['postEntityName'].toString(),
-                'yes',
-                widget.getDataForFeedsHeader['communityDetails']
-                        ['communityAdminId']
-                    .toString(),
-              );
-            }
-          },
-          icon: const Icon(
-            Icons.more_horiz,
-          ),
-        ),
-        /*text_bold_comforta(
-          readTimestamp(
-            int.parse(
-              // '1698288800',
-              widget.getDataForFeedsHeader['timeStamp'].toString(),
-            ),
-          ),
-          Colors.black,
-          8.0,
-        ),*/
       ),
+      title: text_bold_comforta(
+        widget.getDataForFeedsHeader['postEntityName'].toString(),
+        Colors.black,
+        18.0,
+      ),
+      subtitle: text_bold_comforta(
+        widget.getDataForFeedsHeader['communityDetails']['communityName']
+            .toString(),
+        Colors.grey,
+        12.0,
+      ),
+      trailing: IconButton(
+        onPressed: () {
+          //
+          if (kDebugMode) {
+            print(widget.getDataForFeedsHeader['documentId'].toString());
+            print(widget.getDataForFeedsHeader['postActive'].toString());
+          }
+          if (FirebaseAuth.instance.currentUser!.uid ==
+              widget.getDataForFeedsHeader['postEntityId'].toString()) {
+            //
+            openHomePageDotsActionSheet(
+              context,
+              'yes',
+              widget.getDataForFeedsHeader['documentId'].toString(),
+              widget.getDataForFeedsHeader['postEntityName'].toString(),
+              widget.getDataForFeedsHeader['postActive'].toString(),
+              widget.getDataForFeedsHeader['communityDetails']
+                      ['communityAdminId']
+                  .toString(),
+            );
+          } else {
+            //
+            openHomePageDotsActionSheet(
+              context,
+              'no',
+              widget.getDataForFeedsHeader['documentId'].toString(),
+              widget.getDataForFeedsHeader['postEntityName'].toString(),
+              'yes',
+              widget.getDataForFeedsHeader['communityDetails']
+                      ['communityAdminId']
+                  .toString(),
+            );
+          }
+        },
+        icon: const Icon(
+          Icons.more_horiz,
+        ),
+      ),
+      /*text_bold_comforta(
+        readTimestamp(
+          int.parse(
+            // '1698288800',
+            widget.getDataForFeedsHeader['timeStamp'].toString(),
+          ),
+        ),
+        Colors.black,
+        8.0,
+      ),*/
     );
   }
 
