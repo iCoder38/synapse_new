@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/common/app_bar/app_bar.dart';
 
 import '../../common/alert/app_color/app_color.dart';
 import '../../screens/utils/utils.dart';
@@ -18,15 +19,7 @@ class _DialogScreenState extends State<DialogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: text_bold_comforta(
-          'Dialogs',
-          Colors.black,
-          16.0,
-        ),
-        backgroundColor: dialog_page_navigation_color(),
-      ),
+      appBar: const AppBarScreen(navigationTitle: 'Dialog'),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('${strFirebaseMode}dialog')

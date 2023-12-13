@@ -125,10 +125,10 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(
-              "${strFirebaseMode}communities/India/data",
+              "${strFirebaseMode}communities",
             )
             .orderBy('timeStamp', descending: false)
-            .limit(40)
+            .limit(20)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {

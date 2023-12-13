@@ -43,9 +43,9 @@ class _MainProfilePageScreenState extends State<MainProfilePageScreen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USERS}',
+          '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
         )
-        .where('firebaseId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        // .where('firebaseId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((value) {
       if (kDebugMode) {

@@ -554,7 +554,8 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
   }*/
   addLoginUsersCount() {
     //
-    setProfileDataForNewOrFirstTimeUserAfterLogin();
+    saveLoginUserDataInFirebase();
+    // setProfileDataForNewOrFirstTimeUserAfterLogin();
   }
 
   //
@@ -670,7 +671,7 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
 
         //
         CollectionReference users = FirebaseFirestore.instance.collection(
-          '$strFirebaseMode${FirestoreUtils.USERS}',
+          '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
         );
 
         users
@@ -685,6 +686,16 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
                 'verify': FirebaseAuth.instance.currentUser!.emailVerified,
                 'profileType': 'Student',
                 'bio': '',
+                //
+                'countSkill': '0',
+                'countExperience': '0',
+                'countEducation': '0',
+                'countCommunity': '0',
+                'countFeed': '0',
+                'countMarks': '0',
+                'countAttendance': '0',
+                'countEvent': '0',
+                //
                 'searchPattern': arrSaveSearchPatternForName
 
                 //
@@ -693,7 +704,7 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
             .then(
               (value) => FirebaseFirestore.instance
                   .collection(
-                    '$strFirebaseMode${FirestoreUtils.USERS}',
+                    '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
                   )
                   // .doc('India')
                   //.collection('data')

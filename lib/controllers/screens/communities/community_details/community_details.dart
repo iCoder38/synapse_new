@@ -68,7 +68,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
 
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('${strFirebaseMode}communities/India/data')
+              .collection('${strFirebaseMode}communities')
               .where(
                 'documentId',
                 isEqualTo: widget.getCommunityDetails['documentId'],
@@ -174,7 +174,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
           .collection(
               // '${strFirebaseMode}post/${widget.getCommunityDetails['communityId'].toString()}/data')
               '$strFirebaseMode${FirestoreUtils.POST_FEEDS}')
-          .orderBy('timeStamp', descending: true)
+          .orderBy('timeStamp', descending: false)
           .where('communityId', arrayContainsAny: [
             //
             widget.getCommunityDetails['communityId'].toString()
@@ -870,7 +870,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                                         child: CircularProgressIndicator(),
                                       ),
                                       errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
+                                          const Icon(Icons.error),
                                     ),
                               /*Image.network(
                                       getSnapShopValue[index]['postImageLink']
@@ -1122,7 +1122,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   followThisGroupInFirebase() {
     //
     FirebaseFirestore.instance
-        .collection('${strFirebaseMode}communities/India/data')
+        .collection('${strFirebaseMode}communities')
         .doc(widget.getCommunityDetails['documentId'])
         .update(
       {

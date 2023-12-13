@@ -1,5 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,7 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                 ? FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                     future: FirebaseFirestore.instance
                         .collection(
-                          '$strFirebaseMode${FirestoreUtils.USERS}',
+                          '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
                         )
                         .orderBy('name')
                         .limit(20)
@@ -136,7 +137,7 @@ class _AllUsersScreenState extends State<AllUsersScreen> {
                 : FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                     future: FirebaseFirestore.instance
                         .collection(
-                          '$strFirebaseMode${FirestoreUtils.USERS}',
+                          '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
                         )
                         // .orderBy('name')
                         // .where('name', isGreaterThanOrEqualTo: searchText)

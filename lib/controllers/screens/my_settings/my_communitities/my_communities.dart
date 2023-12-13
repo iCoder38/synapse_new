@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
+import 'package:synapse_new/controllers/common/app_bar/app_bar.dart';
 
 import 'package:synapse_new/controllers/screens/communities/community_details/community_details.dart';
 
@@ -29,17 +30,11 @@ class _MyCommunitiesScreenState extends State<MyCommunitiesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: text_bold_comforta(
-          'My Communities',
-          Colors.white,
-          20.0,
-        ),
-      ),
+      appBar: const AppBarScreen(navigationTitle: 'my_communities'),
       body: FutureBuilder(
         future: FirebaseFirestore.instance
             .collection(
-              '$strFirebaseMode${FirestoreUtils.COMMUNITIES}/India/data',
+              '$strFirebaseMode${FirestoreUtils.COMMUNITIES}',
             )
             //
             .orderBy('timeStamp', descending: false)
@@ -48,7 +43,6 @@ class _MyCommunitiesScreenState extends State<MyCommunitiesScreen> {
               arrayContainsAny: [
                 //
                 widget.communityAdminFirebaseId.toString(),
-                // FirebaseAuth.instance.currentUser!.uid.toString()
               ],
             )
             .limit(10)
@@ -293,10 +287,11 @@ class _MyCommunitiesScreenState extends State<MyCommunitiesScreen> {
             );
             //
           } else if (snapshot.hasError) {
+            if (kDebugMode) {
+              print(snapshot.error);
+            }
             return Center(
-              child: Text(
-                'Error: ${snapshot.error}',
-              ),
+              child: Text('Error: ${snapshot.error}'),
             );
           }
           return const Center(

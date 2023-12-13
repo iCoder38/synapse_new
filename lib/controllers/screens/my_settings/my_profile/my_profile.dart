@@ -76,7 +76,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${widget.strFirebaseId}/data',
+          // '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${widget.strFirebaseId}/data',
+          '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
         )
         .get()
         .then((value) {
@@ -101,10 +102,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           //
           strSaveDocumentId = element.id;
           //
-          strTotalCommunityCount = element.data()['communityCount'].toString();
-          strTotalFeedsCount = element.data()['feedCount'].toString();
-          strTotalMarks = element.data()['marks'].toString();
-          strTotalAttendance = element.data()['attendance'].toString();
+          strTotalCommunityCount = element.data()['countCommunity'].toString();
+          strTotalFeedsCount = element.data()['countFeed'].toString();
+          strTotalMarks = element.data()['countMarks'].toString();
+          strTotalAttendance = element.data()['countAttendance'].toString();
         }
         setState(() {
           strLoader = '1';

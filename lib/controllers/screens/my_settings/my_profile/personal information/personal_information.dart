@@ -288,7 +288,7 @@ class PersonalInformationScreenState extends State<PersonalInformationScreen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USERS}',
+          '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
         )
         .doc(widget.getDocumentId.toString())
         .update(
@@ -310,7 +310,7 @@ class PersonalInformationScreenState extends State<PersonalInformationScreen> {
               //
               FirebaseFirestore.instance
                   .collection(
-                    '$strFirebaseMode${FirestoreUtils.USERS}',
+                    '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
                   )
                   .doc(widget.getDocumentId.toString())
                   .update(

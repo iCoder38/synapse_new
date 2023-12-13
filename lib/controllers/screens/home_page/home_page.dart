@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:synapse_new/controllers/common/alert/app_color/app_color.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../common/app_bar/app_bar.dart';
 import '../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../utils/utils.dart';
 import 'widget/feeds_comment_list/post_comment_list.dart';
@@ -78,7 +79,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
     return (strLoader == '0')
         ? const Center(child: CircularProgressIndicator())
         : Scaffold(
-            appBar: AppBar(
+            appBar: AppBarScreen(navigationTitle: 'Home'),
+            /*appBar: AppBar(
               automaticallyImplyLeading: false,
               title: text_bold_comforta(
                 'Home',
@@ -88,7 +90,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
               //
               backgroundColor: home_page_navigation_color(),
               //
-            ),
+            ),*/
 
             // drawer: const DrawerWidget(),
             body: StreamBuilder(

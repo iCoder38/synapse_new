@@ -54,9 +54,9 @@ class _CommunityFollowersScreenState extends State<CommunityFollowersScreen> {
               StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: FirebaseFirestore.instance
                     .collection(
-                      '$strFirebaseMode${FirestoreUtils.USERS}',
+                      '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
                     )
-                    .where('firebaseId', isEqualTo: widget.getAllFollowersId[i])
+                    // .where('firebaseId', isEqualTo: widget.getAllFollowersId[i])
                     .snapshots(),
                 builder: (_, snapshot) {
                   if (snapshot.hasError) {

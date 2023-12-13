@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:synapse_new/controllers/update_data_on_firebase/counters/add_in_community/community.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../common/alert/alert.dart';
@@ -36,6 +37,7 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
   //
   var documentIdForCommunitiesCount = '0';
   var totalCoummunities = '0';
+  var totalCoummunitiesAfterAdd = '0';
   //
   @override
   void initState() {
@@ -43,7 +45,7 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
     contCommunityName = TextEditingController();
     contCommunityAbout = TextEditingController();
     //
-    getDataFromCounts();
+    getLoginUserData();
     super.initState();
   }
 
@@ -271,7 +273,7 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
     }
 
     CollectionReference users = FirebaseFirestore.instance.collection(
-      '${strFirebaseMode}communities/India/data',
+      '${strFirebaseMode}communities',
     );
 
     users
@@ -324,8 +326,8 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
 
     FirebaseFirestore.instance
         .collection("${strFirebaseMode}communities")
-        .doc('India')
-        .collection('data')
+        // .doc('India')
+        // .collection('data')
         .doc(elementId)
         .set(
       {
@@ -340,13 +342,13 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
     );
   }
 
-  //
-  getDataFromCounts() {
+  // /* ******* GET LOGIN USER DATA *********************/
+  // /***************************************************/
+  getLoginUserData() {
     //
-
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
+          '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
         )
         .get()
         .then((value) {
@@ -360,18 +362,35 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
         }
       } else {
         if (kDebugMode) {
-          print('======> Yes, USER FOUND <========');
+          print('======> LOGIN USER : FULL DATA <========');
         }
         for (var element in value.docs) {
           if (kDebugMode) {
             print(element.id);
+            print(element.data());
+            print('======= COMMUNITY COUNT ==================');
+            print(element.data()['countCommunity'].toString());
+            print('==========================================');
             //
-            documentIdForCommunitiesCount = element.id;
+            totalCoummunities = element.data()['countCommunity'].toString();
+            //
+            documentIdForCommunitiesCount =
+                element.data()['documentId'].toString();
+            print(totalCoummunities);
+            print(documentIdForCommunitiesCount);
+            //
+            // add 1
+            var addOne = 0;
+            addOne = int.parse(totalCoummunities) + 1;
+            print(addOne);
+            totalCoummunitiesAfterAdd = addOne.toString();
+            //
+            /*documentIdForCommunitiesCount = element.id;
             totalCoummunities = element.data()['communityCount'].toString();
             //
             var addOne = 0;
             addOne = int.parse(totalCoummunities) + 1;
-            totalCoummunities = addOne.toString();
+            totalCoummunities = addOne.toString();*/
           }
           //
         }
@@ -385,12 +404,13 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
     if (kDebugMode) {
       print('=======================');
       print('UPDATE COMMUNITY COUNT');
-      print(FirebaseAuth.instance.currentUser!.uid);
+      // print(FirebaseAuth.instance.currentUser!.uid);
       print('=======================');
     }
     //
-    // setProfileDataForNewOrFirstTimeUserAfterLogin();
-    updateUserCountNew();
+    // firebase method
+    addOneInCommunityCount(
+        context, documentIdForCommunitiesCount, totalCoummunitiesAfterAdd);
   }
 
   //
@@ -523,19 +543,6 @@ class _AddEditCommunityScreenState extends State<AddEditCommunityScreen> {
   //
   updateUserCountNew() {
     //
-    FirebaseFirestore.instance
-        .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
-        )
-        .doc(documentIdForCommunitiesCount.toString())
-        .update(
-      {
-        'communityCount': totalCoummunities.toString(),
-      },
-    ).then((value) => {
-              //
-              Navigator.pop(context), Navigator.pop(context),
-            });
   }
   //
 }

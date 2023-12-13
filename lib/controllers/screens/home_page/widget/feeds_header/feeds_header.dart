@@ -81,10 +81,12 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
           // 4FqrwaXYDUxZz5JKdtqn
           child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
               future: FirebaseFirestore.instance
-                  .collection('$strFirebaseMode${FirestoreUtils.USERS}')
-                  .where('firebaseId',
-                      isEqualTo: widget.getDataForFeedsHeader['postEntityId']
-                          .toString())
+                  .collection(
+                    '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
+                  )
+                  // .where('firebaseId',
+                  //     isEqualTo: widget.getDataForFeedsHeader['postEntityId']
+                  //         .toString())
                   // .doc('ew7BGmTufzTSlLBPtCsFZc1ai622')
                   .get(),
               builder: (BuildContext context, snapshot) {

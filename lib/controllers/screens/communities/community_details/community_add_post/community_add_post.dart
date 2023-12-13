@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:synapse_new/controllers/update_data_on_firebase/counters/feeds/feeds.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../common/alert/alert.dart';
@@ -595,148 +596,11 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
       SetOptions(merge: true),
     ).then(
       (value1) {
-        // dismiss popup
-        // updateFeedsCount();
-        // setProfileDataForNewOrFirstTimeUserAfterLogin();
         updateUserCountNew();
       },
     );
     //
   }
-
-  /*getTotalFollowersInThisCommunity(
-    getPostType,
-    getTimeStamp,
-  ) async {
-    // printInDebugMode(getDocumentId);
-    if (kDebugMode) {
-      print(widget.getCommunityFullDetails['communityId'].toString());
-      print(widget.getCommunityFullDetails['documentId'].toString());
-    }
-
-    //
-    FirebaseFirestore.instance
-        .collection(
-          '${strFirebaseMode}communities/India/data',
-        )
-        .where(
-          'documentId',
-          isEqualTo: widget.getCommunityFullDetails['documentId'].toString(),
-        )
-        /*.where('communityId', arrayContainsAny: [
-          //
-          widget.getCommunityFullDetails['communityId'].toString(),
-          //
-        ])*/
-        .get()
-        .then((value) {
-      if (kDebugMode) {
-        print(value.docs);
-      }
-
-      if (value.docs.isEmpty) {
-        if (kDebugMode) {
-          print('======> NO USER FOUND');
-        }
-      } else {
-        if (kDebugMode) {
-          print('======> Yes, USER FOUND');
-        }
-        for (var element in value.docs) {
-          if (kDebugMode) {
-            print(element.id);
-            // print(element.data()['followers']);
-            // print(element.data());
-          }
-          //
-          // add this post to EACH users inside community_post firebase id
-          addDataInFollowedUsers(
-            element.data()['followers'],
-            getPostType,
-            getTimeStamp,
-          );
-        }
-      }
-    });
-  }
-
-  addDataInFollowedUsers(
-    List<dynamic> getAllUsersFirebaseId,
-    type,
-    getAndParseTimeStamp,
-  ) {
-    print('add data in all followers feed page');
-    //
-    var setTimeStamp = getAndParseTimeStamp;
-    // printInDebugMode(getAllUsersFirebaseId as String);
-    for (int i = 0; i < getAllUsersFirebaseId.length; i++) {
-      //
-      // create feed id everytime
-      var setUUID = const Uuid().v4();
-      CollectionReference users = FirebaseFirestore.instance.collection(
-        '${strFirebaseMode}feeds/${getAllUsersFirebaseId[i]}/data',
-      );
-
-      users
-          .add(
-            {
-              'postId': setUUID,
-              'title': uuid.toString(),
-              'textContent': contWhatInYourMind.text.toString(),
-              'postImageLink': communityImageUrl.toString(),
-              'postLikesCount': '0',
-              'postCommentCount': '0',
-              'postShareCount': '0',
-              'timeStamp': setTimeStamp,
-              // post admin data
-              'postEntityId': FirebaseAuth.instance.currentUser!.uid,
-              'postEntityEmail': FirebaseAuth.instance.currentUser!.email,
-              'postEntityName': FirebaseAuth.instance.currentUser!.displayName,
-              //
-              'communityId': [
-                widget.getCommunityFullDetails['communityId'].toString(),
-              ],
-              'postAdminId': [
-                FirebaseAuth.instance.currentUser!.uid,
-              ],
-              //
-              'communityDetails': {
-                'communityName':
-                    widget.getCommunityFullDetails['communityName'].toString(),
-                'communityId':
-                    widget.getCommunityFullDetails['communityId'].toString(),
-                'communityDocumentId':
-                    widget.getCommunityFullDetails['documentId'].toString(),
-                'communityImage':
-                    widget.getCommunityFullDetails['communityImage'].toString(),
-                //
-                'communityAdminName':
-                    widget.getCommunityFullDetails['adminName'].toString(),
-                'communityAdminId':
-                    widget.getCommunityFullDetails['adminId'].toString(),
-                'communityAdminEmail':
-                    widget.getCommunityFullDetails['adminEmail'].toString(),
-                //
-                'communityAdminProfilePicture': widget
-                    .getCommunityFullDetails['adminProfilePicture']
-                    .toString(),
-              },
-              'postCommunityType': userSelectCommunityName.toString(),
-              'postType': type.toString(),
-              'postActive': 'yes',
-            },
-          )
-          .then(
-            (value) =>
-                //
-                Navigator.pop(context),
-            //
-          )
-          .catchError(
-            (error) => print("Failed to add user: $error"),
-          );
-    }
-  }*/
 
   //
   getDataFromCounts() {
@@ -749,7 +613,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
 
     FirebaseFirestore.instance
         .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
+          '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
         )
         .get()
         .then((value) {
@@ -770,7 +634,7 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
             print(element.id);
             //
             documentIdForFeedsCount = element.id;
-            totalFeeds = element.data()['feedCount'].toString();
+            totalFeeds = element.data()['countFeed'].toString();
             //
             var addOne = 0;
             // addOne += 1;
@@ -785,168 +649,10 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
     });
   }
 
-// updateUserCountNew
-  setProfileDataForNewOrFirstTimeUserAfterLogin() async {
-    // print('vedica');
-    // print(FirestoreUtils.LOGIN_USER_FIREBASE_ID);
-    //
-    //
-
-    FirebaseFirestore.instance
-        .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
-        )
-        .get()
-        .then((value) {
-      if (kDebugMode) {
-        print(value.docs);
-      }
-
-      if (value.docs.isEmpty) {
-        if (kDebugMode) {
-          print('======> LOGIN USER COUNT DATA NOT FOUND <========');
-        }
-        CollectionReference users = FirebaseFirestore.instance.collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
-        );
-
-        users
-            .add(
-              {
-                'skillCount': '0',
-                'experienceCount': '0',
-                'educationCount': '0',
-                'communityCount': '0',
-                'feedCount': '0',
-                'marks': '0',
-                'attendance': '0',
-              },
-            )
-            .then(
-              (value) =>
-                  //
-                  addDocumentIdForNewId(
-                value.id,
-              ),
-            )
-            .catchError(
-              (error) => print("Failed to add user: $error"),
-            );
-      } else {
-        if (kDebugMode) {
-          print('======> LOGIN USER COUNT DATA FOUND <========');
-        }
-        for (var element in value.docs) {
-          if (kDebugMode) {
-            print(element.id);
-          }
-          //
-          updateUserCount(element.id, element.data()['feedCount'].toString());
-          //
-        }
-      }
-    });
-  }
-
-  addDocumentIdForNewId(elementId) {
-    //
-    if (kDebugMode) {
-      print('============================');
-      print('add document id in new user');
-      print('============================');
-    }
-
-    FirebaseFirestore.instance
-        .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirestoreUtils.LOGIN_USER_FIREBASE_ID}/data',
-        )
-        .doc(elementId)
-        .set(
-      {
-        'documentId': elementId,
-      },
-      SetOptions(merge: true),
-    ).then(
-      (value1) {
-        //
-        updateUserCount(elementId, '0');
-      },
-    );
-  }
-
-  //
-  updateUserCount(getDocumentId, feedsCount) {
-    if (kDebugMode) {
-      print('============================');
-      print('UPDATE USER COUNTS');
-      print(totalFeeds);
-      print(documentIdForFeedsCount);
-      print('============================');
-    }
-    var addOne;
-    // addOne += 1;
-    addOne = int.parse(feedsCount) + 1;
-    // feedsCount = addOne.toString();
-    //
-    if (kDebugMode) {
-      print('======= FEEDS COUNT ==========');
-      print(addOne);
-      print('============================');
-    }
-
-    FirebaseFirestore.instance
-        .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
-        )
-        .doc(getDocumentId.toString())
-        .update(
-      {
-        'feedCount': addOne.toString(),
-      },
-    ).then((value) => {
-              //
-              Navigator.pop(context), Navigator.pop(context),
-            });
-  }
-
-  /*updateFeedsCount() {
-    //
-    if (kDebugMode) {
-      print('===================');
-      print('UPDATE FEEDS COUNT');
-      print('===================');
-    }
-
-    FirebaseFirestore.instance
-        .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
-        )
-        .doc(documentIdForFeedsCount.toString())
-        .update(
-      {
-        'feedCount': totalFeeds.toString(),
-      },
-    ).then((value) => {
-              //
-              Navigator.pop(context), Navigator.pop(context),
-            });
-  }*/
   //
   updateUserCountNew() {
-    //
-    FirebaseFirestore.instance
-        .collection(
-          '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
-        )
-        .doc(documentIdForFeedsCount.toString())
-        .update(
-      {
-        'feedCount': totalFeeds.toString(),
-      },
-    ).then((value) => {
-              //
-              Navigator.pop(context), Navigator.pop(context),
-            });
+    // method from firebase
+    addOneInFeedsCount(context, documentIdForFeedsCount, totalFeeds);
   }
   //
 }
