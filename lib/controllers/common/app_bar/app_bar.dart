@@ -77,7 +77,7 @@ class AppBarScreen extends StatelessWidget implements PreferredSizeWidget {
     } else if (navigationTitle == 'my_communities') {
       return AppBar(
         title: text_bold_comforta(
-          navigationTitle,
+          'My Communities',
           Colors.black,
           20.0,
         ),
