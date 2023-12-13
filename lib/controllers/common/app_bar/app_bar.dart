@@ -91,6 +91,23 @@ class AppBarScreen extends StatelessWidget implements PreferredSizeWidget {
         ),
         // automaticallyImplyLeading: false,
       );
+    } else if (navigationTitle == 'edit_community') {
+      return AppBar(
+        title: text_bold_comforta(
+          'Edit',
+          Colors.black,
+          20.0,
+        ),
+        backgroundColor: dialog_page_navigation_color(),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.chevron_left,
+            size: 26.0,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // automaticallyImplyLeading: false,
+      );
     } else {
       return AppBar(
         title: text_bold_comforta(

@@ -62,18 +62,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
         ? const Center(child: CircularProgressIndicator())
         : Scaffold(
             appBar: const AppBarScreen(navigationTitle: 'Home'),
-            /*appBar: AppBar(
-              automaticallyImplyLeading: false,
-              title: text_bold_comforta(
-                'Home',
-                Colors.black,
-                20.0,
-              ),
-              //
-              backgroundColor: home_page_navigation_color(),
-              //
-            ),*/
-
             // drawer: const DrawerWidget(),
             body: StreamBuilder(
               stream: FirebaseFirestore.instance
