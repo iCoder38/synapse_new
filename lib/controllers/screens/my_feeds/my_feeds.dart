@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
@@ -39,137 +40,144 @@ class _MyFeedsScreenState extends State<MyFeedsScreen> {
   //
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-            .withOpacity(1.0),
-        title: text_bold_comforta(
-          'My Feeds',
-          Colors.white,
-          16.0,
-        ),
-        leading: IconButton(
-          onPressed: () {
-            //
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
+    return LazyLoadIndexedStack(
+      index: 0,
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            backgroundColor:
+                Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                    .withOpacity(1.0),
+            title: text_bold_comforta(
+              'My Feeds',
+              Colors.white,
+              16.0,
+            ),
+            leading: IconButton(
+              onPressed: () {
+                //
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+              ),
+            ),
+          ),
+          body: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('$strFirebaseMode${FirestoreUtils.POST_FEEDS}')
+                //
+                .orderBy('timeStamp', descending: false)
+                .where(
+                  'postAdminId',
+                  arrayContainsAny: [widget.getAdminFirebaseId.toString()],
+                )
+                .limit(10)
+                .snapshots(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                if (kDebugMode) {
+                  // print('======================');
+                  // print('===> TOTAL POST  <===');
+                }
+
+                var getSnapShopValue = snapshot.data!.docs.reversed.toList();
+                if (kDebugMode) {
+                  // print(getSnapShopValue.length);
+                  // print('==================================');
+                }
+                //
+                // for (int index1 = 0; index1 < getSnapShopValue.length; index1++) {
+                //   //
+                //   checkMyIdForLike.add(
+                //     getSnapShopValue[index1]['likes'],
+                //   );
+                // }
+
+                //
+                return SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      for (int index = 0;
+                          index < getSnapShopValue.length;
+                          index++) ...[
+                        Container(
+                          // height: 240,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(
+                              12.0,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              // feeds header
+                              FeedsHeaderUIScreen(
+                                getDataForFeedsHeader: getSnapShopValue[index],
+                                index: index,
+                              ),
+                              //
+                              if (getSnapShopValue[index]['postType']
+                                      .toString() ==
+                                  'text') ...[
+                                // Text
+                                FeedsTextAndImageUIScreen(
+                                  strType: 'text',
+                                  getFeedsDataForTextAndImage:
+                                      getSnapShopValue[index],
+                                ),
+                              ] else ...[
+                                // Image
+                                FeedsTextAndImageUIScreen(
+                                  strType: 'image',
+                                  getFeedsDataForTextAndImage:
+                                      getSnapShopValue[index],
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        // like comment and share
+                        // userLiked
+                        likeCommentUIandService(
+                          context,
+                          getSnapShopValue,
+                          index,
+                          true,
+                        ),
+                        //
+                        Container(
+                          height: 6,
+                          width: MediaQuery.of(context).size.width,
+                          color: Colors.grey[500],
+                        ),
+                      ],
+                      //
+                      const SizedBox(
+                        height: 86.0,
+                      ),
+                    ],
+                  ),
+                );
+                //
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    'Error: ${snapshot.error}',
+                  ),
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.pink,
+                ),
+              );
+            },
           ),
         ),
-      ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('$strFirebaseMode${FirestoreUtils.POST_FEEDS}')
-            //
-            .orderBy('timeStamp', descending: false)
-            .where(
-              'postAdminId',
-              arrayContainsAny: [widget.getAdminFirebaseId.toString()],
-            )
-            .limit(10)
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            if (kDebugMode) {
-              // print('======================');
-              // print('===> TOTAL POST  <===');
-            }
-
-            var getSnapShopValue = snapshot.data!.docs.reversed.toList();
-            if (kDebugMode) {
-              // print(getSnapShopValue.length);
-              // print('==================================');
-            }
-            //
-            // for (int index1 = 0; index1 < getSnapShopValue.length; index1++) {
-            //   //
-            //   checkMyIdForLike.add(
-            //     getSnapShopValue[index1]['likes'],
-            //   );
-            // }
-
-            //
-            return SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  for (int index = 0;
-                      index < getSnapShopValue.length;
-                      index++) ...[
-                    Container(
-                      // height: 240,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(
-                          12.0,
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          // feeds header
-                          FeedsHeaderUIScreen(
-                            getDataForFeedsHeader: getSnapShopValue[index],
-                            index: index,
-                          ),
-                          //
-                          if (getSnapShopValue[index]['postType'].toString() ==
-                              'text') ...[
-                            // Text
-                            FeedsTextAndImageUIScreen(
-                              strType: 'text',
-                              getFeedsDataForTextAndImage:
-                                  getSnapShopValue[index],
-                            ),
-                          ] else ...[
-                            // Image
-                            FeedsTextAndImageUIScreen(
-                              strType: 'image',
-                              getFeedsDataForTextAndImage:
-                                  getSnapShopValue[index],
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                    // like comment and share
-                    // userLiked
-                    likeCommentUIandService(
-                      context,
-                      getSnapShopValue,
-                      index,
-                      true,
-                    ),
-                    //
-                    Container(
-                      height: 6,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.grey[500],
-                    ),
-                  ],
-                  //
-                  const SizedBox(
-                    height: 86.0,
-                  ),
-                ],
-              ),
-            );
-            //
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                'Error: ${snapshot.error}',
-              ),
-            );
-          }
-          return const Center(
-            child: CircularProgressIndicator(
-              color: Colors.pink,
-            ),
-          );
-        },
-      ),
+      ],
     );
   }
 

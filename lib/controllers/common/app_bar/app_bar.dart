@@ -1,5 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/screens/notifications/notifications.dart';
 
 import '../../chat/dialog/dialog.dart';
 import '../../screens/utils/utils.dart';
@@ -49,6 +50,12 @@ class AppBarScreen extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             onPressed: () {
               //
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsScreen(),
+                ),
+              );
             },
             icon: const Icon(
               Icons.notifications_none_rounded,
@@ -58,6 +65,23 @@ class AppBarScreen extends StatelessWidget implements PreferredSizeWidget {
         ],
       );
     } else if (navigationTitle == 'Dialog') {
+      return AppBar(
+        title: text_bold_comforta(
+          navigationTitle,
+          Colors.black,
+          20.0,
+        ),
+        backgroundColor: dialog_page_navigation_color(),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.chevron_left,
+            size: 26.0,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // automaticallyImplyLeading: false,
+      );
+    } else if (navigationTitle == 'Notifications') {
       return AppBar(
         title: text_bold_comforta(
           navigationTitle,
