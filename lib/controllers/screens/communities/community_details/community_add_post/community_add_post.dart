@@ -633,16 +633,17 @@ class _CommunityAddPostScreenState extends State<CommunityAddPostScreen> {
           if (kDebugMode) {
             print(element.id);
             //
-            documentIdForFeedsCount = element.id;
-            totalFeeds = element.data()['countFeed'].toString();
-            //
-            var addOne = 0;
-            // addOne += 1;
-            addOne = int.parse(totalFeeds) + 1;
-            totalFeeds = addOne.toString();
-            // print(element.data()['followers']);
-            // print(element.data());
           }
+          documentIdForFeedsCount = element.id;
+          totalFeeds = element.data()['countFeed'].toString();
+          //
+          var addOne = 0;
+          // addOne += 1;
+          addOne = int.parse(totalFeeds) + 1;
+          totalFeeds = addOne.toString();
+          // print(element.data()['followers']);
+          // print(element.data());
+
           //
         }
       }

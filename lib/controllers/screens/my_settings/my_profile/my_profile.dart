@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
 import 'package:synapse_new/controllers/chat/oneToOne/one_to_one_chat.dart';
 import 'package:synapse_new/controllers/screens/events/all_events/all_events.dart';
 import 'package:synapse_new/controllers/screens/my_settings/my_events/my_events.dart';
@@ -116,62 +117,411 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purpleAccent,
-        title: text_bold_comforta(
-          'Profile',
-          Colors.white,
-          16.0,
-        ),
-        leading: IconButton(
+    return LazyLoadIndexedStack(
+      index: 0,
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.purpleAccent,
+            title: text_bold_comforta(
+              'Profile',
+              Colors.white,
+              16.0,
+            ),
+            leading: IconButton(
+              onPressed: () {
+                //
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+              ),
+            ),
+          ),
+          /*floatingActionButton: FloatingActionButton(
           onPressed: () {
             //
-            Navigator.pop(context);
+            showActionSheet(context);
           },
-          icon: const Icon(
-            Icons.arrow_back,
+          child: const Icon(
+            Icons.add,
           ),
-        ),
-      ),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //
-          showActionSheet(context);
-        },
-        child: const Icon(
-          Icons.add,
-        ),
-      ),*/
-      body: (strLoader == '0')
-          ? Center(
-              child: text_bold_comforta(
-                'please wait...',
-                Colors.black,
-                16.0,
-              ),
-            )
-          : SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  Stack(
+        ),*/
+          body: (strLoader == '0')
+              ? Center(
+                  child: text_bold_comforta(
+                    'please wait...',
+                    Colors.black,
+                    16.0,
+                  ),
+                )
+              : SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
                     children: [
-                      Container(
-                        height: 180,
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.purpleAccent,
+                      Stack(
+                        children: [
+                          Container(
+                            height: 180,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.purpleAccent,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 50.0),
+                              // height: 200,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(
+                                  24.0,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    height: 70.0,
+                                  ),
+                                  text_bold_comforta(
+                                    //
+                                    widget.strUsername.toString(),
+                                    Colors.black,
+                                    24.0,
+                                  ),
+                                  Center(
+                                    child: text_bold_comforta(
+                                      'Students',
+                                      Colors.grey,
+                                      12.0,
+                                    ),
+                                  ),
+                                  //
+                                  const Divider(
+                                    height: 1,
+                                    color: Colors.transparent,
+                                  ),
+                                  //
+                                  const SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  //
+                                  (widget.strFirebaseId ==
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid)
+                                      ? Row(
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                height: 60.0,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    24.0,
+                                                  ),
+                                                ),
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    //
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.comment_bank,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            //
+                                            // Container(
+                                            //   height: 40.0,
+                                            //   width: 1.0,
+                                            //   color: Colors.grey,
+                                            // ),
+                                            //
+                                            // Expanded(
+                                            //   child: Container(
+                                            //     height: 60.0,
+                                            //     decoration: BoxDecoration(
+                                            //       color: Colors.white,
+                                            //       borderRadius:
+                                            //           BorderRadius.circular(
+                                            //         24.0,
+                                            //       ),
+                                            //     ),
+                                            //     child: IconButton(
+                                            //       onPressed: () {
+                                            //         //
+                                            //       },
+                                            //       icon: const Icon(
+                                            //         Icons.edit,
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            //
+                                            // Container(
+                                            //   height: 40.0,
+                                            //   width: 1.0,
+                                            //   color: Colors.grey,
+                                            // ),
+                                            //
+                                            // Expanded(
+                                            //   child: Container(
+                                            //     height: 60.0,
+                                            //     decoration: BoxDecoration(
+                                            //       color: Colors.white,
+                                            //       borderRadius:
+                                            //           BorderRadius.circular(
+                                            //         24.0,
+                                            //       ),
+                                            //     ),
+                                            //     child: IconButton(
+                                            //       onPressed: () {
+                                            //         //
+                                            //       },
+                                            //       icon: const Icon(
+                                            //         Icons.mail,
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            //
+                                          ],
+                                        )
+                                      : Row(
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                height: 60.0,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    24.0,
+                                                  ),
+                                                ),
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    //
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            OneToOneChatScreen(
+                                                          getFirebaseId: widget
+                                                              .strFirebaseId
+                                                              .toString(),
+                                                          getName: widget
+                                                              .strUsername,
+                                                          // getEventData: getSnapShopValue[i],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.chat,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            //
+                                            Container(
+                                              height: 40.0,
+                                              width: 1.0,
+                                              color: Colors.grey,
+                                            ),
+                                            //
+                                            Expanded(
+                                              child: Container(
+                                                height: 60.0,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    24.0,
+                                                  ),
+                                                ),
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    //
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.call,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            //
+                                            Container(
+                                              height: 40.0,
+                                              width: 1.0,
+                                              color: Colors.grey,
+                                            ),
+                                            //
+                                            Expanded(
+                                              child: Container(
+                                                height: 60.0,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    24.0,
+                                                  ),
+                                                ),
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    //
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.mail,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            //
+                                          ],
+                                        ),
+                                  //
+                                ],
+                              ),
+                            ),
+                          ),
+                          //
+                          MyProfileDescriptionScreen(
+                            bio: widget.strBio,
+                          ),
+                          //
+                          widget.strProfileImage == null
+                              ? Center(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                      top: 10.0,
+                                    ),
+                                    height: 120,
+                                    width: 120,
+                                    decoration: BoxDecoration(
+                                      color: Colors.amber,
+                                      borderRadius: BorderRadius.circular(
+                                        60.0,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Center(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      //
+                                      funcOpenImage(widget.strProfileImage);
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                        top: 10.0,
+                                      ),
+                                      height: 120,
+                                      width: 120,
+                                      decoration: BoxDecoration(
+                                        color: Colors.pink,
+                                        borderRadius: BorderRadius.circular(
+                                          60.0,
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                        child: CachedNetworkImage(
+                                          imageUrl: widget.strProfileImage,
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              const SizedBox(
+                                            height: 40,
+                                            width: 40,
+                                            child: Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                          //
+                        ],
                       ),
+                      //
                       Padding(
-                        padding: const EdgeInsets.all(18.0),
+                        padding: const EdgeInsets.all(12.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: text_bold_roboto(
+                            //
+                            "${widget.strUsername}'s Career Profile",
+                            Colors.black,
+                            18.0,
+                          ),
+                        ),
+                      ),
+                      MySkillAndAllScreen(
+                        getFirebaseIdFromUser: widget.strFirebaseId,
+                        getDocumentIdFromProfile: strSaveDocumentId,
+                      ),
+                      //
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      //
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: text_bold_roboto(
+                            //
+                            "${widget.strUsername}'s Events",
+                            Colors.black,
+                            18.0,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          //
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyEventsScreen(
+                                getUserFirebaseId:
+                                    widget.strFirebaseId.toString(),
+                                // getEventData: getSnapShopValue[i],
+                              ),
+                            ),
+                          );
+                        },
                         child: Container(
-                          margin: const EdgeInsets.only(top: 50.0),
-                          // height: 200,
-                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.only(
+                            left: 10.0,
+                            right: 10.0,
+                          ),
+                          height: 100,
+                          // width: 120,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(
-                              24.0,
+                              12.0,
                             ),
                             boxShadow: [
                               BoxShadow(
@@ -179,434 +529,94 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 spreadRadius: 5,
                                 blurRadius: 7,
                                 offset: const Offset(
-                                    0, 3), // changes position of shadow
+                                  0,
+                                  3,
+                                ), // changes position of shadow
                               ),
                             ],
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(
-                                height: 70.0,
-                              ),
-                              text_bold_comforta(
-                                //
-                                widget.strUsername.toString(),
-                                Colors.black,
-                                24.0,
-                              ),
-                              Center(
-                                child: text_bold_comforta(
-                                  'Students',
-                                  Colors.grey,
-                                  12.0,
-                                ),
-                              ),
-                              //
-                              const Divider(
-                                height: 1,
-                                color: Colors.transparent,
-                              ),
-                              //
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              //
-                              (widget.strFirebaseId ==
-                                      FirebaseAuth.instance.currentUser!.uid)
-                                  ? Row(
-                                      // mainAxisAlignment:
-                                      //     MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: 60.0,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                24.0,
-                                              ),
-                                            ),
-                                            child: IconButton(
-                                              onPressed: () {
-                                                //
-                                              },
-                                              icon: const Icon(
-                                                Icons.comment_bank,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        //
-                                        // Container(
-                                        //   height: 40.0,
-                                        //   width: 1.0,
-                                        //   color: Colors.grey,
-                                        // ),
-                                        //
-                                        // Expanded(
-                                        //   child: Container(
-                                        //     height: 60.0,
-                                        //     decoration: BoxDecoration(
-                                        //       color: Colors.white,
-                                        //       borderRadius:
-                                        //           BorderRadius.circular(
-                                        //         24.0,
-                                        //       ),
-                                        //     ),
-                                        //     child: IconButton(
-                                        //       onPressed: () {
-                                        //         //
-                                        //       },
-                                        //       icon: const Icon(
-                                        //         Icons.edit,
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        //
-                                        // Container(
-                                        //   height: 40.0,
-                                        //   width: 1.0,
-                                        //   color: Colors.grey,
-                                        // ),
-                                        //
-                                        // Expanded(
-                                        //   child: Container(
-                                        //     height: 60.0,
-                                        //     decoration: BoxDecoration(
-                                        //       color: Colors.white,
-                                        //       borderRadius:
-                                        //           BorderRadius.circular(
-                                        //         24.0,
-                                        //       ),
-                                        //     ),
-                                        //     child: IconButton(
-                                        //       onPressed: () {
-                                        //         //
-                                        //       },
-                                        //       icon: const Icon(
-                                        //         Icons.mail,
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        //
-                                      ],
-                                    )
-                                  : Row(
-                                      // mainAxisAlignment:
-                                      //     MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: 60.0,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                24.0,
-                                              ),
-                                            ),
-                                            child: IconButton(
-                                              onPressed: () {
-                                                //
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        OneToOneChatScreen(
-                                                      getFirebaseId: widget
-                                                          .strFirebaseId
-                                                          .toString(),
-                                                      getName:
-                                                          widget.strUsername,
-                                                      // getEventData: getSnapShopValue[i],
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                              icon: const Icon(
-                                                Icons.chat,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        //
-                                        Container(
-                                          height: 40.0,
-                                          width: 1.0,
-                                          color: Colors.grey,
-                                        ),
-                                        //
-                                        Expanded(
-                                          child: Container(
-                                            height: 60.0,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                24.0,
-                                              ),
-                                            ),
-                                            child: IconButton(
-                                              onPressed: () {
-                                                //
-                                              },
-                                              icon: const Icon(
-                                                Icons.call,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        //
-                                        Container(
-                                          height: 40.0,
-                                          width: 1.0,
-                                          color: Colors.grey,
-                                        ),
-                                        //
-                                        Expanded(
-                                          child: Container(
-                                            height: 60.0,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                24.0,
-                                              ),
-                                            ),
-                                            child: IconButton(
-                                              onPressed: () {
-                                                //
-                                              },
-                                              icon: const Icon(
-                                                Icons.mail,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        //
-                                      ],
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: 60,
+                                  // color: Colors.black,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.transparent,
+                                    image: DecorationImage(
+                                      image: ExactAssetImage(
+                                        'assets/images/event_icon.png',
+                                      ),
+                                      fit: BoxFit.fitHeight,
                                     ),
-                              //
-                            ],
+                                  ),
+                                ),
+                                //
+                                // const SizedBox(
+                                //   height: 6,
+                                // ),
+                                //
+                                // text_bold_comforta(
+                                //   //
+                                //   '0 - Events',
+                                //   Colors.black,
+                                //   14.0,
+                                // ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      //
-                      MyProfileDescriptionScreen(
-                        bio: widget.strBio,
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: text_bold_roboto(
+                            "${widget.strUsername}'s Data",
+                            Colors.black,
+                            18.0,
+                          ),
+                        ),
+                      ),
+
+                      // Communities and Feeds
+                      MyProfileDataScreen(
+                        getTotalCommunities: strTotalCommunityCount,
+                        getTotalFeeds: strTotalFeedsCount,
+                        getFirebaseId: widget.strFirebaseId,
                       ),
                       //
-                      widget.strProfileImage == null
-                          ? Center(
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                  top: 10.0,
-                                ),
-                                height: 120,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius: BorderRadius.circular(
-                                    60.0,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  //
-                                  funcOpenImage(widget.strProfileImage);
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                    top: 10.0,
-                                  ),
-                                  height: 120,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                    color: Colors.pink,
-                                    borderRadius: BorderRadius.circular(
-                                      60.0,
-                                    ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    child: CachedNetworkImage(
-                                      imageUrl: widget.strProfileImage,
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) =>
-                                          const SizedBox(
-                                        height: 40,
-                                        width: 40,
-                                        child: Center(
-                                            child: CircularProgressIndicator()),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
                       //
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: text_bold_roboto(
+                            //
+                            "${widget.strUsername}'s Performance",
+                            Colors.black,
+                            18.0,
+                          ),
+                        ),
+                      ),
+                      MyProfileResultScreen(
+                        getTotalMarks: strTotalMarks.toString(),
+                        getTotalAttendance: strTotalAttendance.toString(),
+                      ),
+                      //
+                      const SizedBox(
+                        height: 40.0,
+                      ),
                     ],
                   ),
-                  //
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: text_bold_roboto(
-                        //
-                        "${widget.strUsername}'s Career Profile",
-                        Colors.black,
-                        18.0,
-                      ),
-                    ),
-                  ),
-                  MySkillAndAllScreen(
-                    getFirebaseIdFromUser: widget.strFirebaseId,
-                    getDocumentIdFromProfile: strSaveDocumentId,
-                  ),
-                  //
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  //
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: text_bold_roboto(
-                        //
-                        "${widget.strUsername}'s Events",
-                        Colors.black,
-                        18.0,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      //
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyEventsScreen(
-                            getUserFirebaseId: widget.strFirebaseId.toString(),
-                            // getEventData: getSnapShopValue[i],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                        left: 10.0,
-                        right: 10.0,
-                      ),
-                      height: 100,
-                      // width: 120,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(
-                          12.0,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(
-                              0,
-                              3,
-                            ), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 60,
-                              width: 60,
-                              // color: Colors.black,
-                              decoration: const BoxDecoration(
-                                color: Colors.transparent,
-                                image: DecorationImage(
-                                  image: ExactAssetImage(
-                                    'assets/images/event_icon.png',
-                                  ),
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                            ),
-                            //
-                            // const SizedBox(
-                            //   height: 6,
-                            // ),
-                            //
-                            // text_bold_comforta(
-                            //   //
-                            //   '0 - Events',
-                            //   Colors.black,
-                            //   14.0,
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: text_bold_roboto(
-                        "${widget.strUsername}'s Data",
-                        Colors.black,
-                        18.0,
-                      ),
-                    ),
-                  ),
-
-                  // Communities and Feeds
-                  MyProfileDataScreen(
-                    getTotalCommunities: strTotalCommunityCount,
-                    getTotalFeeds: strTotalFeedsCount,
-                    getFirebaseId: widget.strFirebaseId,
-                  ),
-                  //
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  //
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: text_bold_roboto(
-                        //
-                        "${widget.strUsername}'s Performance",
-                        Colors.black,
-                        18.0,
-                      ),
-                    ),
-                  ),
-                  MyProfileResultScreen(
-                    getTotalMarks: strTotalMarks.toString(),
-                    getTotalAttendance: strTotalAttendance.toString(),
-                  ),
-                  //
-                  const SizedBox(
-                    height: 40.0,
-                  ),
-                ],
-              ),
-            ),
+                ),
+        ),
+      ],
     );
   }
 

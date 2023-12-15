@@ -45,9 +45,10 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   @override
   void initState() {
     if (kDebugMode) {
-      // print("======== PEOPLE IDs ==========");
-      // print(widget.getCommunityDetails);
-      // print("========================");
+      print("======== PEOPLE IDs ==========");
+      print(widget.getCommunityDetails['communityId'].toString());
+      print(FirebaseAuth.instance.currentUser!.uid);
+      print("========================");
     }
 
     super.initState();
@@ -72,7 +73,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
           stream: FirebaseFirestore.instance
               // .collection('${strFirebaseMode}communities')
               .collection(
-                '$strFirebaseMode${'community_follow'}/${widget.getCommunityDetails['communityId'].toString()}/followers',
+                '$strFirebaseMode${'community_followers'}/${widget.getCommunityDetails['communityId'].toString()}/followers',
               )
               .where(
                 'follower_id',
@@ -195,18 +196,6 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
           ])
           .limit(40)
           .snapshots(),
-      /*FirebaseFirestore.instance
-          .collection('$strFirebaseMode${FirestoreUtils.POST_FEEDS}')
-          //
-          .orderBy('timeStamp', descending: false)
-          .where(
-            'communityId',
-            arrayContainsAny: [
-              widget.getCommunityDetails['communityId'].toString()
-            ],
-          )
-          .limit(10)
-          .snapshots(),*/
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           if (kDebugMode) {

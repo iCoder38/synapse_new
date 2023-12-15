@@ -5,6 +5,7 @@ import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/foundation.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import 'package:synapse_new/controllers/screens/utils/utils.dart';
@@ -116,6 +117,21 @@ class _FeedsTextAndImageUIScreenState extends State<FeedsTextAndImageUIScreen> {
                         .getFeedsDataForTextAndImage['postImageLink']
                         .toString());
                   },
+                  /*child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      16.0,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: BlurHash(
+                        hash: 'LCF=HA039V=^01~9D+NH?FR+E.R*',
+                        imageFit: BoxFit.cover,
+                        image: widget
+                            .getFeedsDataForTextAndImage['postImageLink']
+                            .toString(),
+                      ),
+                    ),
+                  ),*/
                   child: Container(
                     height: 340,
                     width: MediaQuery.of(context).size.width,

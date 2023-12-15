@@ -36,30 +36,31 @@ getDataFromCountsToDeleteFeedsCount() {
         if (kDebugMode) {
           print(element.id);
           print(element.data());
-          //
-          // documentIdForFeedsCount = element.id;
-          // totalFeeds = element.data()['feedCount'].toString();
-          //
-          var deleteOne = 0;
-          //addOne += 1;
-          deleteOne = int.parse(element.data()['feedCount'].toString()) - 1;
-          // totalFeeds = addOne.toString();
-          // print(element.data()['followers']);
-          // print(element.data());
-          FirebaseFirestore.instance
-              .collection(
-                '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
-              )
-              .doc(element.id.toString())
-              .update(
-            {
-              'feedCount': deleteOne.toString(),
-            },
-          ).then((value) => {
-                    //
-                    //  Navigator.pop(context), Navigator.pop(context),
-                  });
         }
+        //
+        // documentIdForFeedsCount = element.id;
+        // totalFeeds = element.data()['feedCount'].toString();
+        //
+        var deleteOne = 0;
+        //addOne += 1;
+        deleteOne = int.parse(element.data()['feedCount'].toString()) - 1;
+        // totalFeeds = addOne.toString();
+        // print(element.data()['followers']);
+        // print(element.data());
+        FirebaseFirestore.instance
+            .collection(
+              '$strFirebaseMode${FirestoreUtils.USER_FULL_DATA_COUNTS}/${FirebaseAuth.instance.currentUser!.uid}/data',
+            )
+            .doc(element.id.toString())
+            .update(
+          {
+            'feedCount': deleteOne.toString(),
+          },
+        ).then((value) => {
+                  //
+                  //  Navigator.pop(context), Navigator.pop(context),
+                });
+
         //
       }
     }

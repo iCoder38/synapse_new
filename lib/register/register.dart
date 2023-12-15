@@ -647,8 +647,6 @@ class _RegisterScreeenState extends State<RegisterScreeen> {
 
   //
   saveLoginUserDataInFirebase() async {
-    // SharedPreferences preferences = await SharedPreferences.getInstance();
-    //
     //
     FirebaseFirestore.instance
         .collection(

@@ -335,11 +335,15 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
                 //
                 // from firebase method
                 unfollowThisCommunity(
-                    widget.getDataForFeedsHeader['communityId'][0].toString());
+                  widget.getDataForFeedsHeader['communityId'][0].toString(),
+                  widget.getDataForFeedsHeader['communityDetails']
+                          ['communityDocumentId']
+                      .toString(),
+                );
                 //
               },
               child: text_bold_comforta(
-                  'Unfollow this community', Colors.black, 14.0),
+                  'Unfollow community'.toString(), Colors.redAccent, 14.0),
             ),
           ],
         ),

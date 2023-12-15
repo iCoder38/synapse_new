@@ -66,7 +66,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
             body: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection(
-                    '$strFirebaseMode${FirestoreUtils.FOLLOW}/${FirebaseAuth.instance.currentUser!.uid}/data',
+                    // '$strFirebaseMode${FirestoreUtils.FOLLOW}/${FirebaseAuth.instance.currentUser!.uid}/data',
+                    '$strFirebaseMode${'user_follows_list'}/communities/${FirebaseAuth.instance.currentUser!.uid}',
                   )
                   .snapshots(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -79,7 +80,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   var getSnapShopValue = snapshot.data!.docs.reversed.toList();
                   if (kDebugMode) {
                     print(getSnapShopValue.length);
-                    // print(snapshot.data!.docs[0]['timeStamp']);
+                    // print(getSnapShopValue.data());
                     print('==================================');
                   }
                   //
@@ -88,9 +89,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   for (int index = 0;
                       index < getSnapShopValue.length;
                       index++) {
-                    saveIdsInArray.add(snapshot
-                        .data!.docs[index]['communityIds'][0]
-                        .toString());
+                    saveIdsInArray.add(
+                        snapshot.data!.docs[index]['content_id'].toString());
                   }
                   if (kDebugMode) {
                     print('====> iPhone 1.0 <====');

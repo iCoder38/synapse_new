@@ -55,6 +55,7 @@ dependencies:
   lazy_load_indexed_stack: ^1.0.1
   easy_image_viewer:
   http:
+  flutter_blurhash:
 
 dev_dependencies:
   flutter_test:
