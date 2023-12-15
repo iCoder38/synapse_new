@@ -98,6 +98,23 @@ class AppBarScreen extends StatelessWidget implements PreferredSizeWidget {
         ),
         // automaticallyImplyLeading: false,
       );
+    } else if (navigationTitle == 'Followers') {
+      return AppBar(
+        title: text_bold_comforta(
+          navigationTitle,
+          Colors.black,
+          20.0,
+        ),
+        backgroundColor: dialog_page_navigation_color(),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.chevron_left,
+            size: 26.0,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // automaticallyImplyLeading: false,
+      );
     } else if (navigationTitle == 'my_communities') {
       return AppBar(
         title: text_bold_comforta(

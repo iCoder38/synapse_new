@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
 // import 'package:intl/intl.dart';
 import 'package:synapse_new/controllers/update_data_on_firebase/activate_deactivate_post/activate_deactivate_post.dart';
 import 'package:synapse_new/controllers/update_data_on_firebase/delete_post/delete_post.dart';
@@ -45,8 +46,8 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
   void initState() {
     // print(widget.getDataForFeedsHeader['timeStamp']);
     // print(widget.getDataForFeedsHeader['profiledisplayImage']);
-    print('object');
-    print(widget.index);
+    // print('object');
+    // print(widget.index);
     super.initState();
   }
 
@@ -80,55 +81,55 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
           },
           // 4FqrwaXYDUxZz5JKdtqn
           child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              future: FirebaseFirestore.instance
-                  .collection(
-                    '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
-                  )
-                  // .where('firebaseId',
-                  //     isEqualTo: widget.getDataForFeedsHeader['postEntityId']
-                  //         .toString())
-                  // .doc('ew7BGmTufzTSlLBPtCsFZc1ai622')
-                  .get(),
-              builder: (BuildContext context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Text("Loading");
-                } else if (snapshot.hasError) {
-                  return Text('Something went wrong');
-                } else if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                }
-                // dynamic data = snapshot.data;
+            future: FirebaseFirestore.instance
+                .collection(
+                  '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
+                )
+                // .where('firebaseId',
+                //     isEqualTo: widget.getDataForFeedsHeader['postEntityId']
+                //         .toString())
+                // .doc('ew7BGmTufzTSlLBPtCsFZc1ai622')
+                .get(),
+            builder: (BuildContext context, snapshot) {
+              if (!snapshot.hasData) {
+                return Text("Loading");
+              } else if (snapshot.hasError) {
+                return Text('Something went wrong');
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+              // dynamic data = snapshot.data;
 
-                final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
-                    snapshot.data!.docs;
-                //
-                return (docs[0]['profiledisplayImage'] == '')
-                    ? Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              25.0,
-                            ),
-                            border: Border.all()),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                          25.0,
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: docs[0]['profiledisplayImage'].toString(),
-                          placeholder: (context, url) => const SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: CircularProgressIndicator(),
+              final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
+                  snapshot.data!.docs;
+              //
+              return (docs[0]['profiledisplayImage'] == '')
+                  ? Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            25.0,
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                          border: Border.all()),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                        25.0,
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: docs[0]['profiledisplayImage'].toString(),
+                        placeholder: (context, url) => const SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: CircularProgressIndicator(),
                         ),
-                      );
-              }),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
+                    );
+            },
+          ),
         ),
       ),
       title: text_bold_comforta(

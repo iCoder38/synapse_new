@@ -286,8 +286,8 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
                                       children: [
                                         text_bold_comforta(
                                           //
-                                          getSnapShopValue[index]['followers']
-                                              .length,
+                                          getSnapShopValue[index]
+                                              ['followersCount'],
                                           Colors.black,
                                           16.0,
                                         ),

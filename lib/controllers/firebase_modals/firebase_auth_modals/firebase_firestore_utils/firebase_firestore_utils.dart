@@ -11,6 +11,8 @@ class FirestoreUtils {
   static const String POST_COMMENT = "post_comment";
   static const String POST_LIKE = "post_like";
   static const String FOLLOW = "follow";
+  // community
+  static const String COMMUNITY_FOLLOW = "community_follow";
   // events
   static const String EVENTS = "events";
   // events media

@@ -11,6 +11,7 @@ import 'package:synapse_new/controllers/screens/communities/community_details/wi
 import 'package:uuid/uuid.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
+import '../../../update_data_on_firebase/communities/add_follower_and_count/add_follower_in_community.dart';
 import '../../home_page/widget/feeds_comment_list/post_comment_list.dart';
 import '../../home_page/widget/feeds_header/feeds_header.dart';
 import '../../home_page/widget/feeds_text_image.dart';
@@ -40,6 +41,7 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   var setVisibility = true;
   var strFloatingActionButtonVisibility = true;
   //
+  var strFloatingActionButtonLoader = '0';
   @override
   void initState() {
     if (kDebugMode) {
@@ -68,15 +70,19 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
 
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('${strFirebaseMode}communities')
-              .where(
-                'documentId',
-                isEqualTo: widget.getCommunityDetails['documentId'],
+              // .collection('${strFirebaseMode}communities')
+              .collection(
+                '$strFirebaseMode${'community_follow'}/${widget.getCommunityDetails['communityId'].toString()}/followers',
               )
-              .where('followers', arrayContainsAny: [
+              .where(
+                'follower_id',
+                isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+              )
+              /*.where('followers', arrayContainsAny: [
             //
             FirebaseAuth.instance.currentUser!.uid.toString()
-          ]).snapshots(),
+          ])*/
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
@@ -103,7 +109,14 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
                             child: FloatingActionButton.extended(
                               onPressed: () {
                                 //
-                                followThisGroupInFirebase();
+                                // method in firebase
+                                followThisGroupInFirebase(
+                                    widget.getCommunityDetails['communityId']
+                                        .toString(),
+                                    widget.getCommunityDetails['documentId']
+                                        .toString(),
+                                    widget.getCommunityDetails['followersCount']
+                                        .toString());
                               },
                               label: text_bold_comforta(
                                 'Follow',
@@ -1119,24 +1132,6 @@ class CommunityDetailsScreenState extends State<CommunityDetailsScreen> {
   }
 
   //
-  followThisGroupInFirebase() {
-    //
-    FirebaseFirestore.instance
-        .collection('${strFirebaseMode}communities')
-        .doc(widget.getCommunityDetails['documentId'])
-        .update(
-      {
-        "followers": FieldValue.arrayUnion(
-          [
-            FirebaseAuth.instance.currentUser!.uid,
-          ],
-        ),
-      },
-    ).then((value) => {
-              //
-              addMeInFollowList(),
-            });
-  }
 
   //
   //

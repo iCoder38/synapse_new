@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/common/app_bar/app_bar.dart';
 
 import '../../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
 import '../../my_settings/my_profile/my_profile.dart';
@@ -40,81 +41,76 @@ class _CommunityFollowersScreenState extends State<CommunityFollowersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          title: text_bold_comforta(
-            'Followers',
-            Colors.white,
-            20.0,
-          ),
-        ),
+        appBar: const AppBarScreen(navigationTitle: 'Followers'),
         body: Column(
           children: [
-            for (int i = 0; i < widget.getAllFollowersId.length; i++) ...[
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: FirebaseFirestore.instance
-                    .collection(
-                      '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
-                    )
-                    // .where('firebaseId', isEqualTo: widget.getAllFollowersId[i])
-                    .snapshots(),
-                builder: (_, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error = ${snapshot.error}');
-                  }
+            // for (int i = 0; i < widget.getAllFollowersId.length; i++) ...[
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: FirebaseFirestore.instance
+                  .collection(
+                    '$strFirebaseMode${FirestoreUtils.COMMUNITY_FOLLOW}/${widget.getCommunityId}/followers',
+                  )
+                  /* .where('communityIds', arrayContainsAny: [
+                '17e3d40c-f3ea-49b6-ad1e-5a2a58299dfa'
+              ])*/
+                  .snapshots(),
+              builder: (_, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error = ${snapshot.error}');
+                }
 
-                  if (snapshot.hasData) {
-                    final docs = snapshot.data!.docs;
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: docs.length,
-                      itemBuilder: (_, i) {
-                        final data = docs[i].data();
-                        return ListTile(
-                          leading: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(
-                                20.0,
-                              ),
+                if (snapshot.hasData) {
+                  final docs = snapshot.data!.docs;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: docs.length,
+                    itemBuilder: (_, i) {
+                      final data = docs[i].data();
+                      return ListTile(
+                        leading: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                            borderRadius: BorderRadius.circular(
+                              20.0,
                             ),
                           ),
-                          title: text_bold_comforta(
-                            data['name'],
-                            Colors.black,
-                            18.0,
-                          ),
-                          subtitle: text_bold_comforta(
-                            data['email'],
-                            Colors.black,
-                            12.0,
-                          ),
-                          onTap: () {
-                            //
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MyProfileScreen(
-                                  strFirebaseId: data['firebaseId'].toString(),
-                                  strUsername: data['name'].toString(),
-                                  strBio: data['bio'].toString(),
-                                ),
+                        ),
+                        title: text_bold_comforta(
+                          data['follower_name'],
+                          Colors.black,
+                          18.0,
+                        ),
+                        subtitle: text_bold_comforta(
+                          data['follower_email'],
+                          Colors.black,
+                          12.0,
+                        ),
+                        onTap: () {
+                          //
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyProfileScreen(
+                                strFirebaseId: data['follower_id'].toString(),
+                                strUsername: data['follower_name'].toString(),
+                                strBio: '',
                               ),
-                            );
-                          },
-                        );
-                      },
-                    );
-                  }
-
-                  return const SizedBox(
-                    height: 0,
+                            ),
+                          );
+                        },
+                      );
+                    },
                   );
-                },
-              ),
-            ]
+                }
+
+                return const SizedBox(
+                  height: 0,
+                );
+              },
+            ),
+            // ]
             /*for (int i = 0; i < widget.getAllFollowersId.length; i++) ...[
               //
               FutureBuilder(
