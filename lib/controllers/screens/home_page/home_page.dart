@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../common/app_bar/app_bar.dart';
 import '../../firebase_modals/firebase_auth_modals/firebase_firestore_utils/firebase_firestore_utils.dart';
+import '../../update_data_on_firebase/feeds/like_notification/like_notification.dart';
 import '../utils/utils.dart';
 import 'widget/feeds_comment_list/post_comment_list.dart';
 import 'widget/feeds_header/feeds_header.dart';
@@ -309,8 +310,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   getSnapShopValue[index]['documentId']
                                       .toString(),
                                   getSnapShopValue[index]['postLikesCount']
-                                      .toString() // like
-                                  );
+                                      .toString(),
+                                  getSnapShopValue[index]['postAdminId'][0]
+                                      .toString());
                             },
                             child: Container(
                               height: 34.0,
@@ -357,8 +359,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   getSnapShopValue[index]['documentId']
                                       .toString(),
                                   getSnapShopValue[index]['postLikesCount']
-                                      .toString() // un-like
-                                  );
+                                      .toString(),
+                                  getSnapShopValue[index]['postAdminId'][0]
+                                      .toString());
                             },
                             child: Container(
                               height: 34.0,
@@ -779,6 +782,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     type,
     getPostDocumentId,
     getLikesCount,
+    getPostAdminId,
   ) async {
     //
     // printInDebugMode('======================');
@@ -824,8 +828,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
           }
           //
           funcUpdateLikesCount(
+            postId.toString(),
             getPostDocumentId,
             addOneLike.toString(),
+            getPostAdminId.toString(),
+            '1',
           );
         },
       );
@@ -846,8 +853,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
           '''==> SUCCESSFULLY DISLIKED <==''',
         );
         funcUpdateLikesCount(
+          postId.toString(),
           getPostDocumentId,
           addOneLike.toString(),
+          getPostAdminId.toString(),
+          '2',
         );
       });
     }
@@ -856,10 +866,17 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   //
   funcUpdateLikesCount(
+    getPostIdInEdit,
     getDocumentIdForEdit,
     likeCounter,
+    postAdminId,
+    type,
+    //
+    // postContentMessage,
+    // postContentImage,
   ) {
     //
+
     FirebaseFirestore.instance
         .collection(
           '$strFirebaseMode${FirestoreUtils.POST_FEEDS}',
@@ -875,10 +892,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
         if (kDebugMode) {
           print('like done');
         }
+        // METHOD IN FIREBASE
+        addLikedDataInNotification(
+          getPostIdInEdit,
+          getDocumentIdForEdit,
+          postAdminId,
+          type,
+        );
         //
       },
     );
   }
-
-  //
 }

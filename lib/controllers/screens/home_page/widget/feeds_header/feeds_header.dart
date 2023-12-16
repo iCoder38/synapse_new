@@ -85,18 +85,14 @@ class _FeedsHeaderUIScreenState extends State<FeedsHeaderUIScreen> {
                 .collection(
                   '$strFirebaseMode${FirestoreUtils.USERS}/data/${FirebaseAuth.instance.currentUser!.uid}',
                 )
-                // .where('firebaseId',
-                //     isEqualTo: widget.getDataForFeedsHeader['postEntityId']
-                //         .toString())
-                // .doc('ew7BGmTufzTSlLBPtCsFZc1ai622')
                 .get(),
             builder: (BuildContext context, snapshot) {
               if (!snapshot.hasData) {
-                return Text("Loading");
+                return const Text("Loading");
               } else if (snapshot.hasError) {
-                return Text('Something went wrong');
+                return const Text('Something went wrong');
               } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
               // dynamic data = snapshot.data;
 
