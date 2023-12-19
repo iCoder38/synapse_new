@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:synapse_new/controllers/screens/performance/attendance/attendance.dart';
 
 import '../../../../utils/utils.dart';
 
@@ -114,17 +115,28 @@ class _MyProfileResultScreenState extends State<MyProfileResultScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 28,
-                    width: 28,
-                    // color: Colors.black,
-                    decoration: const BoxDecoration(
-                      color: Colors.transparent,
-                      image: DecorationImage(
-                        image: ExactAssetImage(
-                          'assets/images/attendance_icon.png',
+                  GestureDetector(
+                    onTap: () {
+                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AttendanceScreen(),
                         ),
-                        fit: BoxFit.fitHeight,
+                      );
+                    },
+                    child: Container(
+                      height: 28,
+                      width: 28,
+                      // color: Colors.black,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          image: ExactAssetImage(
+                            'assets/images/attendance_icon.png',
+                          ),
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
                   ),

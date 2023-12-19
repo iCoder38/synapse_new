@@ -464,6 +464,29 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         ],
                       ),
                       //
+                      /*Container(
+                        margin: const EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                        ),
+                        height: 40,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(
+                                0,
+                                3,
+                              ), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                      ),*/
+                      //
                       Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Align(
