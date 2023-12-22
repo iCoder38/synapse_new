@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -98,6 +99,24 @@ class _AllCommunitiesScreenState extends State<AllCommunitiesScreen> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
+            /* SizedBox(
+              width: 250.0,
+              child: DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 30.0,
+                  fontFamily: 'Agne',
+                  color: Colors.black,
+                ),
+                child: AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText('Discipline is the best tool'),
+                  ],
+                  onTap: () {
+                    print("Tap Event");
+                  },
+                ),
+              ),
+            ),*/
             /*Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(

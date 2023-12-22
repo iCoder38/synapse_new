@@ -2,8 +2,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../common/alert/app_color/app_color.dart';
 import '../utils/utils.dart';
@@ -178,12 +180,31 @@ class _SynapseAIScreenState extends State<SynapseAIScreen> {
                           scrollDirection: Axis.vertical,
                           child: Padding(
                             padding: const EdgeInsets.all(14.0),
-                            child: text_bold_comforta(
+                            child: DefaultTextStyle(
+                              style: GoogleFonts.comfortaa(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              child: AnimatedTextKit(
+                                repeatForever: false,
+                                isRepeatingAnimation: false,
+                                animatedTexts: [
+                                  TypewriterAnimatedText(strSaveAnswer),
+                                ],
+                                onTap: () {
+                                  if (kDebugMode) {
+                                    print("Tap Event");
+                                  }
+                                },
+                              ),
+                            ),
+                            /*text_bold_comforta(
                               //
                               strSaveAnswer,
                               Colors.black,
                               14.0,
-                            ),
+                            ),*/
                           ),
                         ),
                       ),
